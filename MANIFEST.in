@@ -1,8 +1,5 @@
-include .coveragerc
-include .travis.yml
 include LICENSE
 include MANIFEST.in
 include README.rst
-include mopidy_radio-pi/ext.conf
+include mopidy_radio_pi/ext.conf
 
-recursive-include tests *.py

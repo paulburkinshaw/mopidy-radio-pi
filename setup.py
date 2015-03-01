@@ -13,7 +13,7 @@ def get_version(filename):
 
 setup(
     name='Mopidy-Radio-Pi',
-    version=get_version('mopidy_radio-pi/__init__.py'),
+    version=get_version('mopidy_radio_pi/__init__.py'),
     url='https://github.com/paulburkinshaw/mopidy-radio-pi',
     license='Apache License, Version 2.0',
     author='Paul Burkinshaw',
@@ -26,7 +26,6 @@ setup(
     install_requires=[
         'setuptools',
         'Mopidy >= 0.19',
-        'Pykka >= 1.1',
     ],
     test_suite='nose.collector',
     tests_require=[
@@ -35,7 +34,7 @@ setup(
     ],
     entry_points={
         'mopidy.ext': [
-            'radio-pi = mopidy_radio-pi:Extension',
+            'radio-pi = mopidy_radio_pi:Extension',
         ],
     },
     classifiers=[
