@@ -25,9 +25,15 @@ Step 2.2 - Hosting a static file
 --------------------------------
 -  Registered an http:static dictionary in the extension registry
 	- In ~\mopidy-radio-pi\mopidy_radio_pi\__init__.py setup
+	- Set the path to ~\mopidy-radio-pi\mopidy_radio_pi\static\
 
 Step 2.3 - Hosting a Tornado application
 ----------------------------------------
+- Registered a dictionary under the http:app key in the extension registry
+	- In ~\mopidy-radio-pi\mopidy_radio_pi\__init__.py setup
+	- Set the factory to radio_pi_factory 
+- Created a file called app.py in ~\mopidy-radio-pi\mopidy_radio_pi\
+	- Created a function called radio_pi_factory that accepts two arguments - config and core
 
 
 Running extension while developing
