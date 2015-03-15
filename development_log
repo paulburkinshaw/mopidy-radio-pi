@@ -35,6 +35,7 @@ Step 2.3 - Hosting a Tornado application
 - Created a file called app.py in ~\mopidy-radio-pi\mopidy_radio_pi\
 	- Created a function called radio_pi_factory that accepts two arguments - config and core
 
+- 
 
 Running extension while developing
 -----------------------------------

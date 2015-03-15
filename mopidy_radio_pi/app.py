@@ -18,11 +18,12 @@ class IndexHandler(tornado.web.RequestHandler):
 
     DOMAIN = 'radiopi'
 
-    def initialize(self, config):
+    def initialize(self, core, config):
         from . import Extension
         self._template_kwargs = {
             'title': 'radioPi'
         }
+        self.core = core
 
     def get(self, path):
         return self.render('index.html', **self._template_kwargs)
@@ -30,6 +31,6 @@ class IndexHandler(tornado.web.RequestHandler):
 
 def radio_pi_factory(config, core):
     return [
-        (r'/(index.html)?', IndexHandler, {'config': config}),
+        (r'/(index.html)?', IndexHandler, {'core': core, 'config': config}),
         (r'/(.*)', tornado.web.StaticFileHandler, {'path': _STATIC_DIR})
     ]
