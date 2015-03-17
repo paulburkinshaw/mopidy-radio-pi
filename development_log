@@ -42,11 +42,14 @@ Running extension while developing
 Once your extension is ready to go, to see it in action you’ll need to register it with Mopidy. 
 Typically this is done by running python setup.py install from your extension’s Git repo root directory. 
 While developing your extension however you can instead run python setup.py develop to effectively link Mopidy directly with your development files.
+This will create a file:-Mopidy-Radio-Pi.egg-link in /usr/local/lib/python2.7/dist-packages which links Mopidy to the files in home/pi/radio-pi-development_version/mopidy-radio-pi 
 
 While being developed the solution files have been dropped into:
 	- home/pi/radio-pi-development_version/mopidy-radio-pi 
 
 in ssh navigate to the above path and run sudo python setup.py develop 
+you will need to restart the Mopidy service for changes to take effect:- sudo service mopidy restart
+
 
 
 
