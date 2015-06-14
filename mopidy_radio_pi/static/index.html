@@ -1,911 +1,889 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Radio Pi listen live</title>      
-        <link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />           
-        <!--<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/trontastic/jquery-ui.min.css">-->
-        <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/blitzer/jquery-ui.min.css">
-        <link rel="stylesheet" href="http://layout.jquery-dev.net/lib/css/layout-default-latest.css">      
-        <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>-->
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-        <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
-        <script src="http://layout.jquery-dev.net/lib/js/jquery.layout-latest.js"></script>
-        <!--<script type="text/javascript" src="snowstorm.js"></script>-->
+<head>
+    <title>Radio Pi listen live</title>
+    <link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <!--<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/trontastic/jquery-ui.min.css">-->
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/blitzer/jquery-ui.min.css">
+    <link rel="stylesheet" href="http://layout.jquery-dev.net/lib/css/layout-default-latest.css">
+    <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>-->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+    <script src="http://layout.jquery-dev.net/lib/js/jquery.layout-latest.js"></script>
+    <!--<script type="text/javascript" src="snowstorm.js"></script>-->
 
-        <script src="svr.js"></script>
+    <script src="svr.js"></script>
 
-        <!-- load the Mopidy.js JavaScript library  -->
-        <script type="text/javascript" src="mopidy.min.js"></script>
+    <!-- load the Mopidy.js JavaScript library  -->
+    <script type="text/javascript" src="mopidy.min.js"></script>
 
-        <style type="text/css">
-	        html, body {
-		        background:	#666;
-		        width:		100%;
-		        height:		100%;					
-		        padding:	0;
-		        margin:		0;
-		        overflow:	auto; /* when page gets too small */
-	        }
-	        #container {
-		        background:	777;
-		        /* HEIGHT */
-		        height:		100%;					
-		        min-height:	300px;
-		        _height:	300px; /* min-height for IE6 */
-		        /* WIDTH */
-		        width:		100%;
-		        max-width:	900px;
-		        min-width:	700px;
-		        _width:		700px; /* min-width for IE6 */
-		        /* HORIZONTAL CENTERING */
-		        margin:		0 auto;
-	        }
-	        /*
-	         *	Container sizing
-	         *
-	         *	Borders and padding are normally *added* to the width/height of the DIV
-	         *	However you can get height:100% AND padding/borders by using a nested layout. 
-	         *	The outer-layout is just a single pane: center, which is where you add your vertical padding.
-	         *	Inside this is your *real layout*. 
-	         */
-	        #paddingWrapper {
-		        background:	#999;
-		        padding:    20px 10px;
-		        border:		4px solid #BBB;
-	        }
-	        .pane {
-		        display:	none; /* will appear when layout inits */
-	        }
+    <!--<script type="text/javascript" src="/mopidy/mopidy.min.js"></script>-->
 
-            #toolbar {
-                padding: 4px;
-                height:  40px;
-                /*display: inline-block;*/
-            }
+    
 
-            #toolbarTop {
-                padding: 4px;
-                height:  24px;
-                /*display: inline-block;*/
-            }
+    <style type="text/css">
+        html, body {
+            background: #666;
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+            overflow: auto; /* when page gets too small */
+        }
 
-            #dvSouth {
-             height:200px;
-            }
+        #container {
+            background: 777;
+            /* HEIGHT */
+            height: 100%;
+            min-height: 300px;
+            _height: 300px; /* min-height for IE6 */
+            /* WIDTH */
+            width: 100%;
+            max-width: 900px;
+            min-width: 700px;
+            _width: 700px; /* min-width for IE6 */
+            /* HORIZONTAL CENTERING */
+            margin: 0 auto;
+        }
+        /*
+             *	Container sizing
+             *
+             *	Borders and padding are normally *added* to the width/height of the DIV
+             *	However you can get height:100% AND padding/borders by using a nested layout.
+             *	The outer-layout is just a single pane: center, which is where you add your vertical padding.
+             *	Inside this is your *real layout*.
+             */
+        #paddingWrapper {
+            background: #999;
+            padding: 20px 10px;
+            border: 4px solid #BBB;
+        }
 
-            .header { 
-	            margin-bottom:10px;
-	            border-bottom: 1px solid #777;
-	            font-weight: bold;
-	            text-align: center;
-	            padding: 2px 0 4px;
-	            position: relative;
-	            overflow: hidden;
-            }
-			
-			.ui-layout-west {
-				width: 208px;!important;
-			}
-			
-			
+        .pane {
+            display: none; /* will appear when layout inits */
+        }
 
+        #toolbar {
+            padding: 4px;
+            height: 40px;
+            /*display: inline-block;*/
+        }
 
-		</style>
-    </head>
+        #toolbarTop {
+            padding: 4px;
+            height: 24px;
+            /*display: inline-block;*/
+        }
 
-    <body>  
-        <div id="container">
-	        <div id="paddingWrapper" class="pane ui-layout-center">
-				
-				<div id="tabs_center" class="pane ui-layout-center">	
-					<div id="toolbarTop" class="ui-widget-header ui-corner-all">   
-						Search: <input id="txtSearch" type="text" value="" />
-						<input type="button" value="Ok" id="btnSearch" style="font-size:10px" />
-					</div>
+        #dvSouth {
+            height: 200px;
+        }
 
-					<div id="imgTrackSearchLoader" style="display:none;" >
-							Searching ... 
-							
-					</div>
+        .header {
+            margin-bottom: 10px;
+            border-bottom: 1px solid #777;
+            font-weight: bold;
+            text-align: center;
+            padding: 2px 0 4px;
+            position: relative;
+            overflow: hidden;
+        }
 
-					<div id="dvSearchResults">
-							<table id="tblSearchResults" class="jtable">
-								<tr id="tblSearchResultsRow">
-									<th><b>Title</b></th><th><b>Artist</b></th><th><b>Album</b></th><th><b>Add track to playlist</b></th>
-								</tr>     
-							</table>  
-					</div> 
-				
-				
-				<!--
-					<div class="header">Request track</div>
-						
-					  <ul>
-						<li><a href="#tabs-1" style="font-size:10px;">Request Tracks</a></li>
-						<li><a href="#tabs-2" style="font-size:10px;">Trending Tracks</a></li>
-						<li><a href="#tabs-3" style="font-size:10px;">Aenean lacinia</a></li>
-					  </ul>
-					  <div id="tabs-1" style="text-align:left;padding:0px;">
-						    
-					  </div>
-					  <div id="tabs-2">
-						<p>Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. Duis scelerisque molestie turpis. Sed fringilla, massa eget luctus malesuada, metus eros molestie lectus, ut tempus eros massa ut dolor. Aenean aliquet fringilla sem. Suspendisse sed ligula in ligula suscipit aliquam. Praesent in eros vestibulum mi adipiscing adipiscing. Morbi facilisis. Curabitur ornare consequat nunc. Aenean vel metus. Ut posuere viverra nulla. Aliquam erat volutpat. Pellentesque convallis. Maecenas feugiat, tellus pellentesque pretium posuere, felis lorem euismod felis, eu ornare leo nisi vel felis. Mauris consectetur tortor et purus.</p>
-					  </div>
-					  <div id="tabs-3">
-						<p>Mauris eleifend est et turpis. Duis id erat. Suspendisse potenti. Aliquam vulputate, pede vel vehicula accumsan, mi neque rutrum erat, eu congue orci lorem eget lorem. Vestibulum non ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce sodales. Quisque eu urna vel enim commodo pellentesque. Praesent eu risus hendrerit ligula tempus pretium. Curabitur lorem enim, pretium nec, feugiat nec, luctus a, lacus.</p>
-						<p>Duis cursus. Maecenas ligula eros, blandit nec, pharetra at, semper at, magna. Nullam ac lacus. Nulla facilisi. Praesent viverra justo vitae neque. Praesent blandit adipiscing velit. Suspendisse potenti. Donec mattis, pede vel pharetra blandit, magna ligula faucibus eros, id euismod lacus dolor eget odio. Nam scelerisque. Donec non libero sed nulla mattis commodo. Ut sagittis. Donec nisi lectus, feugiat porttitor, tempor ac, tempor vitae, pede. Aenean vehicula velit eu tellus interdum rutrum. Maecenas commodo. Pellentesque nec elit. Fusce in lacus. Vivamus a libero vitae lectus hendrerit hendrerit.</p>
-					  </div> 
-				-->
-		        </div>
-				
-				
-				 <div class="pane ui-layout-north" >
-                    <div id="Div1">
-                        <table>
-                           <tr>
-                                <td></td>
-								
-                                <td>
-									<h2 style="color:red;display:;"></h2>
-									<div style="border:2px solid;background-color:white;font-size:42px;color:black;padding-right:10px;padding-bottom:10px;">
-									
-										Top Tracks (Albums)
-									
-									</div>
-								</td>
-                            </tr>
-							<tr>
-							<td>							
-								<div style="color:red;border:2px solid;background-color:white;">
-									The rules are simple - pick an album, add your favourite track &nbsp &nbsp &nbsp &nbsp
-								</div>
-							</td>
-							<tr>
-							<td>
-								<div style="color:green;font-size:10px;border:2px solid;background-color:white;">
-									*try not to spam the playlist with multiple tracks from the same album to avoid skippage
-								</div>
-							</td>
-							</tr>
-                        </table>
-                        
-                        
-                    </div>
-				</div>
-				
-		        <div class="pane ui-layout-south">
-                   <!-- <p>Track Actions</p> -->  
-                    <div id="dvTrackInfo">
-						<!--<div id="toolbar" class="ui-widget-header ui-corner-all">-->
-                        <div id="toolbar">
-                            <!--<button id="voteToSkip" style="font-size:16px"> <!--(<span id="spnSkipVotesRemaining">3</span>) votes remaining </button>-->
-                            <!-- <button id="upVote" style="font-size:16px">Up Vote</button>-->
-                            <!-- <button id="downVote" style="font-size:16px">Down Vote</button>-->
-                        </div>                     
-                    </div>
-		        </div>
-		        <div class="pane ui-layout-east">	
-					<span id="spnWhatsNext"> 
-						<div class="header" style="color:#D00B38;">Up next..</div> 
-						<span id="spnWhatsNextArtist1"><b>Artist</b></span>
-						<br>
-						<!--
-						<span id="spnWhatsNextTrack1">Track title</span>   
-						<br>
-						<br>
-						-->
-						<br>
-					</span>
-					<span id="spnWhatsLater"> 
-						<div class="header" style="color:#D00B38;">Up later..</div> 
-						<span id="spnWhatsNextArtist2">Track title</span> <span id="spnWhatsNextArtist3">Track title</span>    
-						<br>
-						<br>
-					</span>	
-					
-					<span id="spnTotalTracks"></span>
-					<span id="spnLowTrackWarning"></span>						 
+        .ui-layout-west {
+            width: 208px;
+            !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <div id="paddingWrapper" class="pane ui-layout-center">
+
+            <div id="tabs_center" class="pane ui-layout-center">
+                <div id="toolbarTop" class="ui-widget-header ui-corner-all">
+                    Search: <input id="txtSearch" type="text" value="" />
+                    <input type="button" value="Ok" id="btnSearch" style="font-size:10px" />
                 </div>
-		        <div class="pane ui-layout-west">
-                    <div class="header"><div id="dvOnAir">ON AIR</div></div>
-                    <!--<img src="ajaxLoaderNote.gif" id="imgCurrentTrackTicker" style="display:none;" />-->
-                    <span id="spnNowPlayingArtist"><b></b></span>
-                    <br>
-                    <span id="spnNowPlayingTrack"></span>
-                   	<br />
-					<span id="spnVoteToSkip" style="width:170px;height:50px;color:red;"></span>
-					
-					<img id="imgStarRating" alt="starrating" style="width:170px;height:50px;"/>
-					
-					<!--<img id="imgBrokenRecord" src="brokenRecord/brokenRecord_1.png" style="width:170px;height:50px;"/>-->
-					
-                    <br />
-                    <div>
-                        <img id="imgArtist" src="" alt="" style="width:100%;height:70%;"/>
+
+                <div id="imgTrackSearchLoader" style="display:none;">
+                    Searching ...
+                    <img src="Speaker.gif" />
+                </div>
+
+                <div id="dvSearchResults">
+                    <table id="tblSearchResults" class="jtable">
+                        <tr id="tblSearchResultsRow">
+                            <th><b>Title</b></th>
+                            <th><b>Artist</b></th>
+                            <th><b>Album</b></th>
+                            <th><b>Add track to playlist</b></th>
+                        </tr>
+                    </table>
+                </div>
+
+
+                <!--
+                    <div class="header">Request track</div>
+
+                      <ul>
+                        <li><a href="#tabs-1" style="font-size:10px;">Request Tracks</a></li>
+                        <li><a href="#tabs-2" style="font-size:10px;">Trending Tracks</a></li>
+                        <li><a href="#tabs-3" style="font-size:10px;">Aenean lacinia</a></li>
+                      </ul>
+                      <div id="tabs-1" style="text-align:left;padding:0px;">
+
+                      </div>
+                      <div id="tabs-2">
+                        <p>Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. Duis scelerisque molestie turpis. Sed fringilla, massa eget luctus malesuada, metus eros molestie lectus, ut tempus eros massa ut dolor. Aenean aliquet fringilla sem. Suspendisse sed ligula in ligula suscipit aliquam. Praesent in eros vestibulum mi adipiscing adipiscing. Morbi facilisis. Curabitur ornare consequat nunc. Aenean vel metus. Ut posuere viverra nulla. Aliquam erat volutpat. Pellentesque convallis. Maecenas feugiat, tellus pellentesque pretium posuere, felis lorem euismod felis, eu ornare leo nisi vel felis. Mauris consectetur tortor et purus.</p>
+                      </div>
+                      <div id="tabs-3">
+                        <p>Mauris eleifend est et turpis. Duis id erat. Suspendisse potenti. Aliquam vulputate, pede vel vehicula accumsan, mi neque rutrum erat, eu congue orci lorem eget lorem. Vestibulum non ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce sodales. Quisque eu urna vel enim commodo pellentesque. Praesent eu risus hendrerit ligula tempus pretium. Curabitur lorem enim, pretium nec, feugiat nec, luctus a, lacus.</p>
+                        <p>Duis cursus. Maecenas ligula eros, blandit nec, pharetra at, semper at, magna. Nullam ac lacus. Nulla facilisi. Praesent viverra justo vitae neque. Praesent blandit adipiscing velit. Suspendisse potenti. Donec mattis, pede vel pharetra blandit, magna ligula faucibus eros, id euismod lacus dolor eget odio. Nam scelerisque. Donec non libero sed nulla mattis commodo. Ut sagittis. Donec nisi lectus, feugiat porttitor, tempor ac, tempor vitae, pede. Aenean vehicula velit eu tellus interdum rutrum. Maecenas commodo. Pellentesque nec elit. Fusce in lacus. Vivamus a libero vitae lectus hendrerit hendrerit.</p>
+                      </div>
+                -->
+            </div>
+
+
+            <div class="pane ui-layout-north">
+                <div id="Div1">
+                    <img src="VinylPi6.png" id="imgVinylPi" style="display:width:100px;height:100px;" />
+                    <h2 style="color:red;display:none;"></h2>
+                </div>
+            </div>
+
+
+
+            <div class="pane ui-layout-south">
+                <!-- <p>Track Actions</p> -->
+                <div id="dvTrackInfo">
+                    <!--<div id="toolbar" class="ui-widget-header ui-corner-all">-->
+                    <div id="toolbar">
+                        <!--<button id="voteToSkip" style="font-size:16px"> <!--(<span id="spnSkipVotesRemaining">3</span>) votes remaining </button>-->
+                        <!-- <button id="upVote" style="font-size:16px">Up Vote</button>-->
+                        <!-- <button id="downVote" style="font-size:16px">Down Vote</button>-->
                     </div>
-					<span>
-						<!--<input type="button" value="Like" id="btnLike"> -->
-						<button id="btnLike" style="font-size:12px">Like</button>
-					</span>
-					<!--<input type="button" value="Dislike">-->
-					<hr>
-					<span style="floatx:right;">
-						<button id="voteToSkip" style="font-size:12px">Vote to skip <!--(<span id="spnSkipVotesRemaining">3</span>) votes remaining --></button>
-					</span>
-					<hr>
-                              
-                    <span id="spnChosenBy"></span>
-                    <br>                   
-                    <span id="spnDedicatedTo"></span>
-                    <br />               
-                    <span id="spnComments"></span>
-		        </div>
-	        </div>
+                </div>
+            </div>
+            <div class="pane ui-layout-east">
+                <span id="spnWhatsNext">
+                    <div class="header" style="color:#D00B38;">Up next..</div>
+                    <span id="spnWhatsNextArtist1"><b>Artist</b></span>
+                    <br>
+                    <!--
+                    <span id="spnWhatsNextTrack1">Track title</span>
+                    <br>
+                    <br>
+                    -->
+                    <br>
+                </span>
+                <span id="spnWhatsLater">
+                    <div class="header" style="color:#D00B38;">Up later..</div>
+                    <span id="spnWhatsNextArtist2">Track title</span> <span id="spnWhatsNextArtist3">Track title</span>
+                    <br>
+                    <br>
+                </span>
+
+                <span id="spnTotalTracks"></span>
+                <span id="spnLowTrackWarning"></span>
+            </div>
+            <div class="pane ui-layout-west">
+                <div class="header"><div id="dvOnAir">ON AIR</div></div>
+                
+                <span id="spnNowPlayingArtist"><b></b></span>
+                <br>
+                <span id="spnNowPlayingTrack"></span>
+                <br />
+
+                <!--<span id="spnVoteToSkip" style="width:170px;height:50px;color:red;"></span>
+
+                <img id="imgStarRating" alt="starrating" style="width:170px;height:50px;" />-->
+
+              
+
+                <br />
+                
+                <div>
+                    <img id="imgArtist" src="" alt="" style="width:100%;height:70%;" />
+                </div>
+
+                <!--<span>                   
+                    <button id="btnLike" style="font-size:12px">Like</button>
+                </span>-->
+                
+               
+                <!--<span style="floatx:right;">
+                    <button id="voteToSkip" style="font-size:12px">Vote to skip </button>
+                </span>-->
+                
+               
+
+                <span id="spnChosenBy"></span>
+                <br>
+                <span id="spnDedicatedTo"></span>
+                <br />
+                <span id="spnComments"></span>
+            </div>
         </div>
-       
-        <div id="trackRequestDialogue" title="track requested">
-            <p>Track requested!</p>
-        </div>
+    </div>
 
-        <div id="addUserDialogueForm" title="Add Track">
-            <form>
-                <fieldset>
-                    <label for="name">Your name</label>
-                    <br />
-                    <input type="text" name="txtUserName" id="txtUserName" class="text ui-widget-content ui-corner-all">
-                    <br /><br />
-                    <label for="name">Dedicate song to (optional)</label>
-                    <br />
-                    <input type="text" name="txtDedicate" id="txtDedicate" class="text ui-widget-content ui-corner-all">
-                    <br /><br />
-                    <label for="comments">Add comments (optional)</label>
-                    <br />
-                    <textarea rows="4" cols="30" name="txtComments" id="txtComments" class="text ui-widget-content ui-corner-all"></textarea>
-          
-                    <input type="hidden" id="hdnTrackNum" />         
-                </fieldset>
-            </form>
-        </div>
-        
+    <div id="trackRequestDialogue" title="track requested">
+        <p>Track requested!</p>
+    </div>
 
+    <div id="addUserDialogueForm" title="Add Track">
+        <form>
+            <fieldset>
+                <label for="name">Your name</label>
+                <br />
+                <input type="text" name="txtUserName" id="txtUserName" class="text ui-widget-content ui-corner-all">
+                <br /><br />
+                <label for="name">Dedicate song to (optional)</label>
+                <br />
+                <input type="text" name="txtDedicate" id="txtDedicate" class="text ui-widget-content ui-corner-all">
+                <br /><br />
+                <label for="comments">Add comments (optional)</label>
+                <br />
+                <textarea rows="4" cols="30" name="txtComments" id="txtComments" class="text ui-widget-content ui-corner-all"></textarea>
 
-		<script type="text/javascript">
-		    
-
-		    $(document).ready(function () {
-				
-				
-		        InitiateUserDialogue();
-
-		        voteToolbar();
-
-		        $("#trackRequestDialogue").hide();
-
-		        $('#container').layout({
-		            south__size: '33%'
-		        });
-		        $('#paddingWrapper').layout();
-		        $("#btnSearch").button();	      
-		        $('#dvSearchResults').hide();
-		      
-		        window.results = null;
-		        window.playlist = null;
-		        window.currentTrack = null;
-		        window.skipped = false;
-		        window.playbackState = "";
-		      		        
-		        window.mopidy.on("event:playbackStateChanged", function (data) {	           
-		            switch (data["new_state"]) {
-		                case "stopped":
-		                        $('#dvOnAir').css("color", "grey");
-		                        $('#dvOnAir').css("font-weight", "bold");
-		                        $('#dvOnAir').text("OFF AIR");
-								
-								$('#imgVinylPi').attr("src", "VinylPi6.png");
-																							
-		                    break;
-		                case "playing":
-		                    $('#dvOnAir').css("color", "red");
-		                    $('#dvOnAir').css("font-weight", "bold");
-		                    $('#dvOnAir').text("ON AIR");
-							
-							$('#imgVinylPi').attr("src", "spinner.gif");
-							
-		                    //$('#dvNorth').text("<h2>Bond </h2>")
-		                    window.mopidy.playback.getCurrentTrack()
-                               // => current track
-                               .then(PrintCurrentTrack)
-							   .then(function () {           
-									 $("#btnLike").prop( "disabled", false );
-									 $("#voteToSkip").prop( "disabled", false );
-									 
-								})
-							   
-							  
-                               // => current track	                       
-		                       // need a delay here for when dj removed tracks
-		                       setTimeout(function () {
-		                             window.mopidy.tracklist.getTracks()
-                                     // => tracklist
-                                     .then(PrintWhatsNextTracks)
-		                       }, 3000);
-		                      
-		                    if (data.old_state == 'playing') {
-		                                               
-		                    }
-		                    if (data.old_state == 'stopped' && window.skipped == true) {
-		                        
-		                    }	                    
-		                    break;
-		                case "paused":
-		                    $('#dvOnAir').css("color", "grey");
-		                    $('#dvOnAir').css("font-weight", "bold");
-		                    $('#dvOnAir').text("OFF AIR");
-							$('#imgVinylPi').attr("src", "VinylPi6.png");
-		                break;
-		            }
-		        });
-				
-				window.mopidy.on("event:tracklistChanged", function (data) {
-		            window.mopidy.playback.getCurrentTrack()
-		                // => current track
-                        .then(function (track) {
-								if (track) {										
-									_getTrackRating(track.uri);
-									//_getTrackVotes(track.uri);
-									_getTrackVotesAndRating(track.uri);
-								}		
-						});
-						
-					window.mopidy.tracklist.getTracks()
-		            // => tracklist	            
-                    .then(PrintWhatsNextTracks)
-		        });
+                <input type="hidden" id="hdnTrackNum" />
+            </fieldset>
+        </form>
+    </div>
 
 
 
-		        $('#btnSearch').on('click', function () {
-		            var searchTerm = $('#txtSearch').val();
-		            //$("#imgTrackSearchLoader").show();
-		            window.mopidy.library.search({
-		                any: searchTerm
-		            }).then(processSearchResults, console.error);
-		        });
-				
-				$("#btnLike").button({
-		            //text: false,
-		            icons: {
-		                 primary: "ui-icon-plaxy"
-		            }
-		        })
-				.on('click', function () {
-		            
-					window.mopidy.playback.getCurrentTrack()
-		                // => current track
-                        .then(LikeCurrentTrack)				
-					
-					$("#btnLike").prop( "disabled", true );
-					
-					// quickly add and remove a track from tracklist in order to fire the tracklistChanged event so that we can
-                    // check the voteToSkip count
-                    var aTrack = {};
-                    aTrack.__model__ = "Track";
-                    aTrack.track_no = 10;
-                    aTrack.name = "Wonderwall";
-                    aTrack.uri = 'spotify:track:31uO7EGkavAJ3ZBPBv8yoS';
-                    var dummyTracks = { 'tracks': [], 'artists': [], 'albums': [] };
-                    dummyTracks['tracks'] = dummyTracks['tracks'].concat(aTrack);
-                    window.mopidy.tracklist.add(dummyTracks.tracks);                        
-                    var dTrack = {};
-                    dTrack.uri = 'spotify:track:31uO7EGkavAJ3ZBPBv8yoS';
-                    window.mopidy.tracklist.remove(dTrack);
-					
-					window.mopidy.tracklist.remove({'uri': ['spotify:track:31uO7EGkavAJ3ZBPBv8yoS', 'abc']})
-                               // => current track
-                               .then(function (track) { 
-									if(track)
-									{
-										
-									}
-							   })
-					
-		        });
-		    });
+    <script type="text/javascript">
 
-		    function processSearchResults(resultArr) {
-				console.log('processSearchResults called');
-		        console.log(resultArr);
-				if (resultArr.length > 0) {
-		            $('#dvSearchResults').show();
-		            // Merge results from different backends.
-		            window.results = { 'tracks': [], 'artists': [], 'albums': [] };
-		            var emptyResult = true;
-		            for (var i = 0; i < resultArr.length ; ++i) {
-		                for (var prop in window.results) {
-		                    if (resultArr[i][prop] && resultArr[i][prop].length) {
-		                        window.results[prop] = window.results[prop].concat(resultArr[i][prop]);
-		                        emptyResult = false;
-		                    }
-		                }
-		            }
-		            $("#tblSearchResults").find("tr:gt(0)").remove();
-		            for (var i = 0; i < (window.results.tracks.length) && (i < 50) ; ++i) {
-		                $('#tblSearchResults tr:last').after('<tr><td style="width:200px; border-bottom:1px solid; border-right:1px solid;">' + window.results.tracks[i].name + '</td><td style="width:200px; border-bottom:1px solid; border-right:1px solid;">' + window.results.tracks[i].artists[0].name + '</td><td style="width:200px; border-bottom:1px solid;">' + window.results.tracks[i].album.name + '</td><td style="width:200px; border-bottom:1px solid;"><input type="button" value="add" style="font-size:10px" onclick=addTrackToTracklist(' + i + ') /></td></tr>');
-		            }
-		            StyleTables();
-		            $("#imgTrackSearchLoader").hide();
-		        }
-		    }
 
-		    function addTrackToTracklist(tNum) {
-		        		        
-		        $("#txtDedicate").val('');		        
-		        $("#txtComments").val('');
-		        
-		        // Popup asking user to enter name and comments (optional)
-		        $("#addUserDialogueForm").dialog("open");
+        $(document).ready(function () {
 
-		        $("#hdnTrackNum").val(tNum);
 
-		    }
-		   
-		    function GetCurrentTrack() {
-		        // display ticker while getting track
-		        //$("#imgCurrentTrackTicker").show();
-		        window.mopidy.playback.getCurrentTrack().then(
-                    printCurrentTrack, console.error.bind(console));
-		    }
+            InitiateUserDialogue();
 
-		    function GetCurrentPlaybackState() {
-		        window.mopidy.playback.getState().then(function (state) {
-		           
-		            switch (state) {
-		                case "playing":
-		                 
-		                    window.playbackState = "playing";
-		                    break;
-		                case "stopped":
-		                  
-		                    window.playbackState = "stopped";
-		                    break;
-		            }
-		        });
-		    }
+            voteToolbar();
 
-		    var GetTracklist = function (tracklist) {
-		        
-		        if (tracklist) {
-		            return tracklist;
-		        }
-		    }
+            $("#trackRequestDialogue").hide();
 
-		    function PrintTracklist(tracklist) {
-		        
-		        window.playlist = tracklist;
-		        $("#tblTracklist").find("tr:gt(0)").remove();
-		        for (var i = 0; i < tracklist.length; ++i) {
-		            if (tracklist[i].artists != null) {
-		                $('#tblTracklist tr:last').after('<tr><td>' + tracklist[i].name + '</td><td>' + tracklist[i].artists[0].name + '</td><td><input type="button" value="X" style="font-size:10px" onclick=RemoveTrackFromTracklist(' + i + ') /></td></tr>');
-		            }
-		        }
-		        StyleTables();
-		        return tracklist;
-		    }
+            $('#container').layout({
+                south__size: '33%'
+            });
+            $('#paddingWrapper').layout();
+            $("#btnSearch").button();
+            $('#dvSearchResults').hide();
 
-		    function PrintWhatsNextTracks(tracklist) {
-		        
-		        $("#spnWhatsNextArtist1").html('');
-				$("#spnWhatsNextArtist2").html('');
-				$("#spnWhatsNextArtist3").html('');
-				$("#spnWhatsNextArtist4").html('');
-		        $("#spnWhatsNextTrack1").html('');
-				$("#spnLowTrackWarning").html('');
-						
-				if(tracklist.length > 1)
-				{
-					$("#spnWhatsNext").show();
-					if (tracklist[1].artists != null) {
-						$("#spnWhatsNextArtist1").html('<b>' + tracklist[1].artists[0].name + '</b>');
-						//$("#spnWhatsNextTrack1").html(tracklist[1].name);
-					}
-					
-					if(tracklist.length > 2)
-					{
-						$("#spnWhatsLater").show();
-						if (tracklist[2].artists != null) {
-							$("#spnWhatsNextArtist2").html('<b>' + tracklist[2].artists[0].name + '</b>');
-						}
-					}
-					else{
-						$("#spnWhatsLater").hide();
-					}
-					if(tracklist.length > 3){
-						if (tracklist[3].artists != null) {
-							$("#spnWhatsNextArtist3").html(' and <b>' + tracklist[3].artists[0].name + '</b>');
-						}
-					}
-					
-					/*
-					var randomTrack1 = Math.floor((Math.random() * tracklist.length ) + 2);
-					var randomTrack2 = Math.floor((Math.random() * tracklist.length ) + 2);
-					if (tracklist[randomTrack1].artists != null) {
-						$("#spnWhatsNextArtist2").html('<b>' + tracklist[randomTrack1].artists[0].name + '</b>');
-					}
-					if (tracklist[randomTrack2].artists != null) {
-						$("#spnWhatsNextArtist3").html('<b>' + tracklist[randomTrack2].artists[0].name + '</b>');
-					}
-					*/
-		        }
-				
-				else{
-					$("#spnWhatsNext").hide();
-					$("#spnWhatsLater").hide();
-				}
-				
-				if(tracklist.length < 4 && tracklist.length > 1)
-				{
-					 $("#spnTotalTracks").html('<div style="color:grey;">Songs remaining: ' + tracklist.length + '</div>');
-					 $("#spnLowTrackWarning").html('<div style="color:red;">low track warning, request more tracks to ensure radio doesnt stop playing</div>');
-				}
-				else if(tracklist.length == 1){
-					 $("#spnTotalTracks").html('<div style="color:grey;">Last song</div>');
-					 $("#spnLowTrackWarning").html('<div style="color:red;">low track warning, request more tracks to ensure radio doesnt stop playing</div>');
-				}
-				else{
-					 $("#spnTotalTracks").html('<div style="color:grey;">Songs remaining: ' + tracklist.length + '</div>');
-				}
-					
-		        StyleTables();
-		    }
+            window.results = null;
+            window.playlist = null;
+            window.currentTrack = null;
+            window.skipped = false;
+            window.playbackState = "";
 
-		    var PrintCurrentTrack = function (track) {
-		        if (track) {
-		            window.currentTrack = track;
+            window.mopidy.on("event:playbackStateChanged", function (data) {
+                switch (data["new_state"]) {
+                    case "stopped":
+                        $('#dvOnAir').css("color", "grey");
+                        $('#dvOnAir').css("font-weight", "bold");
+                        $('#dvOnAir').text("OFF AIR");
 
-		            if (track.artists != null) {
-		                $("#spnNowPlayingArtist").html('<b>' + track.artists[0].name + '</b>');
-		                $("#spnNowPlayingTrack").html(track.name);
+                        $('#imgVinylPi').attr("src", "VinylPi6.png");
 
-		                var trackImageSearchTerm = track.artists[0].name + ' ' + track.name;
-		                GetArtistImage(trackImageSearchTerm);
-		            }
+                        break;
+                    case "playing":
+                        $('#dvOnAir').css("color", "red");
+                        $('#dvOnAir').css("font-weight", "bold");
+                        $('#dvOnAir').text("ON AIR");
 
-		            $("#spnChosenBy").html('');
-		            $("#spnDedicatedTo").html('');
-		            $("#spnComments").html('');
-					$("#spnVoteToSkip").html('');
+                        $('#imgVinylPi').attr("src", "spinner.gif");
 
-		            // get user and comments from server
-		            // callback function calls printUserInfoForTrack() which prints the chosenBy, DedicatedTo and Comments text if any exist for track
-		            _getTrack(track.uri);
-					
-					_getTrackRating(track.uri);
+                        //$('#dvNorth').text("<h2>Bond </h2>")
+                        window.mopidy.playback.getCurrentTrack()
+                           // => current track
+                           .then(PrintCurrentTrack)
+                           .then(function () {
+                               $("#btnLike").prop("disabled", false);
+                               $("#voteToSkip").prop("disabled", false);
 
-		            return track;
-		        } else {
-		            $("#spnNowPlayingArtist").html('No track playing');
-		            $("#spnNowPlayingTrack").html('');
-					$("#spnVoteToSkip").html('');
-		        }
-		    };
-			
-			var LikeCurrentTrack = function (track) {
-				if (track) {			
-					console.log(track);
-					_likeTrack(track.uri, track.name, track.artists[0].name, track.album.name);
-					_getTrackRating(track.uri);
-				}		
-			};
-		    
-		    var printUserInfoForTrack = function (info) {
-		        $("#spnChosenBy").html('<b>Requested by:</b><br> ' + info.userString);
+                           })
 
-		        if (info.dedicatedToString != 'd3d1c4t3') {
-		            $("#spnDedicatedTo").html('<b>Dedicated to:</b><br> ' + info.dedicatedToString);
-		        }
-		        if (info.commentString != 'c0mm3nt5') {
-		            $("#spnComments").html('<b>Comments:</b> <br>' + info.commentString);
-		        }				
-		    }
-			
-			var skipTrack = function (info) {
-				if (info.skipVotes > 0) {	
-					$("#spnVoteToSkip").html('<b>' + info.skipVotes + ' skip request </b>[' + (2 - info.totalTrackVotes) + ' more required]');
-				}
-		        if (info.totalTrackVotes >= 2) {	
-		            $("#spnVoteToSkip").html('<b>' + info.skipVotes + ' skip requests, track skipping!</b>');	
-		        }
-		        
-		    }
-			
-			
-			
-			 var printTrackRating = function (info) {
-					
-					if(info.trackRating == 0){
-						 //$("#imgStarRating").attr("src", 'starRating/starRating_0.png');
-						  $("#imgStarRating").hide();
-					}
-					if(info.trackRating > 0)
-					{
-						$("#imgStarRating").show();
-					}
-					if(info.trackRating == 1){
-						 $("#imgStarRating").attr("src", 'starRating/starRating_1.png');
-					}
-					if(info.trackRating == 2){
-						 $("#imgStarRating").attr("src", 'starRating/starRating_2.png');
-					}
-					if(info.trackRating == 3){
-						 $("#imgStarRating").attr("src", 'starRating/starRating_3.png');
-					}
-					if(info.trackRating == 4){
-						 $("#imgStarRating").attr("src", 'starRating/starRating_4.png');
-					}
-					if(info.trackRating == 5){
-						 $("#imgStarRating").attr("src", 'starRating/starRating_5.png');
-					}		
-			 }
 
-		    var PrintPlaybackState = function (state) {
-		        switch (state) {
-		            case "playing":		               
-		                window.playbackState = "playing";
-		                $('#dvOnAir').css("color", "red");
-		                $('#dvOnAir').css("font-weight", "bold");
-		                $('#dvOnAir').text("ON AIR");
-		                break;
-		            case "stopped":
-		                $('#dvOnAir').css("color", "grey");
-		                $('#dvOnAir').css("font-weight", "bold");
-		                $('#dvOnAir').html("OFF AIR - click <a href='mailto:paulburkinshaw@sigplc.com?Subject=Put%20Pi%20On' target='_top'>here</a> to email PB to put it on");
-		                window.playbackState = "stopped";
-		                break;
-		            case "paused":
-		                $('#dvOnAir').css("color", "grey");
-		                $('#dvOnAir').css("font-weight", "bold");
-		                $('#dvOnAir').text("OFF AIR");
-		                window.playbackState = "stopped";
-		                break;
-		        }
-		    }
-			
-			var displayTrendingTracks = function (trendingTracks) {
-				
-				var trendingTracksArray = eval(trendingTracks.trendingTracks);
-				
-				//console.log(trendingTracksArray);
-				
-				
+                        // => current track
+                        // need a delay here for when dj removed tracks
+                        setTimeout(function () {
+                            window.mopidy.tracklist.getTracks()
+                            // => tracklist
+                            .then(PrintWhatsNextTracks)
+                        }, 3000);
 
-			}
-		    
-			
-			
-			
-		   		   
-		    var startMopidy = function () {
-				console.log("state:online");
-		        window.mopidy.tracklist.getTracks()
-		            // => tracklist
-		            .then(PrintTracklist)
-                    .then(PrintWhatsNextTracks)
-                    .then(window.mopidy.playback.getCurrentTrack()
-		                // => current track
-                        .then(PrintCurrentTrack)
-                    )
-                    .then(window.mopidy.playback.getState()
-                        // => playback state
-                        .then(PrintPlaybackState)
-                    )
-					//.then(_getTrendingTracks);
-		     }
-		   
-		    window.mopidy = null;
-		    window.mopidy = new Mopidy({callingConvention: "by-position-or-by-name"});
-		    window.mopidy.on("state:online", startMopidy);
+                        if (data.old_state == 'playing') {
 
-		    function StyleTables() {
-		        var table = $('.jtable');
-		        $(".jtable th").each(function () {
-		            $(this).addClass("ui-state-default");
-		        });
-		        $(".jtable td").each(function () {
-		            $(this).addClass("ui-widget-content");
-		        });
-		        $('caption', table).addClass('ui-state-default');
-		    }
+                        }
+                        if (data.old_state == 'stopped' && window.skipped == true) {
 
-		    function GetArtistImage(searchText) {
-		        $.getJSON("https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=" + searchText + "&callback=?",
-                  {
-                      unescapedUrl: "any"
-                  },
-                  function (data) {
-                      $.each(data.responseData.results, function (i, results) {
-                          $("#imgArtist").attr("src", results.unescapedUrl);
-                      });
-                      return false;
+                        }
+                        break;
+                    case "paused":
+                        $('#dvOnAir').css("color", "grey");
+                        $('#dvOnAir').css("font-weight", "bold");
+                        $('#dvOnAir').text("OFF AIR");
+                        $('#imgVinylPi').attr("src", "VinylPi6.png");
+                        break;
+                }
+            });
+
+            window.mopidy.on("event:tracklistChanged", function (data) {
+                window.mopidy.playback.getCurrentTrack()
+                    // => current track
+                    .then(function (track) {
+                        if (track) {
+                            //_getTrackRating(track.uri);
+                            //_getTrackVotes(track.uri);
+                            //_getTrackVotesAndRating(track.uri);
+                        }
+                    });
+
+                window.mopidy.tracklist.getTracks()
+                // => tracklist
+                .then(PrintWhatsNextTracks)
+            });
+
+
+
+            $('#btnSearch').on('click', function () {
+                var searchTerm = $('#txtSearch').val();
+                $("#imgTrackSearchLoader").show();
+                window.mopidy.library.search({
+                    any: searchTerm
+                }).then(processSearchResults, console.error);
+            });
+
+            $("#btnLike").button({
+                //text: false,
+                icons: {
+                    primary: "ui-icon-plaxy"
+                }
+            })
+            .on('click', function () {
+
+                window.mopidy.playback.getCurrentTrack()
+                    // => current track
+                    .then(LikeCurrentTrack)
+
+                $("#btnLike").prop("disabled", true);
+
+                // quickly add and remove a track from tracklist in order to fire the tracklistChanged event so that we can
+                // check the voteToSkip count
+                var aTrack = {};
+                aTrack.__model__ = "Track";
+                aTrack.track_no = 10;
+                aTrack.name = "Wonderwall";
+                aTrack.uri = 'spotify:track:31uO7EGkavAJ3ZBPBv8yoS';
+                var dummyTracks = { 'tracks': [], 'artists': [], 'albums': [] };
+                dummyTracks['tracks'] = dummyTracks['tracks'].concat(aTrack);
+                window.mopidy.tracklist.add(dummyTracks.tracks);
+                var dTrack = {};
+                dTrack.uri = 'spotify:track:31uO7EGkavAJ3ZBPBv8yoS';
+                window.mopidy.tracklist.remove(dTrack);
+
+                window.mopidy.tracklist.remove({ 'uri': ['spotify:track:31uO7EGkavAJ3ZBPBv8yoS', 'abc'] })
+                           // => current track
+                           .then(function (track) {
+                               if (track) {
+
+                               }
+                           })
+
+            });
+        });
+
+        function processSearchResults(resultArr) {
+            console.log('processSearchResults called');
+            console.log(resultArr);
+            if (resultArr.length > 0) {
+                $('#dvSearchResults').show();
+                // Merge results from different backends.
+                window.results = { 'tracks': [], 'artists': [], 'albums': [] };
+                var emptyResult = true;
+                for (var i = 0; i < resultArr.length ; ++i) {
+                    for (var prop in window.results) {
+                        if (resultArr[i][prop] && resultArr[i][prop].length) {
+                            window.results[prop] = window.results[prop].concat(resultArr[i][prop]);
+                            emptyResult = false;
+                        }
+                    }
+                }
+                $("#tblSearchResults").find("tr:gt(0)").remove();
+                for (var i = 0; i < (window.results.tracks.length) && (i < 50) ; ++i) {
+                    $('#tblSearchResults tr:last').after('<tr><td style="width:200px; border-bottom:1px solid; border-right:1px solid;">' + window.results.tracks[i].name + '</td><td style="width:200px; border-bottom:1px solid; border-right:1px solid;">' + window.results.tracks[i].artists[0].name + '</td><td style="width:200px; border-bottom:1px solid;">' + window.results.tracks[i].album.name + '</td><td style="width:200px; border-bottom:1px solid;"><input type="button" value="add" style="font-size:10px" onclick=addTrackToTracklist(' + i + ') /></td></tr>');
+                }
+                StyleTables();
+                $("#imgTrackSearchLoader").hide();
+            }
+        }
+
+        function addTrackToTracklist(tNum) {
+
+            $("#txtDedicate").val('');
+            $("#txtComments").val('');
+
+            // Popup asking user to enter name and comments (optional)
+            $("#addUserDialogueForm").dialog("open");
+
+            $("#hdnTrackNum").val(tNum);
+
+        }
+
+        function GetCurrentTrack() {
+            // display ticker while getting track
+            //$("#imgCurrentTrackTicker").show();
+            window.mopidy.playback.getCurrentTrack().then(
+                printCurrentTrack, console.error.bind(console));
+        }
+
+        function GetCurrentPlaybackState() {
+            window.mopidy.playback.getState().then(function (state) {
+
+                switch (state) {
+                    case "playing":
+
+                        window.playbackState = "playing";
+                        break;
+                    case "stopped":
+
+                        window.playbackState = "stopped";
+                        break;
+                }
+            });
+        }
+
+        var GetTracklist = function (tracklist) {
+
+            if (tracklist) {
+                return tracklist;
+            }
+        }
+
+        function PrintTracklist(tracklist) {
+
+            window.playlist = tracklist;
+            $("#tblTracklist").find("tr:gt(0)").remove();
+            for (var i = 0; i < tracklist.length; ++i) {
+                if (tracklist[i].artists != null) {
+                    $('#tblTracklist tr:last').after('<tr><td>' + tracklist[i].name + '</td><td>' + tracklist[i].artists[0].name + '</td><td><input type="button" value="X" style="font-size:10px" onclick=RemoveTrackFromTracklist(' + i + ') /></td></tr>');
+                }
+            }
+            StyleTables();
+            return tracklist;
+        }
+
+        function PrintWhatsNextTracks(tracklist) {
+
+            $("#spnWhatsNextArtist1").html('');
+            $("#spnWhatsNextArtist2").html('');
+            $("#spnWhatsNextArtist3").html('');
+            $("#spnWhatsNextArtist4").html('');
+            $("#spnWhatsNextTrack1").html('');
+            $("#spnLowTrackWarning").html('');
+
+            if (tracklist.length > 1) {
+                $("#spnWhatsNext").show();
+                if (tracklist[1].artists != null) {
+                    $("#spnWhatsNextArtist1").html('<b>' + tracklist[1].artists[0].name + '</b>');
+                    //$("#spnWhatsNextTrack1").html(tracklist[1].name);
+                }
+
+                if (tracklist.length > 2) {
+                    $("#spnWhatsLater").show();
+                    if (tracklist[2].artists != null) {
+                        $("#spnWhatsNextArtist2").html('<b>' + tracklist[2].artists[0].name + '</b>');
+                    }
+                }
+                else {
+                    $("#spnWhatsLater").hide();
+                }
+                if (tracklist.length > 3) {
+                    if (tracklist[3].artists != null) {
+                        $("#spnWhatsNextArtist3").html(' and <b>' + tracklist[3].artists[0].name + '</b>');
+                    }
+                }
+
+                /*
+                var randomTrack1 = Math.floor((Math.random() * tracklist.length ) + 2);
+                var randomTrack2 = Math.floor((Math.random() * tracklist.length ) + 2);
+                if (tracklist[randomTrack1].artists != null) {
+                    $("#spnWhatsNextArtist2").html('<b>' + tracklist[randomTrack1].artists[0].name + '</b>');
+                }
+                if (tracklist[randomTrack2].artists != null) {
+                    $("#spnWhatsNextArtist3").html('<b>' + tracklist[randomTrack2].artists[0].name + '</b>');
+                }
+                */
+            }
+
+            else {
+                $("#spnWhatsNext").hide();
+                $("#spnWhatsLater").hide();
+            }
+
+            if (tracklist.length < 4 && tracklist.length > 1) {
+                $("#spnTotalTracks").html('<div style="color:grey;">Songs remaining: ' + tracklist.length + '</div>');
+                $("#spnLowTrackWarning").html('<div style="color:red;">low track warning, request more tracks to ensure radio doesnt stop playing</div>');
+            }
+            else if (tracklist.length == 1) {
+                $("#spnTotalTracks").html('<div style="color:grey;">Last song</div>');
+                $("#spnLowTrackWarning").html('<div style="color:red;">low track warning, request more tracks to ensure radio doesnt stop playing</div>');
+            }
+            else {
+                $("#spnTotalTracks").html('<div style="color:grey;">Songs remaining: ' + tracklist.length + '</div>');
+            }
+
+            StyleTables();
+        }
+
+        var PrintCurrentTrack = function (track) {
+            if (track) {
+                window.currentTrack = track;
+
+                if (track.artists != null) {
+                    $("#spnNowPlayingArtist").html('<b>' + track.artists[0].name + '</b>');
+                    $("#spnNowPlayingTrack").html(track.name);
+
+                    var trackImageSearchTerm = track.artists[0].name + ' ' + track.name;
+                    GetArtistImage(trackImageSearchTerm);
+                }
+
+                $("#spnChosenBy").html('');
+                $("#spnDedicatedTo").html('');
+                $("#spnComments").html('');
+                $("#spnVoteToSkip").html('');
+
+                // get user and comments from server
+                // callback function calls printUserInfoForTrack() which prints the chosenBy, DedicatedTo and Comments text if any exist for track
+                _getTrack(track.uri);
+
+                _getTrackRating(track.uri);
+
+                return track;
+            } else {
+                $("#spnNowPlayingArtist").html('No track playing');
+                $("#spnNowPlayingTrack").html('');
+                $("#spnVoteToSkip").html('');
+            }
+        };
+
+        var LikeCurrentTrack = function (track) {
+            if (track) {
+                console.log(track);
+                _likeTrack(track.uri, track.name, track.artists[0].name, track.album.name);
+                _getTrackRating(track.uri);
+            }
+        };
+
+        var printUserInfoForTrack = function (info) {
+            $("#spnChosenBy").html('<b>Requested by:</b><br> ' + info.userString);
+
+            if (info.dedicatedToString != 'd3d1c4t3') {
+                $("#spnDedicatedTo").html('<b>Dedicated to:</b><br> ' + info.dedicatedToString);
+            }
+            if (info.commentString != 'c0mm3nt5') {
+                $("#spnComments").html('<b>Comments:</b> <br>' + info.commentString);
+            }
+        }
+
+        var skipTrack = function (info) {
+            if (info.skipVotes > 0) {
+                $("#spnVoteToSkip").html('<b>' + info.skipVotes + ' skip request </b>[' + (2 - info.totalTrackVotes) + ' more required]');
+            }
+            if (info.totalTrackVotes >= 2) {
+                $("#spnVoteToSkip").html('<b>' + info.skipVotes + ' skip requests, track skipping!</b>');
+            }
+
+        }
+
+
+
+        var printTrackRating = function (info) {
+
+            if (info.trackRating == 0) {
+                //$("#imgStarRating").attr("src", 'starRating/starRating_0.png');
+                $("#imgStarRating").hide();
+            }
+            if (info.trackRating > 0) {
+                $("#imgStarRating").show();
+            }
+            if (info.trackRating == 1) {
+                $("#imgStarRating").attr("src", 'starRating/starRating_1.png');
+            }
+            if (info.trackRating == 2) {
+                $("#imgStarRating").attr("src", 'starRating/starRating_2.png');
+            }
+            if (info.trackRating == 3) {
+                $("#imgStarRating").attr("src", 'starRating/starRating_3.png');
+            }
+            if (info.trackRating == 4) {
+                $("#imgStarRating").attr("src", 'starRating/starRating_4.png');
+            }
+            if (info.trackRating == 5) {
+                $("#imgStarRating").attr("src", 'starRating/starRating_5.png');
+            }
+        }
+
+        var PrintPlaybackState = function (state) {
+            switch (state) {
+                case "playing":
+                    window.playbackState = "playing";
+                    $('#dvOnAir').css("color", "red");
+                    $('#dvOnAir').css("font-weight", "bold");
+                    $('#dvOnAir').text("ON AIR");
+                    break;
+                case "stopped":
+                    $('#dvOnAir').css("color", "grey");
+                    $('#dvOnAir').css("font-weight", "bold");
+                    $('#dvOnAir').html("OFF AIR - click <a href='mailto:paulburkinshaw@sigplc.com?Subject=Put%20Pi%20On' target='_top'>here</a> to email PB to put it on");
+                    window.playbackState = "stopped";
+                    break;
+                case "paused":
+                    $('#dvOnAir').css("color", "grey");
+                    $('#dvOnAir').css("font-weight", "bold");
+                    $('#dvOnAir').text("OFF AIR");
+                    window.playbackState = "stopped";
+                    break;
+            }
+        }
+
+        var displayTrendingTracks = function (trendingTracks) {
+
+            var trendingTracksArray = eval(trendingTracks.trendingTracks);
+
+            //console.log(trendingTracksArray);
+
+
+
+        }
+
+
+
+
+
+        var startMopidy = function () {
+            console.log("state:online");
+            window.mopidy.tracklist.getTracks()
+                // => tracklist
+                .then(PrintTracklist)
+                .then(PrintWhatsNextTracks)
+                .then(window.mopidy.playback.getCurrentTrack()
+                    // => current track
+                    .then(PrintCurrentTrack)
+                )
+                .then(window.mopidy.playback.getState()
+                    // => playback state
+                    .then(PrintPlaybackState)
+                )
+            //.then(_getTrendingTracks);
+        }
+
+        window.mopidy = null;
+        window.mopidy = new Mopidy({ callingConvention: "by-position-only" });
+        window.mopidy.on("state:online", startMopidy);
+
+        function StyleTables() {
+            var table = $('.jtable');
+            $(".jtable th").each(function () {
+                $(this).addClass("ui-state-default");
+            });
+            $(".jtable td").each(function () {
+                $(this).addClass("ui-widget-content");
+            });
+            $('caption', table).addClass('ui-state-default');
+        }
+
+        function GetArtistImage(searchText) {
+            $.getJSON("https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=" + searchText + "&callback=?",
+              {
+                  unescapedUrl: "any"
+              },
+              function (data) {
+                  $.each(data.responseData.results, function (i, results) {
+                      $("#imgArtist").attr("src", results.unescapedUrl);
                   });
-		    }
+                  return false;
+              });
+        }
 
 
-		    var InitiateUserDialogue = function () {
-		        allFields = $([]).add($("#txtUserName")).add($("#txtDedicate")).add($("#txtComments")),
-                tips = $(".validateTips");
+        var InitiateUserDialogue = function () {
+            allFields = $([]).add($("#txtUserName")).add($("#txtDedicate")).add($("#txtComments")),
+            tips = $(".validateTips");
 
-		        $("#addUserDialogueForm").dialog({
-		            autoOpen: false,
-		            height: 400,
-		            width: 400,
-		            modal: true,
-		            buttons: {
-		                "Add track": function () {
-		                    var bValid = true;
-		                    allFields.removeClass("ui-state-error");
-		                    bValid = bValid && checkLength($("#txtUserName"), "txtUserName", 1, 100);
-		                    //bValid = bValid && checkLength($("#txtDedicate"), "txtDedicate", 1, 100);
-		                    //bValid = bValid && checkLength($("#txtComments"), "txtComments", 1, 5000);
-		                  
-		                    if (bValid) {
-		                        var newTracks = { 'tracks': [], 'artists': [], 'albums': [] };
-		                        newTracks['tracks'] = newTracks['tracks'].concat(window.results.tracks[$("#hdnTrackNum").val()]);
+            $("#addUserDialogueForm").dialog({
+                autoOpen: false,
+                height: 400,
+                width: 400,
+                modal: true,
+                buttons: {
+                    "Add track": function () {
+                        var bValid = true;
+                        allFields.removeClass("ui-state-error");
+                        bValid = bValid && checkLength($("#txtUserName"), "txtUserName", 1, 100);
+                        //bValid = bValid && checkLength($("#txtDedicate"), "txtDedicate", 1, 100);
+                        //bValid = bValid && checkLength($("#txtComments"), "txtComments", 1, 5000);
 
-		                        if ($("#txtDedicate").val() == '') {
-		                            $("#txtDedicate").val('d3d1c4t3');
-		                        }
-		                        if ($("#txtComments").val() == '') {
-		                            $("#txtComments").val('c0mm3nt5');
-		                        }
+                        if (bValid) {
+                            var newTracks = { 'tracks': [], 'artists': [], 'albums': [] };
+                            newTracks['tracks'] = newTracks['tracks'].concat(window.results.tracks[$("#hdnTrackNum").val()]);
 
-		                        window.mopidy.tracklist.add(newTracks.tracks);
-		                        _addTrackToTracklist(newTracks.tracks[0].uri, $("#txtUserName").val(), $("#txtDedicate").val(), $("#txtComments").val());
+                            if ($("#txtDedicate").val() == '') {
+                                $("#txtDedicate").val('d3d1c4t3');
+                            }
+                            if ($("#txtComments").val() == '') {
+                                $("#txtComments").val('c0mm3nt5');
+                            }
 
-		                        $("#tblTracklist").find("tr:gt(0)").remove();
-		                        window.mopidy.tracklist.getTracks().then(GetTracklist)
-                                                                   .then(PrintTracklist)
-		                        //$("#tblSearchResults").find("tr:gt(0)").remove();
-		                        $("#trackRequestDialogue").show();
-		                        $("#trackRequestDialogue").dialog();
-		                        $("#trackRequestDialogue").hide();
+                            window.mopidy.tracklist.add(newTracks.tracks);
+                            _addTrackToTracklist(newTracks.tracks[0].uri, $("#txtUserName").val(), $("#txtDedicate").val(), $("#txtComments").val());
 
-		                        $(this).dialog("close");
-		                    }
-		                },
-		                "Add track anonymously": function () {
-		                    var newTracks = { 'tracks': [], 'artists': [], 'albums': [] };
-		                    newTracks['tracks'] = newTracks['tracks'].concat(window.results.tracks[$("#hdnTrackNum").val()]);
-
-		                    if ($("#txtDedicate").val() == '') {
-		                        $("#txtDedicate").val('d3d1c4t3');
-		                    }
-		                    if ($("#txtComments").val() == '') {
-		                        $("#txtComments").val('c0mm3nt5');
-		                    }
-
-		                    window.mopidy.tracklist.add(newTracks.tracks);
-		                    _addTrackToTracklist(newTracks.tracks[0].uri, 'Anonymous', $("#txtDedicate").val(), $("#txtComments").val());
-
-		                    $("#tblTracklist").find("tr:gt(0)").remove();
-		                    window.mopidy.tracklist.getTracks().then(GetTracklist)
+                            $("#tblTracklist").find("tr:gt(0)").remove();
+                            window.mopidy.tracklist.getTracks().then(GetTracklist)
                                                                .then(PrintTracklist)
-		                    //$("#tblSearchResults").find("tr:gt(0)").remove();
-		                    $("#trackRequestDialogue").show();
-		                    $("#trackRequestDialogue").dialog();
-		                    $("#trackRequestDialogue").hide();
+                            //$("#tblSearchResults").find("tr:gt(0)").remove();
+                            $("#trackRequestDialogue").show();
+                            $("#trackRequestDialogue").dialog();
+                            $("#trackRequestDialogue").hide();
 
-		                    $(this).dialog("close");
-		                }
-		            },
-		            close: function () {
+                            $(this).dialog("close");
+                        }
+                    },
+                    "Add track anonymously": function () {
+                        var newTracks = { 'tracks': [], 'artists': [], 'albums': [] };
+                        newTracks['tracks'] = newTracks['tracks'].concat(window.results.tracks[$("#hdnTrackNum").val()]);
 
-		            }
-		        });
-		    }
+                        if ($("#txtDedicate").val() == '') {
+                            $("#txtDedicate").val('d3d1c4t3');
+                        }
+                        if ($("#txtComments").val() == '') {
+                            $("#txtComments").val('c0mm3nt5');
+                        }
 
-		    function updateTips(t) {
-		        tips
-                .text(t)
-                .addClass("ui-state-highlight");
-		        setTimeout(function () {
-		            tips.removeClass("ui-state-highlight", 1500);
-		        }, 500);
-		    }
+                        window.mopidy.tracklist.add(newTracks.tracks);
+                        _addTrackToTracklist(newTracks.tracks[0].uri, 'Anonymous', $("#txtDedicate").val(), $("#txtComments").val());
 
-		    function checkLength(o, n, min, max) {
-		        if (o.val().length > max || o.val().length < min) {
-		            o.addClass("ui-state-error");
-		            updateTips("Length of " + n + " must be between " +
-                    min + " and " + max + ".");
-		            return false;
-		        } else {
-		            return true;
-		        }
-		    }
+                        $("#tblTracklist").find("tr:gt(0)").remove();
+                        window.mopidy.tracklist.getTracks().then(GetTracklist)
+                                                           .then(PrintTracklist)
+                        //$("#tblSearchResults").find("tr:gt(0)").remove();
+                        $("#trackRequestDialogue").show();
+                        $("#trackRequestDialogue").dialog();
+                        $("#trackRequestDialogue").hide();
 
-		    function voteToolbar() {
-		        $("#voteToSkip").button({
-		            //text: false,
-		            icons: {
-		                primary: "ui-icon-seek-end"
-		            }
-		        })
-                .click(function () {
-					
-					// get current track
-					window.mopidy.playback.getCurrentTrack()
-		                // => current track
-                        .then(function (track) {
-							if (track) {						
-								var voteAdded = _voteToSkipTrack(track.uri, track.name, track.artists[0].name, track.album.name);
-								
-							}
-						});				
-					
-					$("#voteToSkip").prop( "disabled", true );
-					
-					
-										
-                    // quickly add and remove a track from tracklist in order to fire the tracklistChanged event so that we can
-                    // check the voteToSkip count
-                    var aTrack = {};
-                    aTrack.__model__ = "Track";
-                    aTrack.track_no = 10;
-                    aTrack.name = "Wonderwall";
-                    aTrack.uri = 'spotify:track:31uO7EGkavAJ3ZBPBv8yoS';
+                        $(this).dialog("close");
+                    }
+                },
+                close: function () {
 
-                    var dummyTracks = { 'tracks': [], 'artists': [], 'albums': [] };
-                    dummyTracks['tracks'] = dummyTracks['tracks'].concat(aTrack);
+                }
+            });
+        }
 
-                    window.mopidy.tracklist.add(dummyTracks.tracks);
-                                    
-                    var dTrack = {};
-                    dTrack.uri = 'spotify:track:31uO7EGkavAJ3ZBPBv8yoS';
-                    window.mopidy.tracklist.remove(dTrack);
-					
-					window.mopidy.tracklist.remove({'uri': ['spotify:track:31uO7EGkavAJ3ZBPBv8yoS', 'abc']})
-                               // => current track
-                               .then(function (track) { 
-									if(track)
-									{
-										
-									}
-							   })
+        function updateTips(t) {
+            tips
+            .text(t)
+            .addClass("ui-state-highlight");
+            setTimeout(function () {
+                tips.removeClass("ui-state-highlight", 1500);
+            }, 500);
+        }
 
-                   
-                });
-				
-				
-		        $("#upVote").button({
-		            //text: false,
-		            icons: {
-		                primary: "ui-icon-arrowrefresh-1-n"
-		            }
-		        })
-                .click(function () {
-                   
-                });
-		        $("#downVote").button({
-		            //text: false,
-		            icons: {
-		                primary: "ui-icon-arrowrefresh-1-s"
-		            }
-		        })
-                .click(function () {
-                    
-                });
-				
-				//$("#tabs_center").tabs();
-				
-				
-				$("#accordion2").accordion({
-					heightStyle:	"fill"
-					,active:			1
-				});
+        function checkLength(o, n, min, max) {
+            if (o.val().length > max || o.val().length < min) {
+                o.addClass("ui-state-error");
+                updateTips("Length of " + n + " must be between " +
+                min + " and " + max + ".");
+                return false;
+            } else {
+                return true;
+            }
+        }
 
-		    }
+        function voteToolbar() {
+            $("#voteToSkip").button({
+                //text: false,
+                icons: {
+                    primary: "ui-icon-seek-end"
+                }
+            })
+            .click(function () {
 
-		</script>
-    </body>
+                // get current track
+                window.mopidy.playback.getCurrentTrack()
+                    // => current track
+                    .then(function (track) {
+                        if (track) {
+                            var voteAdded = _voteToSkipTrack(track.uri, track.name, track.artists[0].name, track.album.name);
+
+                        }
+                    });
+
+                $("#voteToSkip").prop("disabled", true);
+
+
+
+                // quickly add and remove a track from tracklist in order to fire the tracklistChanged event so that we can
+                // check the voteToSkip count
+                var aTrack = {};
+                aTrack.__model__ = "Track";
+                aTrack.track_no = 10;
+                aTrack.name = "Wonderwall";
+                aTrack.uri = 'spotify:track:31uO7EGkavAJ3ZBPBv8yoS';
+
+                var dummyTracks = { 'tracks': [], 'artists': [], 'albums': [] };
+                dummyTracks['tracks'] = dummyTracks['tracks'].concat(aTrack);
+
+                window.mopidy.tracklist.add(dummyTracks.tracks);
+
+                var dTrack = {};
+                dTrack.uri = 'spotify:track:31uO7EGkavAJ3ZBPBv8yoS';
+                window.mopidy.tracklist.remove(dTrack);
+
+                window.mopidy.tracklist.remove({ 'uri': ['spotify:track:31uO7EGkavAJ3ZBPBv8yoS', 'abc'] })
+                           // => current track
+                           .then(function (track) {
+                               if (track) {
+
+                               }
+                           })
+
+
+            });
+
+
+            $("#upVote").button({
+                //text: false,
+                icons: {
+                    primary: "ui-icon-arrowrefresh-1-n"
+                }
+            })
+            .click(function () {
+
+            });
+            $("#downVote").button({
+                //text: false,
+                icons: {
+                    primary: "ui-icon-arrowrefresh-1-s"
+                }
+            })
+            .click(function () {
+
+            });
+
+            //$("#tabs_center").tabs();
+
+
+            $("#accordion2").accordion({
+                heightStyle: "fill"
+                , active: 1
+            });
+
+        }
+
+    </script>
+</body>
 </html>
