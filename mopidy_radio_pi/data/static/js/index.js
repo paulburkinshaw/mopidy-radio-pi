@@ -23,7 +23,7 @@
     mopidy.on(console.log.bind(console));
     mopidy.on("pb state:online", function () {
         
-
+        console.log("pb state:online");
     });
     mopidy.on("websocket:outgoingMessage", function (event) {     
        
@@ -33,5 +33,35 @@
         
     });
 
+    
+
+   
+    function processSearchResults(resultArr) {
+        console.log('processSearchResults called');
+        if (resultArr.length > 0) {
+
+            console.log(resultArr);
+
+        }
+    }
+
+    var startMopidy = function (playlistNum, trackNum) {
+
+        console.log("state:online");
+
+       
+        mopidy.library.search({
+            any: "travis",
+            uris: ['spotify:']
+        }).then(processSearchResults, console.error);
+
+    }
+
+
+    mopidy.on("state:online", startMopidy);
   
 });
+
+
+
+

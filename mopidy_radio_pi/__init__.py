@@ -39,7 +39,7 @@ class Extension(ext.Extension):
         from .app import radio_pi_factory
 
         registry.add('http:static', {
-            'name': self.ext_name,
+            'name': 'radiopiv1',
             'path': os.path.join(os.path.dirname(__file__), 'static'),
         })
 

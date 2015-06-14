@@ -13,10 +13,10 @@
         <script src="http://layout.jquery-dev.net/lib/js/jquery.layout-latest.js"></script>
         <!--<script type="text/javascript" src="snowstorm.js"></script>-->
 
-        <script src="svr.js"></script>
+        <script src="/svr.js"></script>
 
         <!-- load the Mopidy.js JavaScript library  -->
-        <script type="text/javascript" src="mopidy.min.js"></script>
+        <script type="text/javascript" src="/mopidy/mopidy.js"></script>
 
         <style type="text/css">
 	        html, body {
@@ -97,83 +97,71 @@
     <body>  
         <div id="container">
 	        <div id="paddingWrapper" class="pane ui-layout-center">
-				
-				<div id="tabs_center" class="pane ui-layout-center">	
-					<div id="toolbarTop" class="ui-widget-header ui-corner-all">   
-						Search: <input id="txtSearch" type="text" value="" />
-						<input type="button" value="Ok" id="btnSearch" style="font-size:10px" />
-					</div>
-
-					<div id="imgTrackSearchLoader" style="display:none;" >
-							Searching ... 
-							
-					</div>
-
-					<div id="dvSearchResults">
-							<table id="tblSearchResults" class="jtable">
-								<tr id="tblSearchResultsRow">
-									<th><b>Title</b></th><th><b>Artist</b></th><th><b>Album</b></th><th><b>Add track to playlist</b></th>
-								</tr>     
-							</table>  
-					</div> 
-				
-				
-				<!--
-					<div class="header">Request track</div>
-						
+				<div id="tabs_center" class="pane ui-layout-center">			
 					  <ul>
 						<li><a href="#tabs-1" style="font-size:10px;">Request Tracks</a></li>
 						<li><a href="#tabs-2" style="font-size:10px;">Trending Tracks</a></li>
 						<li><a href="#tabs-3" style="font-size:10px;">Aenean lacinia</a></li>
 					  </ul>
 					  <div id="tabs-1" style="text-align:left;padding:0px;">
-						    
+							<div class="header">Request track</div>
+							<div id="toolbarTop" class="ui-widget-header ui-corner-all">   
+								Search: <input id="txtSearch" type="text" value="" />
+								<input type="button" value="Ok" id="btnSearch" style="font-size:10px" />
+							</div>
+
+							<div id="imgTrackSearchLoader" style="display:none;" >
+									Searching ... 
+									<img src="Speaker.gif"/>
+							</div>
+
+							<div id="dvSearchResults">
+									<table id="tblSearchResults" class="jtable">
+										<tr id="tblSearchResultsRow">
+											<th><b>Title</b></th><th><b>Artist</b></th><th><b>Album</b></th><th><b>Add track to playlist</b></th>
+										</tr>     
+									</table>  
+							</div> 
 					  </div>
-					  <div id="tabs-2">
-						<p>Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. Duis scelerisque molestie turpis. Sed fringilla, massa eget luctus malesuada, metus eros molestie lectus, ut tempus eros massa ut dolor. Aenean aliquet fringilla sem. Suspendisse sed ligula in ligula suscipit aliquam. Praesent in eros vestibulum mi adipiscing adipiscing. Morbi facilisis. Curabitur ornare consequat nunc. Aenean vel metus. Ut posuere viverra nulla. Aliquam erat volutpat. Pellentesque convallis. Maecenas feugiat, tellus pellentesque pretium posuere, felis lorem euismod felis, eu ornare leo nisi vel felis. Mauris consectetur tortor et purus.</p>
+					  <div id="tabs-2" style="text-align:left;padding:0px;">
+						
+						<table id="tblTrendingTracks" class="jtable">
+								<tr id="tblTrendingTracksHeaderRow">
+									<th><b>Title</b></th><th><b>Artist</b></th><th><b>Album</b></th><th><b>Likes</b></th>
+								</tr>  
+								<!--
+									<tr id="tblTrendingTracksRow">
+										<td>Scarborough fair</td><td>Simon and garfunkle</td><td>Sounds</td><td>4</td>
+									</tr>  
+									<tr id="tblTrendingTracksRow2">
+										<td>xxxx</td><td>Simon and garfunkle</td><td>saasd</td><td>3</td>
+									</tr> 
+								-->								
+						</table>  
+						
 					  </div>
 					  <div id="tabs-3">
 						<p>Mauris eleifend est et turpis. Duis id erat. Suspendisse potenti. Aliquam vulputate, pede vel vehicula accumsan, mi neque rutrum erat, eu congue orci lorem eget lorem. Vestibulum non ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce sodales. Quisque eu urna vel enim commodo pellentesque. Praesent eu risus hendrerit ligula tempus pretium. Curabitur lorem enim, pretium nec, feugiat nec, luctus a, lacus.</p>
 						<p>Duis cursus. Maecenas ligula eros, blandit nec, pharetra at, semper at, magna. Nullam ac lacus. Nulla facilisi. Praesent viverra justo vitae neque. Praesent blandit adipiscing velit. Suspendisse potenti. Donec mattis, pede vel pharetra blandit, magna ligula faucibus eros, id euismod lacus dolor eget odio. Nam scelerisque. Donec non libero sed nulla mattis commodo. Ut sagittis. Donec nisi lectus, feugiat porttitor, tempor ac, tempor vitae, pede. Aenean vehicula velit eu tellus interdum rutrum. Maecenas commodo. Pellentesque nec elit. Fusce in lacus. Vivamus a libero vitae lectus hendrerit hendrerit.</p>
 					  </div> 
-				-->
+				
 		        </div>
 				
 				
-				 <div class="pane ui-layout-north" >
+		        <!--<div class="pane ui-layout-north"><div id="dvNorth"><h2>Radio Pi - Breakfast Pi (7-8)</h2></div></div>-->
+                <!--<div class="pane ui-layout-north"><div id="Div1"><h2>Radio Pi - Drivetime</h2></div></div>-->
+                <div class="pane ui-layout-north">
                     <div id="Div1">
                         <table>
-                           <tr>
-                                <td></td>
+                            <tr>
+                                <td><img src="VinylPi6.png" id="imgVinylPi" style="display:width:100px;height:100px;" /> </td>
 								
-                                <td>
-									<h2 style="color:red;display:;"></h2>
-									<div style="border:2px solid;background-color:white;font-size:42px;color:black;padding-right:10px;padding-bottom:10px;">
-									
-										Top Tracks (Albums)
-									
-									</div>
-								</td>
+                                <td><h2 style="color:#0026FF;display:;"></h2><span style="font-size:42px;color:black;">Zen Monday</span><!--<img src="bb.jpg" id="imgSatchel" style="display:width:100px;height:100px;"/>--></td>
                             </tr>
-							<tr>
-							<td>							
-								<div style="color:red;border:2px solid;background-color:white;">
-									The rules are simple - pick an album, add your favourite track &nbsp &nbsp &nbsp &nbsp
-								</div>
-							</td>
-							<tr>
-							<td>
-								<div style="color:green;font-size:10px;border:2px solid;background-color:white;">
-									*try not to spam the playlist with multiple tracks from the same album to avoid skippage
-								</div>
-							</td>
-							</tr>
                         </table>
                         
                         
-                    </div>
-				</div>
-				
+                    </div></div>
 		        <div class="pane ui-layout-south">
                    <!-- <p>Track Actions</p> -->  
                     <div id="dvTrackInfo">
@@ -216,7 +204,7 @@
                    	<br />
 					<span id="spnVoteToSkip" style="width:170px;height:50px;color:red;"></span>
 					
-					<img id="imgStarRating" alt="starrating" style="width:170px;height:50px;"/>
+					<img id="imgStarRating" src="starRating/starRating_0.png" style="width:170px;height:50px;"/>
 					
 					<!--<img id="imgBrokenRecord" src="brokenRecord/brokenRecord_1.png" style="width:170px;height:50px;"/>-->
 					
@@ -367,7 +355,7 @@
 
 		        $('#btnSearch').on('click', function () {
 		            var searchTerm = $('#txtSearch').val();
-		            //$("#imgTrackSearchLoader").show();
+		            $("#imgTrackSearchLoader").show();
 		            window.mopidy.library.search({
 		                any: searchTerm
 		            }).then(processSearchResults, console.error);
@@ -414,9 +402,7 @@
 		    });
 
 		    function processSearchResults(resultArr) {
-				console.log('processSearchResults called');
-		        console.log(resultArr);
-				if (resultArr.length > 0) {
+		        if (resultArr.length > 0) {
 		            $('#dvSearchResults').show();
 		            // Merge results from different backends.
 		            window.results = { 'tracks': [], 'artists': [], 'albums': [] };
@@ -593,7 +579,7 @@
 			var LikeCurrentTrack = function (track) {
 				if (track) {			
 					console.log(track);
-					_likeTrack(track.uri, track.name, track.artists[0].name, track.album.name);
+					_likeTrack(track.uri);
 					_getTrackRating(track.uri);
 				}		
 			};
@@ -611,9 +597,9 @@
 			
 			var skipTrack = function (info) {
 				if (info.skipVotes > 0) {	
-					$("#spnVoteToSkip").html('<b>' + info.skipVotes + ' skip request </b>[' + (2 - info.totalTrackVotes) + ' more required]');
+					$("#spnVoteToSkip").html('<b>' + info.skipVotes + ' skip request </b>[' + (3 - info.totalTrackVotes) + ' more required]');
 				}
-		        if (info.totalTrackVotes >= 2) {	
+		        if (info.totalTrackVotes >= 3) {	
 		            $("#spnVoteToSkip").html('<b>' + info.skipVotes + ' skip requests, track skipping!</b>');	
 		        }
 		        
@@ -672,12 +658,54 @@
 		    }
 			
 			var displayTrendingTracks = function (trendingTracks) {
-				
+				/*
 				var trendingTracksArray = eval(trendingTracks.trendingTracks);
 				
-				//console.log(trendingTracksArray);
+				if (trendingTracksArray.length > 0) {
+		            
+		            var ttracks = { 'trackUri': [], 'name': [], 'artists': [], 'albums': [], 'likes': [] };
+		            var emptyResult = true;
+		            for (var i = 0; i < trendingTracksArray.length ; ++i) {
+						ttracks['trackUri'] = ttracks['trackUri'].concat(trendingTracksArray[i][0]);
+						ttracks['likes'] = ttracks['likes'].concat(trendingTracksArray[i][1]);
+						emptyResult = false;  
+		            }
+					
+		            $("#tblTrendingTracks").find("tr:gt(0)").remove();
+		            for (var i = 0; i < (ttracks.trackUri.length) && (i < 20) ; ++i) {
+						//need to get track title, album etc from spotify API
+						
+						//ttracks.trackUri[i]
+						//window.mopidy.library.search(
+						//{
+						//	any: 'spotify:track:3rGtLSCDqj7D8qlEbEbyxM'
+						//},	uris=['spotify:']
+						
+						mopidy.library.lookup(ttracks.trackUri[i])
+						.then(function(resultArr){
+							if (resultArr.length > 0) {
+								$('#dvSearchResults').show();
+								// Merge results from different backends.
+								
+								var emptyResult = true;
+								for (var ii = 0; ii < resultArr.length ; ++ii) {
+									for (var prop in ttracks) {
+										if (resultArr[ii][prop] && resultArr[ii][prop].length) {
+											ttracks[prop] = ttracks[prop].concat(resultArr[ii][prop]);
+											emptyResult = false;
+										}
+									}
+								}
+							}
+						}, console.error);
+						
+					
+		                //$('#tblTrendingTracks tr:last').after('<tr><td style="width:200px; border-bottom:1px solid; border-right:1px solid;">' + ttracks.tracks[i].name + '</td><td style="width:200px; border-bottom:1px solid; //border-right:1px solid;">' + ttracks.tracks[i].artists[0].name + '</td><td style="width:200px; border-bottom:1px solid;">' + ttracks.tracks[i].album.name + '</td><td style="width:200px; //border-bottom:1px solid;">' + ttracks.likes[i] + '</td></tr>');
+		            }
+		            console.log(ttracks);
+		        }
 				
-				
+				*/
 
 			}
 		    
@@ -686,7 +714,7 @@
 			
 		   		   
 		    var startMopidy = function () {
-				console.log("state:online");
+		     
 		        window.mopidy.tracklist.getTracks()
 		            // => tracklist
 		            .then(PrintTracklist)
@@ -699,11 +727,11 @@
                         // => playback state
                         .then(PrintPlaybackState)
                     )
-					//.then(_getTrendingTracks);
+					.then(_getTrendingTracks);
 		     }
 		   
 		    window.mopidy = null;
-		    window.mopidy = new Mopidy({callingConvention: "by-position-or-by-name"});
+		    window.mopidy = new Mopidy();
 		    window.mopidy.on("state:online", startMopidy);
 
 		    function StyleTables() {
@@ -838,7 +866,7 @@
 		                // => current track
                         .then(function (track) {
 							if (track) {						
-								var voteAdded = _voteToSkipTrack(track.uri, track.name, track.artists[0].name, track.album.name);
+								var voteAdded = _voteToSkipTrack(track.uri);
 								
 							}
 						});				
@@ -896,7 +924,7 @@
                     
                 });
 				
-				//$("#tabs_center").tabs();
+				$("#tabs_center").tabs();
 				
 				
 				$("#accordion2").accordion({

@@ -13,10 +13,10 @@
         <script src="http://layout.jquery-dev.net/lib/js/jquery.layout-latest.js"></script>
         <!--<script type="text/javascript" src="snowstorm.js"></script>-->
 
-        <script src="svr.js"></script>
+        <script src="/svr.js"></script>
 
         <!-- load the Mopidy.js JavaScript library  -->
-        <script type="text/javascript" src="mopidy.min.js"></script>
+        <script type="text/javascript" src="/mopidy/mopidy.js"></script>
 
         <style type="text/css">
 	        html, body {
@@ -106,7 +106,7 @@
 
 					<div id="imgTrackSearchLoader" style="display:none;" >
 							Searching ... 
-							
+							<img src="Speaker.gif"/>
 					</div>
 
 					<div id="dvSearchResults">
@@ -140,7 +140,7 @@
 		        </div>
 				
 				
-				 <div class="pane ui-layout-north" >
+				 <div class="pane ui-layout-north" style="background-image: url('covers.jpg');">
                     <div id="Div1">
                         <table>
                            <tr>
@@ -158,13 +158,13 @@
 							<tr>
 							<td>							
 								<div style="color:red;border:2px solid;background-color:white;">
-									The rules are simple - pick an album, add your favourite track &nbsp &nbsp &nbsp &nbsp
+									The rules are simple - pick an album, add your favourite track from it
 								</div>
 							</td>
 							<tr>
 							<td>
 								<div style="color:green;font-size:10px;border:2px solid;background-color:white;">
-									*try not to spam the playlist with multiple tracks from the same album to avoid skippage
+									*avoid spamming the playlist with multiple tracks from the same album to avoid skippage
 								</div>
 							</td>
 							</tr>
@@ -216,7 +216,7 @@
                    	<br />
 					<span id="spnVoteToSkip" style="width:170px;height:50px;color:red;"></span>
 					
-					<img id="imgStarRating" alt="starrating" style="width:170px;height:50px;"/>
+					<img id="imgStarRating" src="starRating/starRating_0.png" style="width:170px;height:50px;"/>
 					
 					<!--<img id="imgBrokenRecord" src="brokenRecord/brokenRecord_1.png" style="width:170px;height:50px;"/>-->
 					
@@ -367,7 +367,7 @@
 
 		        $('#btnSearch').on('click', function () {
 		            var searchTerm = $('#txtSearch').val();
-		            //$("#imgTrackSearchLoader").show();
+		            $("#imgTrackSearchLoader").show();
 		            window.mopidy.library.search({
 		                any: searchTerm
 		            }).then(processSearchResults, console.error);
@@ -414,9 +414,7 @@
 		    });
 
 		    function processSearchResults(resultArr) {
-				console.log('processSearchResults called');
-		        console.log(resultArr);
-				if (resultArr.length > 0) {
+		        if (resultArr.length > 0) {
 		            $('#dvSearchResults').show();
 		            // Merge results from different backends.
 		            window.results = { 'tracks': [], 'artists': [], 'albums': [] };
@@ -593,7 +591,7 @@
 			var LikeCurrentTrack = function (track) {
 				if (track) {			
 					console.log(track);
-					_likeTrack(track.uri, track.name, track.artists[0].name, track.album.name);
+					_likeTrack(track.uri);
 					_getTrackRating(track.uri);
 				}		
 			};
@@ -686,7 +684,7 @@
 			
 		   		   
 		    var startMopidy = function () {
-				console.log("state:online");
+		     
 		        window.mopidy.tracklist.getTracks()
 		            // => tracklist
 		            .then(PrintTracklist)
@@ -699,11 +697,11 @@
                         // => playback state
                         .then(PrintPlaybackState)
                     )
-					//.then(_getTrendingTracks);
+					.then(_getTrendingTracks);
 		     }
 		   
 		    window.mopidy = null;
-		    window.mopidy = new Mopidy({callingConvention: "by-position-or-by-name"});
+		    window.mopidy = new Mopidy();
 		    window.mopidy.on("state:online", startMopidy);
 
 		    function StyleTables() {
@@ -838,7 +836,7 @@
 		                // => current track
                         .then(function (track) {
 							if (track) {						
-								var voteAdded = _voteToSkipTrack(track.uri, track.name, track.artists[0].name, track.album.name);
+								var voteAdded = _voteToSkipTrack(track.uri);
 								
 							}
 						});				

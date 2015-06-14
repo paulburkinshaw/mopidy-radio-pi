@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <!-- load the Mopidy.js JavaScript library  -->
+    <script type="text/javascript" src="/mopidy/mopidy.js"></script>
+
+
+
+
+</head>
+
+<body>
+    
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            var startMopidy = function () {
+                console.log('called: startMopidy');
+               
+            }
+
+            window.mopidy = null;
+            window.mopidy = new Mopidy();
+
+            window.mopidy.on("state:online", startMopidy);
+
+
+        });
+
+    </script>
+</body>
+</html>

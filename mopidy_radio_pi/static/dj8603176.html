@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Pi Radio</title>      
+        <!--<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/trontastic/jquery-ui.min.css">-->
+        <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/flick/jquery-ui.min.css">
+        <link rel="stylesheet" href="http://layout.jquery-dev.net/lib/css/layout-default-latest.css">      
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+        <script src="http://layout.jquery-dev.net/lib/js/jquery.layout-latest.js"></script>
+
+        <script src="/svr.js"></script>
+
+        <!-- load the Mopidy.js JavaScript library  -->
+        <script type="text/javascript" src="/mopidy/mopidy.js"></script>
+
+        <style type="text/css">
+	        html, body {
+		        background:	#666;
+		        width:		100%;
+		        height:		100%;					
+		        padding:	0;
+		        margin:		0;
+		        overflow:	auto; /* when page gets too small */
+	        }
+	        #container {
+		        background:	777;
+		        /* HEIGHT */
+		        height:		100%;					
+		        min-height:	300px;
+		        _height:	300px; /* min-height for IE6 */
+		        /* WIDTH */
+		        width:		100%;
+		        max-width:	900px;
+		        min-width:	700px;
+		        _width:		700px; /* min-width for IE6 */
+		        /* HORIZONTAL CENTERING */
+		        margin:		0 auto;
+	        }
+	        /*
+	         *	Container sizing
+	         *
+	         *	Borders and padding are normally *added* to the width/height of the DIV
+	         *	However you can get height:100% AND padding/borders by using a nested layout. 
+	         *	The outer-layout is just a single pane: center, which is where you add your vertical padding.
+	         *	Inside this is your *real layout*. 
+	         */
+	        #paddingWrapper {
+		        background:	#999;
+		        padding:    20px 10px;
+		        border:		4px solid #BBB;
+	        }
+	        .pane {
+		        display:	none; /* will appear when layout inits */
+	        }
+
+            #toolbar {
+                padding: 4px;
+                height:  40px;
+                /*display: inline-block;*/
+            }
+
+            #toolbarTop {
+                padding: 4px;
+                height:  22px;
+                /*display: inline-block;*/
+            }
+
+            #dvSouth {
+             height:200px;
+            }
+
+            .header { 
+	            margin-bottom:10px;
+	            border-bottom: 1px solid #777;
+	            font-weight: bold;
+	            text-align: center;
+	            padding: 2px 0 4px;
+	            position: relative;
+	            overflow: hidden;
+            }
+	</style>
+
+        
+    </head>
+
+    <body>
+        
+        <div id="container">
+	        <div id="paddingWrapper" class="pane ui-layout-center">
+		        <div class="pane ui-layout-center">	    
+                      
+                   <div class="header">Add tracks</div>
+
+                   <div id="toolbarTop" class="ui-widget-header ui-corner-all">   
+                        Search: <input id="txtSearch" type="text" value="" />
+                        <input type="button" value="Ok" id="btnSearch" style="font-size:10px" />
+                    </div>
+
+                    <div id="imgTrackSearchLoader" style="display:none;" >
+                            Searching ... 
+                            <img src="Speaker.gif"/>
+                    </div>
+
+                    <div id="dvSearchResults">
+                            <table id="tblSearchResults" class="jtable">
+                                <tr id="tblSearchResultsRow">
+                                    <th><b>Title</b></th><th><b>Artist</b></th><th><b>Add track to playlist</b></th>
+                                </tr>     
+                            </table>  
+                    </div>     
+		        </div>
+		        <div class="pane ui-layout-north"><h2>Radio Pi - DJ Control Panel</h2></div>
+		        <div class="pane ui-layout-south">
+
+
+                    <div id="toolbar" class="ui-widget-header ui-corner-all">
+                        <button id="play" style="font-size:16px">play</button>
+                        <button id="stop" style="font-size:16px">stop</button>
+                        <button id="end" style="font-size:16px">skip</button>
+
+                       
+                        <button id="btnDjVolumeDown" style="font-size:16px">Vol down</button>
+                        <button id="btnDjVolumeUp" style="font-size:16px">Vol up</button>
+                        <button id="btnDjClearTracklist" style="font-size:16px">Clear playlist</button>
+                        <button id="btnShuffleTracklist" style="font-size:16px">Shuffle tracklist</button>
+                        
+                    </div>                  
+		        </div>
+		        <div class="pane ui-layout-east">
+                    <div class="header">Playlist</div>
+                    <table id="tblTracklist" class="jtable">                    
+                        <tr>
+                            <th><b>Title</b></th><th><b>Artist</b></th><th><b>Remove</b></th>
+                        </tr>        
+                    </table>  
+                </div>
+		        <div class="pane ui-layout-west">
+                    <div class="header"><div id="dvOnAir">ON AIR</div></div>
+                    <!--<img src="ajaxLoaderNote.gif" id="imgCurrentTrackTicker" style="display:none;" />-->
+                    <span id="spnNowPlayingArtist"></span>
+                    <br>
+                    <span id="spnNowPlayingTrack"></span>
+                    <br />
+                    <br />      
+                    <div style="border-bottom:0px solid;">
+                        <img id="imgArtist" src="" alt="" style="width:100%;height:70%;"/>
+                    </div>
+                    <br />               
+                    <span id="spnChosenBy"></span>
+                    <br>
+                    <span id="spnDedicatedTo"></span>
+                    <br />
+                    <span id="spnComments"></span>
+		        </div>
+	        </div>
+        </div>
+         
+        <div id="addUserDialogueForm" title="Add Track">
+            <form>
+                <fieldset>
+                    <label for="name">Your name</label>
+                    <br />
+                    <input type="text" name="txtUserName" id="txtUserName" class="text ui-widget-content ui-corner-all">
+                    <br /><br />
+                    <label for="name">Dedicate song to</label>
+                    <br />
+                    <input type="text" name="txtDedicate" id="txtDedicate" class="text ui-widget-content ui-corner-all">
+                    <br /><br />
+                    <label for="comments">Tell us why you chose this song</label>
+                    <br />
+                    <textarea rows="4" cols="30" name="txtComments" id="txtComments" class="text ui-widget-content ui-corner-all"></textarea>
+          
+                    <input type="hidden" id="hdnTrackNum" />         
+                </fieldset>
+            </form>
+        </div>
+    
+		<script type="text/javascript">
+		    
+		    $(document).ready(function () {
+		                 	       
+		        InitiateUserDialogue();
+
+		        $('#container').layout({
+		            south__size: '33%'
+		        });
+		        $('#paddingWrapper').layout();
+		        $("#btnSearch").button();	      
+		        $('#dvSearchResults').hide();
+
+		        mediaToolbar();
+		        window.results = null;
+		        window.playlist = null;
+		        window.previousTrack = null;
+		        window.currentTrack = null;
+		        window.skipped = false;
+		        window.playbackState = "";
+
+		        window.jingleCount = 0;
+		        window.jingleNum = 1;
+
+		        window.eotrackCount = 0;
+				
+				window.globalVotes = 0;
+
+		        window.mopidy.on("event:tracklistChanged", function (data) {
+		            //Check vote to skip count
+		            //console.log('vote to skip: ');
+
+		            // check for jingles
+		            
+						/*
+		                window.mopidy.tracklist.getTracks()
+                            // => tracklist
+                            .then(function (tracklist) {
+                                
+                                //each time a new track is added, removed etc check if last and second to last track are normal songs then add a jingle
+                                //song, song, jingle, song, song, jingle
+                                if (tracklist[tracklist.length - 1].artists != null && tracklist[tracklist.length - 2].artists != null) {                               
+                                    console.log('adding jingle');
+                                    if (window.jingleNum > 9) {
+                                        window.jingleNum = 1 
+                                    }
+                                    AddJingleToTracklist(window.jingleNum);
+                                    window.jingleNum++;                                     
+                                }
+                            });
+						*/
+		           
+
+		                window.mopidy.tracklist.getTracks()
+                            // => tracklist
+                            .then(PrintTracklist);
+							
+						window.mopidy.playback.getCurrentTrack()
+		                // => current track
+                        .then(function (track) {
+								if (track) {										
+									_getTrackVotesAndRating(track.uri); //skip track if number of votes >= 3 
+								}		
+						})		
+		        });
+
+		       
+		        window.mopidy.on("event:playbackStateChanged", function (data) {
+		            console.log('event:playbackStateChanged : ' + data.new_state);
+		            console.log('old state: ' + data.old_state);
+		            switch (data["new_state"]) {
+		                case "stopped":
+		                        $('#dvOnAir').css("color", "grey");
+		                        $('#dvOnAir').css("font-weight", "bold");
+		                        $('#dvOnAir').text("Track stopped");
+
+             
+		                    break;
+		                case "playing":
+		                    $('#dvOnAir').css("color", "red");
+		                    $('#dvOnAir').css("font-weight", "bold");
+		                    $('#dvOnAir').text("ON AIR");
+		                   
+		                    window.mopidy.playback.getCurrentTrack()
+                                      // => current track
+                                      .then(PrintCurrentTrack)
+                                      .then(function () {
+                                          if (data.old_state == 'playing') {
+                                            //remove the last track played  
+                                            RemoveLastTrackPlayed();                                       
+
+                                            window.mopidy.tracklist.getTracks()
+                                                // => tracklist
+                                                .then(PrintTracklist)
+                                                .then(ShuffleTracklist);
+                                          }
+                                          if (data.old_state == 'stopped' && window.previousTrack != null) {
+                                            //remove the last track played                                          
+                                            RemoveLastTrackPlayed();                                           
+
+                                            window.mopidy.tracklist.getTracks()
+                                                // => tracklist
+                                                .then(PrintTracklist)
+                                                .then(ShuffleTracklist);
+                                          }
+                                    });                            
+		                    break;
+		                case "paused":
+		                    $('#dvOnAir').css("color", "grey");
+		                    $('#dvOnAir').css("font-weight", "bold");
+		                    $('#dvOnAir').text("Track paused");
+		                break;
+		            }
+		        });
+
+
+
+		        $('#btnSearch').on('click', function () {
+		            var searchTerm = $('#txtSearch').val();
+		            $("#imgTrackSearchLoader").show();
+		            window.mopidy.library.search({
+		                any: searchTerm
+		            }).then(processSearchResults, console.error);
+		        });
+		    });
+
+		    function processSearchResults(resultArr) {
+		        if (resultArr.length > 0) {
+		            $('#dvSearchResults').show();
+		            // Merge results from different backends.
+		            window.results = { 'tracks': [], 'artists': [], 'albums': [] };
+		            var emptyResult = true;
+		            for (var i = 0; i < resultArr.length ; ++i) {
+		                for (var prop in window.results) {
+		                    if (resultArr[i][prop] && resultArr[i][prop].length) {
+		                        window.results[prop] = window.results[prop].concat(resultArr[i][prop]);
+		                        emptyResult = false;
+		                    }
+		                }
+		            }
+		            $("#tblSearchResults").find("tr:gt(0)").remove();
+		            for (var i = 0; i < (window.results.tracks.length) && (i < 20) ; ++i) {
+		                $('#tblSearchResults tr:last').after('<tr><td style="width:200px; border-bottom:1px solid; border-right:1px solid;">' + window.results.tracks[i].name + '</td><td style="width:200px; border-bottom:1px solid; border-right:1px solid;">' + window.results.tracks[i].artists[0].name + '</td><td style="width:200px; border-bottom:1px solid;"><input type="button" value="add" style="font-size:10px" onclick=addTrackToTracklist(' + i + ') /></td></tr>');
+		            }
+		            StyleTables();
+		            $("#imgTrackSearchLoader").hide();
+		        }
+		    }
+
+		    function addTrackToTracklist(tNum) {
+		       
+		        $("#txtDedicate").val('');
+		        $("#txtComments").val('');
+
+		        // Popup asking user to enter name and comments (optional)
+		        $("#addUserDialogueForm").dialog("open");
+		        $("#hdnTrackNum").val(tNum);
+		        
+		        //$("#tblTracklist").find("tr:gt(0)").remove();
+		        //window.mopidy.tracklist.getTracks().then(GetTracklist)
+                //                                   .then(PrintTracklist)
+		      	   
+		    }
+
+		    function RemoveTrackFromTracklist(tNum) {	       
+		        
+				var track = {};
+		        track.uri = window.playlist[tNum].uri;
+				console.dir(window.playlist[tNum]);
+				
+				window.mopidy.tracklist.remove({'uri': [window.playlist[tNum].uri, 'abc']})
+                               // => current track
+                               .then(function (track) { 
+									if(track)
+									{
+										
+									}
+							   })
+				
+		        //track.uri = window.mopidy.tracklist[tNum].uri;
+		        //window.mopidy.tracklist.remove(track);        
+		        //$("#tblTracklist").find("tr:gt(0)").remove();
+		        //window.mopidy.tracklist.getTracks().then(GetTracklist, console.error);	       
+		    }
+
+		    function ChangeVolume(newVol) {
+		        window.mopidy.playback.getVolume().then(function (vol) {
+		            var currentVolume = vol;
+		            console.log('curent vol: ' + currentVolume);
+		            currentVolume = currentVolume + newVol;
+		            window.mopidy.playback.setVolume(parseInt(currentVolume));
+		        });
+		    }
+
+		    function ClearTracklist() {
+		        window.mopidy.tracklist.clear();
+		        $("#tblTracklist").find("tr:gt(0)").remove();
+
+		    }
+
+		    function GetCurrentTrack() {
+		        // display ticker while getting track
+		        //$("#imgCurrentTrackTicker").show();
+		        window.mopidy.playback.getCurrentTrack().then(
+                    printCurrentTrack, console.error.bind(console));
+		    }
+
+		    function GetCurrentPlaybackState() {
+		        window.mopidy.playback.getState().then(function (state) {
+		           
+		            switch (state) {
+		                case "playing":
+		                    //console.log('current state: playing');
+		                    window.playbackState = "playing";
+		                    break;
+		                case "stopped":
+		                    //console.log('current state: stopped');
+		                    window.playbackState = "stopped";
+		                    break;
+		            }
+		        });
+		    }
+
+		    var GetTracklist = function (tracklist) {
+		       
+		        if (tracklist) {
+		            return tracklist;
+		        }
+		    }
+
+		    function PrintTracklist(tracklist) {
+		        window.playlist = tracklist;
+		        $("#tblTracklist").find("tr:gt(0)").remove();
+		        for (var i = 0; i < tracklist.length; ++i) {
+		            if (tracklist[i].artists != null) {
+		                $('#tblTracklist tr:last').after('<tr><td>' + tracklist[i].name + '</td><td>' + tracklist[i].artists[0].name + '</td><td><input type="button" value="X" style="font-size:10px" onclick=RemoveTrackFromTracklist(' + i + ') /></td></tr>');
+		            }
+		            else {
+		                $('#tblTracklist tr:last').after('<tr><td>' + tracklist[i].name + '</td><td>&nbsp</td><td><input type="button" value="X" style="font-size:10px" onclick=RemoveTrackFromTracklist(' + i + ') /></td></tr>');
+
+		            }
+		        }
+		        StyleTables();
+		    }
+
+		    function RemoveLastTrackPlayed() {
+		        console.log('previosu track: ' + window.previousTrack.name);
+		        console.log('current track: ' + window.currentTrack.name);
+		        var rTrack = {};
+		        rTrack.uri = window.previousTrack.uri;
+				
+				window.mopidy.tracklist.remove({'uri': [window.previousTrack.uri, 'abc']})
+                               // => current track
+                               .then(function (track) { 
+									if(track)
+									{
+										
+									}
+							   })
+				
+		        //window.mopidy.tracklist.remove(rTrack);           
+		    }
+
+		    var PrintCurrentTrack = function (track) {
+		        if (track) {
+		            window.previousTrack = window.currentTrack;
+		            window.currentTrack = track;
+
+		            if (track.artists != null) {
+		                $("#spnNowPlayingArtist").html('<b>' + track.artists[0].name + '</b>');
+		                $("#spnNowPlayingTrack").html(track.name);
+
+		                var trackImageSearchTerm = track.artists[0].name + ' ' + track.name;
+		                GetArtistImage(trackImageSearchTerm);
+		            }
+
+		            $("#spnChosenBy").html('');
+		            $("#spnDedicatedTo").html('');
+		            $("#spnComments").html('');
+
+		            // get user and comments from server
+		            // callback function calls printUserInfoForTrack() which prints the chosenBy, DedicatedTo and Comments text if any exist for track
+		            _getTrack(track.uri);
+		                        
+		            return track;
+		        } else {
+		            $("#spnNowPlayingArtist").html('No track playing');
+		            $("#spnNowPlayingTrack").html('');
+		        }
+		    };
+
+		    var printUserInfoForTrack = function (info) {
+		       
+		        $("#spnChosenBy").html('<b>Requested by:</b> ' + info.userString);
+		        if (info.dedicatedToString != 'd3d1c4t3') {
+		            $("#spnDedicatedTo").html('<b>Dedicated to:</b> ' + info.dedicatedToString);
+		        }
+		        if (info.commentString != 'c0mm3nt5') {
+		            $("#spnComments").html('<b>Reason for requesting: </b>' + info.commentString);
+		        }
+		    }
+			
+			
+			var skipTrack = function (info) {
+		        
+				//window.globalVotes = info.trackVotes;
+					
+		        if (info.totalTrackVotes >= 2) {		
+					// first make sure current track is the track we are skipping (it may have already skipped)
+					window.mopidy.playback.getCurrentTrack()
+		                // => current track
+                        .then(function (track) {
+								if (track) {	
+									if(track.uri == info.trackUri)
+									{
+										console.log('track skipping, total votes is:' + info.totalTrackVotes);
+										window.mopidy.playback.next(); window.skipped = true;
+										info.totalTrackVotes = 0;
+									}
+									else{
+										console.log('track already skipped');
+									}
+								}		
+						});		
+		        }
+				else{
+					console.log('track not skipped, total votes is:' + info.totalTrackVotes);
+				}
+		        
+		    }
+			
+			
+
+		    var RemoveTrackFromMopidyTracklist = function (track) {
+		        
+		        if (track) {
+		            var rTrack = {};
+		            rTrack.uri = track.uri;
+		            window.mopidy.tracklist.remove(rTrack);           
+		        }
+		    };
+
+		    var PrintPlaybackState = function (state) {
+		        switch (state) {
+		            case "playing":		               
+		                window.playbackState = "playing";
+		                $('#dvOnAir').css("color", "red");
+		                $('#dvOnAir').css("font-weight", "bold");
+		                $('#dvOnAir').text("ON AIR");
+		                break;
+		            case "stopped":
+		                $('#dvOnAir').css("color", "grey");
+		                $('#dvOnAir').css("font-weight", "bold");
+		                $('#dvOnAir').text("Track stopped");		                
+		                window.playbackState = "stopped";
+		                break;
+		            case "paused":
+		                $('#dvOnAir').css("color", "grey");
+		                $('#dvOnAir').css("font-weight", "bold");
+		                $('#dvOnAir').text("Track paused");
+		                window.playbackState = "stopped";
+		                break;
+		        }
+		    }
+
+		    var playOrPause = function () {
+		        window.mopidy.playback.getState()
+                        // => playback state
+                        .then(function (state) {
+                            switch (state) {
+                                case "playing":
+                                    window.mopidy.playback.pause();
+                                   
+                                    break;
+                                case "stopped":
+                                    window.mopidy.playback.play();
+                                    
+                                    break;
+                                case "paused":
+                                    window.mopidy.playback.play();
+                                    break;
+                            }
+                        });
+		    }
+
+		    function ShuffleTracklist() {
+		        // get the number of tracks in playlist
+		        // shuffle the tracks After the next track to play so (2) in tracklist
+		        window.mopidy.tracklist.getTracks()
+                                    // => tracklist
+                                    .then(function (tracklist) {
+                                        // Only shuffle the tracklist if their are at least 4 songs in the tracklist:
+                                        // 0 = current track (dont shuffle)
+                                        // 1 = next track (dont shuffle)
+                                        // 2 = 3rd track (can be shuffled)
+                                        // 3 = 4th track (can be shuffled)
+                                        if (tracklist.length > 2) {
+                                            //console.log('4 or more tracks, lets shuffle (' + tracklist.length + ' tracks)');
+                                            //window.mopidy.tracklist.shuffle(2, tracklist.length)
+                                        }
+                                    });
+		        
+		    }
+
+		    function ShuffleTracklist2() {
+		        // get the number of tracks in playlist
+		        // shuffle the tracks After the next track to play so (2) in tracklist
+		        window.mopidy.tracklist.getTracks()
+                                    // => tracklist
+                                    .then(function (tracklist) {
+                                        // Only shuffle the tracklist if their are at least 4 songs in the tracklist:
+                                        // 0 = current track (dont shuffle)
+                                        // 1 = next track (dont shuffle)
+                                        // 2 = 3rd track (can be shuffled)
+                                        // 3 = 4th track (can be shuffled)
+                                        if (tracklist.length > 2) {
+                                            console.log('4 or more tracks, lets shuffle (' + tracklist.length + ' tracks)');
+                                            window.mopidy.tracklist.shuffle(2, tracklist.length)
+                                        }
+                                    });
+
+		    }
+
+		    var startMopidy = function () {
+		        console.log('called: startMopidy');
+		        window.mopidy.tracklist.getTracks()
+		            // => tracklist
+		            .then(PrintTracklist)
+
+                    .then(window.mopidy.playback.getCurrentTrack()
+		                // => current track
+                        .then(PrintCurrentTrack)
+                    )
+                    .then(window.mopidy.playback.getState()
+                        // => playback state
+                        .then(PrintPlaybackState)
+                    );
+		    }
+		   
+
+		    window.mopidy = null;
+		    window.mopidy = new Mopidy();
+		    window.mopidy.on("state:online", startMopidy);
+
+
+
+
+		    function mediaToolbar() {
+		        $("#play").button({
+		            text: false,
+		            icons: {
+		                primary: "ui-icon-play"
+		            }
+		        })
+                .click(function () {
+                    var options;
+                    playOrPause();
+                    $(this).button("option", options);
+                });
+		        $("#stop").button({
+		            text: false,
+		            icons: {
+		                primary: "ui-icon-stop"
+		            }
+		        })
+                .click(function () {
+                    window.mopidy.playback.stop();
+                    $("#play").button("option", {
+                        label: "play",
+                        icons: {
+                            primary: "ui-icon-play"
+                        }
+                    });
+                });
+		        $("#end").button({
+		            //text: false,
+		            icons: {
+		                primary: "ui-icon-seek-end"
+		            }
+		        })
+                .click(function () {
+                    window.mopidy.playback.next(); window.skipped = true;
+                });
+		        $("#btnDjVolumeUp").button({
+		            //text: false,
+		            icons: {
+		                primary: " ui-icon-volume-on"
+		            }
+		        })
+               .click(function () {
+                   ChangeVolume(1);
+               });
+		        $("#btnDjVolumeDown").button({
+		            //text: false,
+		            icons: {
+		                primary: "ui-icon-volume-off"
+		            }
+		        })
+                .click(function () {
+                    ChangeVolume(-1);
+                });
+		        $("#btnDjClearTracklist").button({
+		            //text: false,
+		            icons: {
+		                primary: "ui-icon-closethick"
+		            }
+		        })
+               .click(function () {
+                   ClearTracklist();
+               });
+		       $("#btnShuffleTracklist").button({
+		            //text: false,
+		            icons: {
+		                primary: "ui-icon-shuffle"
+		            }
+		        })
+              .click(function () {
+                  ShuffleTracklist2();
+              });
+
+		        
+		    }
+
+		    function StyleTables() {
+		        var table = $('.jtable');
+		        $(".jtable th").each(function () {
+		            $(this).addClass("ui-state-default");
+		        });
+		        $(".jtable td").each(function () {
+		            $(this).addClass("ui-widget-content");
+		        });
+		        $('caption', table).addClass('ui-state-default');
+		    }
+
+		    function GetArtistImage(searchText) {
+		        $.getJSON("https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=" + searchText + "&callback=?",
+                  {
+                      unescapedUrl: "any"
+                  },
+                  function (data) {
+                      $.each(data.responseData.results, function (i, results) {
+                          $("#imgArtist").attr("src", results.unescapedUrl);
+                      });
+                      return false;
+                  });
+		    }
+
+
+		    var InitiateUserDialogue = function () {
+		        allFields = $([]).add($("#txtUserName")).add($("#txtDedicate")).add($("#txtComments")),
+                tips = $(".validateTips");
+
+		        $("#addUserDialogueForm").dialog({
+		            autoOpen: false,
+		            height: 400,
+		            width: 400,
+		            modal: true,
+		            buttons: {
+		                "Add track": function () {
+		                    var bValid = true;//test
+		                    allFields.removeClass("ui-state-error");
+		                    bValid = bValid && checkLength($("#txtUserName"), "txtUserName", 1, 100);
+		                    if (bValid) {
+		                        var newTracks = { 'tracks': [], 'artists': [], 'albums': [] };
+		                        newTracks['tracks'] = newTracks['tracks'].concat(window.results.tracks[$("#hdnTrackNum").val()]);
+
+		                        if ($("#txtDedicate").val() == '') {
+		                            $("#txtDedicate").val('d3d1c4t3');
+		                        }
+		                        if ($("#txtComments").val() == '') {
+		                            $("#txtComments").val('c0mm3nt5');
+		                        }
+
+		                        window.mopidy.tracklist.add(newTracks.tracks);
+		                        _addTrackToTracklist(newTracks.tracks[0].uri, $("#txtUserName").val(), $("#txtDedicate").val(), $("#txtComments").val());
+
+		                        $("#tblTracklist").find("tr:gt(0)").remove();
+		                        window.mopidy.tracklist.getTracks().then(GetTracklist)
+                                                                   .then(PrintTracklist)
+		                        $("#tblSearchResults").find("tr:gt(0)").remove();
+		                        $("#trackRequestDialogue").show();
+		                        $("#trackRequestDialogue").dialog();
+		                        $("#trackRequestDialogue").hide();
+
+		                        $(this).dialog("close");
+		                    }
+		                },
+		                "Add track anonymously": function () {
+		                    var newTracks = { 'tracks': [], 'artists': [], 'albums': [] };
+		                    newTracks['tracks'] = newTracks['tracks'].concat(window.results.tracks[$("#hdnTrackNum").val()]);
+
+		                    if ($("#txtDedicate").val() == '') {
+		                        $("#txtDedicate").val('d3d1c4t3');
+		                    }
+		                    if ($("#txtComments").val() == '') {
+		                        $("#txtComments").val('c0mm3nt5');
+		                    }
+
+		                    window.mopidy.tracklist.add(newTracks.tracks);
+		                    _addTrackToTracklist(newTracks.tracks[0].uri, 'Anonymous', $("#txtDedicate").val(), $("#txtComments").val());
+
+		                    $("#tblTracklist").find("tr:gt(0)").remove();
+		                    window.mopidy.tracklist.getTracks().then(GetTracklist)
+                                                               .then(PrintTracklist)
+		                    $("#tblSearchResults").find("tr:gt(0)").remove();
+		                    $("#trackRequestDialogue").show();
+		                    $("#trackRequestDialogue").dialog();
+		                    $("#trackRequestDialogue").hide();
+
+		                    $(this).dialog("close");
+		                }
+		            },
+		            close: function () {
+
+		            }
+		        });
+		    }
+
+		    function updateTips(t) {
+		        tips
+                .text(t)
+                .addClass("ui-state-highlight");
+		        setTimeout(function () {
+		            tips.removeClass("ui-state-highlight", 1500);
+		        }, 500);
+		    }
+
+		    function checkLength(o, n, min, max) {
+		        if (o.val().length > max || o.val().length < min) {
+		            o.addClass("ui-state-error");
+		            updateTips("Length of " + n + " must be between " +
+                    min + " and " + max + ".");
+		            return false;
+		        } else {
+		            return true;
+		        }
+		    }
+
+
+
+		    var AddJingleToTracklist = function (jingleNum) {
+
+		        var jTrack = {};
+		        jTrack.__model__ = "Track";
+		        jTrack.track_no = 0;
+		        jTrack.name = "j1ngl3p1_" + jingleNum;
+		        jTrack.uri = 'local:track:j1ngl3p1_' + jingleNum + '.mp3';
+
+		        var jingleTracks = { 'tracks': [], 'artists': [], 'albums': [] };
+		        jingleTracks['tracks'] = jingleTracks['tracks'].concat(jTrack);
+
+		        window.mopidy.tracklist.add(jingleTracks.tracks);
+		    }
+
+
+		    var RemoveJingleFromTracklist = function (jingleNum) {
+		        var jTrack = {};
+		        jTrack.uri = 'local:track:j1ngl3p1_' + jingleNum + '.mp3';
+		        window.mopidy.tracklist.remove(jTrack);
+
+		    }
+
+		    
+			
+			
+
+
+		</script>
+    </body>
+</html>
