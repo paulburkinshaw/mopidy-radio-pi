@@ -3,7 +3,7 @@
     // Initialize Mopidy
     var mopidy = null;
     try {
-        var mopidyip = 'radiopi';
+        var mopidyip = 'radiopi1';
         var mopidyport = '6680';
 
         mopidy = new Mopidy({
@@ -21,10 +21,12 @@
     }
 
     mopidy.on(console.log.bind(console));
+
     mopidy.on("pb state:online", function () {
         
         console.log("pb state:online");
     });
+
     mopidy.on("websocket:outgoingMessage", function (event) {     
        
     });
@@ -39,7 +41,7 @@
     function processSearchResults(resultArr) {
         console.log('processSearchResults called');
         if (resultArr.length > 0) {
-
+            console.log('results found');
             console.log(resultArr);
 
         }
@@ -47,7 +49,7 @@
 
     var startMopidy = function (playlistNum, trackNum) {
 
-        console.log("state:online");
+        //console.log("state:online");
 
        
         mopidy.library.search({

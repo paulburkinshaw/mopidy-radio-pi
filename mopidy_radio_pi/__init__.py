@@ -45,5 +45,5 @@ class Extension(ext.Extension):
 
         registry.add('http:app', {
             'name': self.ext_name + '_app',
-            'factory': radio_pi_factory,
+            'factory': radio_pi_factory          
         })

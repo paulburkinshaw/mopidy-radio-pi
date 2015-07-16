@@ -28,9 +28,32 @@ class IndexHandler(tornado.web.RequestHandler):
     def get(self, path):
         return self.render('index.html', **self._template_kwargs)
 
+class LoginHandler(tornado.web.RequestHandler):
+    def initialize(self, core, config):
+        from . import Extension
+        self._template_kwargs = {
+            'title': 'login'
+        }
+        self.core = core
+    
+    def get_current_user(self):
+        return self.get_secure_cookie("user")
+
+    def get(self, path):
+        return self.render('login.html', **self._template_kwargs)
+
+    def post(self):
+        self.set_secure_cookie("user", self.get_argument("name"))
+        self.redirect("/")
+
+settings = {
+    "debug": True,
+}
 
 def radio_pi_factory(config, core):
     return [
         (r'/(index.html)?', IndexHandler, {'core': core, 'config': config}),
-        (r'/(.*)', tornado.web.StaticFileHandler, {'path': _STATIC_DIR})
+        (r'/(login)?', LoginHandler, {'core': core, 'config': config}),
+        (r'/(.*)', tornado.web.StaticFileHandler, {'path': _STATIC_DIR}),
+        
     ]
