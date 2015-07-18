@@ -18,7 +18,7 @@ Mopidy-Radio-Pi
    :target: https://coveralls.io/r/paulburkinshaw/mopidy-radio-pi?branch=master
    :alt: Test coverage
 
-online radio http interface for the Mopidy music server
+Online radio http interface for the Mopidy music server
 
 
 Installation
