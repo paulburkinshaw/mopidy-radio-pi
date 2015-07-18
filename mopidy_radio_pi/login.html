@@ -1,9 +1,12 @@
 ﻿<html>
 <body>
-    <form action="/login" method="post">
+    {{ error }}
+    <form action="login" method="post">
         
-        Name: <input type="text" name="name">'
-        <input type="submit" value="Sign in">'
+        Name: <input type="text" name="name">
+        </br>
+        Password: <input type="text" name="password">
+        <input type="submit" value="Sign in">
         
     </form>
 </body>

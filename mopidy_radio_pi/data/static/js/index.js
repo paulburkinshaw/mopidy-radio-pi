@@ -23,21 +23,21 @@
     mopidy.on(console.log.bind(console));
 
     mopidy.on("pb state:online", function () {
-        
+
         console.log("pb state:online");
     });
 
-    mopidy.on("websocket:outgoingMessage", function (event) {     
-       
+    mopidy.on("websocket:outgoingMessage", function (event) {
+
     });
     mopidy.on("websocket:incomingMessage", function (event) {
-       
-        
+
+
     });
 
-    
 
-   
+
+
     function processSearchResults(resultArr) {
         console.log('processSearchResults called');
         if (resultArr.length > 0) {
@@ -51,19 +51,68 @@
 
         //console.log("state:online");
 
-       
-        mopidy.library.search({
-            any: "travis",
-            uris: ['spotify:']
-        }).then(processSearchResults, console.error);
+
+        //mopidy.library.search({
+        //    any: "travis",
+        //    uris: ['spotify:']
+        //}).then(processSearchResults, console.error);
 
     }
 
 
     mopidy.on("state:online", startMopidy);
-  
+
+
+
+
+
+
+
+
+
 });
 
+var wsOpen = false;
+var ws = null;
+
+var OpenWebSocket = function () {
+    var messageContainer = $('#messages');
+
+    if ("WebSocket" in window) {
+        $('#messages').append('WebSocket is supported by your Browser!');
+        ws = new WebSocket("ws://192.168.1.66:6680/radio-pi_app/notifications?clientId=1");
+        ws.onopen = function () {
+            //ws.send($('#wsMessage').val());
+            wsOpen = true;
+            $('#messages').append('</br>WebSocket open..');
+        };
+        ws.onmessage = function (evt) {
+            var received_msg = evt.data;
+            $('#messages').append('</br>Message ' + received_msg + ' is received...');
+        };
+        ws.onclose = function () {
+            $('#messages').append('</br>Connection is closed...');
+        };
+    } else {
+        $('#messages').append('</br>WebSocket NOT supported by your Browser!');
+    }
+}
 
 
+var SendMessageToWebSocket = function () {
+    var messageObj =
+        {
+            messageType: 'likeTrack',
+            trackId: 'sp:abc445xxx',
+            messageText: $('#wsMessage').val()
+        };
+    var messageStr = $.param(messageObj); 
+
+    ws.send(messageStr);
+
+}
+
+var CloseWebSocket = function () {
+    ws.close();
+}
 

@@ -12,9 +12,20 @@
     <script src="js/index.js"></script>
     <script type="text/javascript" src="/mopidy/mopidy.min.js"></script>
 
+    
+
 </head>
 <body>
     The current user is: {{ current_user }}
 
+    <input type="text" id="wsMessage">
+    </br>
+    <input type="button" value="open ws" onclick="OpenWebSocket()" />
+    </br>
+    <input type="button" value="send ws message" onclick="SendMessageToWebSocket()" />
+    </br>
+    <input type="button" value="close ws" onclick="CloseWebSocket()" />
+    </br>
+    <div id="messages" style="height:200px;background:black;color:white;"></div>
 </body>
 </html>
