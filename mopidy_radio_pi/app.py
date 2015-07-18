@@ -110,14 +110,23 @@ class NotificationsWebSocket(tornado.websocket.WebSocketHandler):
         #colors = json.load(inFile)
         #inFile.close()
 
+        #res = {}
+        #text = open("users.txt","r")
+        #for line in text:
+        #    key, value = line.split(',')
+        #    if int(value) > res.get(key, -1):
+        #        res[key] = int(value)
+        #text.close()
+
         self.messageDeser = json.dumps(urlparse.parse_qs(message))
               
-        self.write_message(self.messageDeser)
+        self.write_message( self.messageDeser)
  
     def on_close(self):
         if self.id in clients:
             del clients[self.id]
 
+   
 
 def radio_pi_factory(config, core):
     return [
