@@ -18,7 +18,7 @@ Mopidy-Radio-Pi
    :target: https://coveralls.io/r/paulburkinshaw/mopidy-radio-pi?branch=master
    :alt: Test coverage
 
-online radio http interface for the Mopidy music server
+Online radio HTTP interface for the  `Mopidy <http://www.mopidy.com/>`_ music server
 
 
 Installation
@@ -26,10 +26,9 @@ Installation
 
 Install by running::
 
-    pip install Mopidy-Radio-Pi
+    sudo pip install Mopidy-Radio-Pi
 
-Or, if available, install the Debian/Ubuntu package from `apt.mopidy.com
-<http://apt.mopidy.com/>`_.
+Alternatively, clone the `GitHub repository <https://github.com/paulburkinshaw/mopidy-radio-pi.git>`_ and copy all files from the /dist/ directory to the webclient directory on your server.
 
 
 Configuration
