@@ -88,7 +88,9 @@ var OpenWebSocket = function () {
         };
         ws.onmessage = function (evt) {
             var received_msg = evt.data;
+            var received_msg_obj = jQuery.parseJSON(received_msg);
             $('#messages').append('</br>Message ' + received_msg + ' is received...');
+
         };
         ws.onclose = function () {
             $('#messages').append('</br>Connection is closed...');

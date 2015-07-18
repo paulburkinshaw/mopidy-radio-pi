@@ -15,5 +15,6 @@ Ideas
 =====
 Store the usernames \ passwords in a text file on the pi so dont need to use a db
 
-Have the code create a cookie called <username>_cookie (where username is the name of the user) and set the value of this cookie to the password
-when the user logs in. Cross check the value in this cookie with the password for this user in the txt file for each request
+On sucessful login, have the code create a cookie called <username>_cookie (where username is the name of the user) and set the value of this cookie to the password
+when the user logs in. 
+Cross check the value in this cookie with the password for this user in the txt file for each request

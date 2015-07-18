@@ -91,8 +91,27 @@ class NotificationsWebSocket(tornado.websocket.WebSocketHandler):
 
     def on_message(self, message):        
         #self.write_message("Client %s received a message : %s" % (self.id, message))
-        self.messageDeser = json.dumps(urlparse.parse_qs(message))
+        
         #clients[self.id] = message
+        #with open('users.txt') as userText:
+             #lines = userText.read()  
+       
+        #file = open('users.txt')
+        #for line in file:
+            #fields = line.strip().split()
+            #gah = fields[0]
+        #print fields[0], fields[1], fields[2], fields[3]
+        #usersFile = open ("users.txt", "r")
+        
+        #data=usersFile.readlines()
+
+        #fileName = 'users.txt'
+        #inFile = open(fileName, 'r')
+        #colors = json.load(inFile)
+        #inFile.close()
+
+        self.messageDeser = json.dumps(urlparse.parse_qs(message))
+              
         self.write_message(self.messageDeser)
  
     def on_close(self):
