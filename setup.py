@@ -16,7 +16,7 @@ setup(
     version=get_version('mopidy_radio_pi/__init__.py'),
     url='https://github.com/paulburkinshaw/mopidy-radio-pi',
     license='Apache License, Version 2.0',
-    author='Paul Burkinshaw',
+    author='Paul Burkinshaw, Phil Barraclough, Andy Poole',
     author_email='paul.burkinshaw@gmail.com',
     description='online radio http interface for the Mopidy music server',
     long_description=open('README.rst').read(),
