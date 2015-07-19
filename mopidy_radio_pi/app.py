@@ -107,8 +107,9 @@ class NotificationsWebSocket(tornado.websocket.WebSocketHandler):
         clients[self.id] = {'clientId': self.id}
 
     def on_message(self, message):                     
-        self.messageDeser = json.dumps(urlparse.parse_qs(message))           
-        self.write_message(self.messageDeser)
+        self.messageDeser = json.dumps(urlparse.parse_qs(message))
+        clients[self.id] = {'clientId': self.id, 'message':self.messageDeser}           
+        self.write_message(clients[self.id])
  
     def on_close(self):
         if self.id in clients:

@@ -80,9 +80,8 @@ var OpenWebSocket = function () {
 
     if ("WebSocket" in window) {
         $('#messages').append('WebSocket is supported by your Browser!');
-        ws = new WebSocket("ws://192.168.1.66:6680/radio-pi_app/notifications?clientId=1");
-        ws.onopen = function () {
-            //ws.send($('#wsMessage').val());
+        ws = new WebSocket("ws://192.168.1.66:6680/radio-pi_app/notifications?clientId=" + $('#client').val());
+        ws.onopen = function () {           
             wsOpen = true;
             $('#messages').append('</br>WebSocket open..');
         };
