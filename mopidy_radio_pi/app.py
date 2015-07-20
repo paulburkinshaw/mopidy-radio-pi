@@ -51,6 +51,7 @@ class IndexHandler(tornado.web.RequestHandler):
               else:
                  return self.render('index.html', **self._template_kwargs)
 
+
 class LoginHandler(tornado.web.RequestHandler):
      
     def initialize(self, core, config):
@@ -119,7 +120,7 @@ class NotificationsWebSocket(tornado.websocket.WebSocketHandler):
 
 def radio_pi_factory(config, core):
     return [
-        (r'/(index.html)?', IndexHandler, {'core': core, 'config': config}),
+        (r'/(index.html)?', IndexHandler, {'core': core, 'config': config}),      
         (r'/(login)?', LoginHandler, {'core': core, 'config': config}),
         (r'/(clearcookie)?', CookieHandler, {'core': core, 'config': config}),
         (r'/(notifications)?', NotificationsWebSocket),

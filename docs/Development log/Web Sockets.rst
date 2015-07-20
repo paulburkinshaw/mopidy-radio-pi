@@ -36,6 +36,15 @@ On the client side:
 	- all communication occurs over a single TCP socket
 - onopen, onmessage and onclose event handlers are registered with the WebSocket object
 
+Liking a track
+--------------
+- User clicks like track button
+- The SendMessageToWebSocket() js function is called 
+- the send method is called on the WebSocket object
+	- the method passes a js object containing messageType: 'likeTrack' and the trackId
+- On the server the on_message function is called on the NotificationsWebSocket WebSocketHandler class
+- The message is parsed and the like track function is called and the track is liked
+- the write_message function is called on the NotificationsWebSocket WebSocketHandler class passing the notification message back to any listening clients that the track was liked
 
 
 Links
