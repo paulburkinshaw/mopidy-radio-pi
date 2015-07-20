@@ -28,6 +28,7 @@ A WebSocket-based communication generally involves three steps:
 This is implemented in our app in the following way:
 
 On the client side:
+-------------------
 - A WebSocket is requested by the browser by creating a WebSocket object and passing in the url e.g:  ws = new WebSocket("ws://192.168.1.66:6680/radio-pi_app/notifications");
 	- this opens an HTTP connection to the server
 	- the browser then sends an upgrade request to convert to a WebSocket
