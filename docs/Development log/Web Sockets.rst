@@ -45,7 +45,7 @@ Liking a track
 - On the server the on_message function is called on the NotificationsWebSocket WebSocketHandler class
 - The message is parsed and the like track function is called and the track is liked
 - the write_message function is called on the NotificationsWebSocket WebSocketHandler class passing the notification message back to any listening clients that the track was liked
-
+- Back at the client side the onmessage handler is called and the notification is displayed to the user
 
 Links
 =====
