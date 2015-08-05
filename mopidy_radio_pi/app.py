@@ -1,4 +1,8 @@
-﻿from __future__ import unicode_literals
+﻿
+from __future__ import unicode_literals
+
+#import ptvsd
+#ptvsd.enable_attach(None)
 
 import logging
 import os
@@ -11,13 +15,15 @@ import urlparse
 import csv
 import codecs
 
+
+
+
 _DATA_DIR = os.path.join(os.path.dirname(__file__), 'data')
 _LOCALE_DIR = os.path.join(_DATA_DIR, 'locale')
 _STATIC_DIR = os.path.join(_DATA_DIR, 'static')
 _TEMPLATE_DIR = os.path.join(_DATA_DIR, 'template')
 
 logger = logging.getLogger(__name__)
-
 
 clients = dict()
 
@@ -61,6 +67,7 @@ class LoginHandler(tornado.web.RequestHandler):
             'error': ''
         }
         self.core = core
+       
          
     def get_current_user(self):
         return self.get_cookie("userAuthenticated")
