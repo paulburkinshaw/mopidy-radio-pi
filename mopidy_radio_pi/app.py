@@ -74,13 +74,16 @@ class LoginHandler(tornado.web.RequestHandler):
         users = {}
         users = GetDict('users.csv')
 
-        if users[self.get_argument('name')] == self.get_argument('password'):
+        if self.get_argument('name') not in users:
+              self._template_kwargs['error'] = 'Username does not exist'   
+              self.render('login.html', **self._template_kwargs)
+        elif users[self.get_argument('name')] == self.get_argument('password'):
               self.set_cookie("logincookie_user", self.get_argument('name'))
               self.set_cookie("logincookie_password", self.get_argument('password'))
               self.set_cookie("userAuthenticated", 'true')
               self.redirect("index.html")
         else:
-           self._template_kwargs['error'] = 'Invalid username or password'   
+           self._template_kwargs['error'] = 'Invalid password'   
            self.render('login.html', **self._template_kwargs)
 
 

@@ -29,7 +29,7 @@ To enable this:
 		- Execute sudo mkdir /media/iphone (folder may already be there)
 		- Execute sudo ifuse /media/iphone
 		- Run ifconfig to check iPhone is on eth1 and picking up an IP address etc
-		- Test internet connectivity by pinging a website
+		- Test internet connectivity by pinging a website from pi
 	- Then:
 		
 
