@@ -25,15 +25,3 @@ This turned out to be because the version of the spotify extension was newer tha
 	- sudo apt-get update
 	- sudo apt-get dist-upgrade
 
-
-accessing internet using iPhone 5s internet but connect to mopidy web front end via LAN
-=======================================================================================
-To enable this:
-	- follow instructions here on how to tether raspberry pi to iPhone 5 http://www.vk3erw.com/index.php/16-software/23-raspberry-pi-tethered-to-iphone-5
-	- then edit the interfaces file in /etc/network and set the eth0 interface to a static IP and the phones gateway IP as eth0 gateway to stop eth01 trying to use the default gateway assigned to it by DHCP
-		iface eth0 inet static
-		address 192.168.1.66 #may need to see what DHCP assigns first, then use that as a static IP if in the office to ensure you dont use an already assigned IP
-		netmask 255.255.0.0 #needs to be last 2 subnets as 0 at work because at work the last 2 addresses can change but it is always 10.254.
-		gateway 172.20.20.1 #phones internet gateway IP
-
-
