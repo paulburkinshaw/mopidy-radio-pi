@@ -42,9 +42,9 @@ class BaseHandler(tornado.web.RequestHandler):
         }
         self.core = core
 
-    def get_current_user(self):
-        if self.get_cookie("logincookie_permissionLevel"):
-            self._template_kwargs['permissionLevel'] = self.get_cookie("logincookie_permissionLevel")
+    def get_current_user(self):     
+        if self.get_cookie("logincookie_user"):
+            self._template_kwargs['permissionLevel'] = permissions[self.get_cookie("logincookie_user")] 
         return self.get_cookie("logincookie_user")       
 
 class IndexHandler(BaseHandler):
@@ -54,8 +54,8 @@ class IndexHandler(BaseHandler):
         else:        
            if not users[self.current_user] == self.get_cookie("logincookie_password"):
                self.redirect("login")
-           else:
-               
+           else:              
+               #self._template_kwargs['permissionLevel'] = permissions[self.current_user]
                return self.render('index.html', **self._template_kwargs)
 
 
@@ -70,8 +70,7 @@ class LoginHandler(BaseHandler):
               self.render('login.html', **self._template_kwargs)
         elif users[self.get_argument('name')] == self.get_argument('password'):
               self.set_cookie("logincookie_user", self.get_argument('name'))
-              self.set_cookie("logincookie_password", self.get_argument('password'))    
-              self.set_cookie("logincookie_permissionLevel", permissions[self.get_argument('name')])      
+              self.set_cookie("logincookie_password", self.get_argument('password'))                     
               self.redirect("index.html")
         else:
            self._template_kwargs['error'] = 'Invalid password'   
@@ -81,8 +80,7 @@ class LoginHandler(BaseHandler):
 class CookieHandler(BaseHandler):  
     def get(self, path):        
         self.clear_cookie("logincookie_password") 
-        self.clear_cookie("logincookie_user") 
-        self.clear_cookie("logincookie_permissionLevel") 
+        self.clear_cookie("logincookie_user")         
 
 class NotificationsWebSocket(tornado.websocket.WebSocketHandler):
     def open(self, *args):
