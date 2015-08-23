@@ -15,99 +15,74 @@ import urlparse
 import csv
 import codecs
 
-
-
-
 _DATA_DIR = os.path.join(os.path.dirname(__file__), 'data')
 _LOCALE_DIR = os.path.join(_DATA_DIR, 'locale')
 _STATIC_DIR = os.path.join(_DATA_DIR, 'static')
 _TEMPLATE_DIR = os.path.join(_DATA_DIR, 'template')
 
 logger = logging.getLogger(__name__)
-
 clients = dict()
 
-class IndexHandler(tornado.web.RequestHandler):
+from csvhelpers import GetUsers    
+from csvhelpers import GetPermissions   
+users = {}
+users = GetUsers('users.csv')
 
+permissions = {}
+permissions = GetPermissions('users.csv')
+
+class BaseHandler(tornado.web.RequestHandler):
     DOMAIN = 'radiopi'
-
     def initialize(self, core, config):
         from . import Extension
         self._template_kwargs = {
-            'title': 'radioPi'
+            'title': 'radioPi',
+            'error': '',
+            'permissionLevel': ''
         }
         self.core = core
 
     def get_current_user(self):
-        return self.get_cookie("userAuthenticated")
-        #return self.get_secure_cookie("loginCookie")
+        if self.get_cookie("logincookie_permissionLevel"):
+            self._template_kwargs['permissionLevel'] = self.get_cookie("logincookie_permissionLevel")
+        return self.get_cookie("logincookie_user")       
 
-    def get(self, path):
-        from csvhelpers import GetDict       
-        users = {}
-        users = GetDict('users.csv')
-        if not self.get_cookie("userAuthenticated"):
+class IndexHandler(BaseHandler):
+    def get(self, path):      
+        if not self.current_user:
            self.redirect("login")
-        else:
-           if not self.get_cookie("logincookie_user"):
-              self.redirect("login")
+        else:        
+           if not users[self.current_user] == self.get_cookie("logincookie_password"):
+               self.redirect("login")
            else:
-              if not users[self.get_cookie("logincookie_user")] == self.get_cookie("logincookie_password"):
-                 self.redirect("login")
-              else:
-                 return self.render('index.html', **self._template_kwargs)
+               
+               return self.render('index.html', **self._template_kwargs)
 
 
-class LoginHandler(tornado.web.RequestHandler):
-     
-    def initialize(self, core, config):
-        from . import Extension
-        self._template_kwargs = {
-            'title': 'login',
-            'error': ''
-        }
-        self.core = core
-       
-         
-    def get_current_user(self):
-        return self.get_cookie("userAuthenticated")
-        #return self.get_secure_cookie("loginCookie")
-
+class LoginHandler(BaseHandler):      
     def get(self, path):
+        self.current_user
         return self.render('login.html', **self._template_kwargs)
 
-    def post(self, path):            
-        from csvhelpers import GetDict       
-        users = {}
-        users = GetDict('users.csv')
-
+    def post(self, path):                 
         if self.get_argument('name') not in users:
               self._template_kwargs['error'] = 'Username does not exist'   
               self.render('login.html', **self._template_kwargs)
         elif users[self.get_argument('name')] == self.get_argument('password'):
               self.set_cookie("logincookie_user", self.get_argument('name'))
-              self.set_cookie("logincookie_password", self.get_argument('password'))
-              self.set_cookie("userAuthenticated", 'true')
+              self.set_cookie("logincookie_password", self.get_argument('password'))    
+              self.set_cookie("logincookie_permissionLevel", permissions[self.get_argument('name')])      
               self.redirect("index.html")
         else:
            self._template_kwargs['error'] = 'Invalid password'   
            self.render('login.html', **self._template_kwargs)
 
 
-class CookieHandler(tornado.web.RequestHandler):
-     
-    def initialize(self, core, config):
-        from . import Extension
-        self._template_kwargs = {
-            'title': 'cookiehandler'            
-        }
-        self.core = core
-
-    def get(self, path):
-        self.clear_cookie("userAuthenticated") 
+class CookieHandler(BaseHandler):  
+    def get(self, path):        
         self.clear_cookie("logincookie_password") 
         self.clear_cookie("logincookie_user") 
-
+        self.clear_cookie("logincookie_permissionLevel") 
 
 class NotificationsWebSocket(tornado.websocket.WebSocketHandler):
     def open(self, *args):
@@ -130,7 +105,7 @@ class NotificationsWebSocket(tornado.websocket.WebSocketHandler):
 
 def radio_pi_factory(config, core):
     return [
-        (r'/(index.html)?', IndexHandler, {'core': core, 'config': config}),      
+        (r'/(index.html)?', IndexHandler, {'core': core, 'config': config}),             
         (r'/(login)?', LoginHandler, {'core': core, 'config': config}),
         (r'/(clearcookie)?', CookieHandler, {'core': core, 'config': config}),
         (r'/(notifications)?', NotificationsWebSocket),
