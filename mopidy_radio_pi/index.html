@@ -38,5 +38,10 @@
     <input type="button" value="close ws" onclick="CloseWebSocket()" />
     </br>
     <div id="messages" style="height:200px;background:black;color:white;"></div>
+
+   
+    {% if permissionLevel == '1' %}
+        <p>Admin stuff here</p>
+    {% end %}
 </body>
 </html>
