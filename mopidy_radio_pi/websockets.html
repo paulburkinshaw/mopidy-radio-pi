@@ -14,6 +14,32 @@
 
 </head>
 <body>
-    Radio Pi
+    The current user is: {{ current_user }}
+    </br>
+    The current users permission level is: {{ permissionLevel }}
+
+    </br>
+    The current error is: {{ error }}
+
+    </br>
+    </br>
+    Client:
+    <input type="text" id="client">
+    </br>
+    wsMEssage:
+    <input type="text" id="wsMessage">
+    </br>
+    <input type="button" value="open ws" onclick="OpenWebSocket()" />
+    </br>
+    <input type="button" value="send ws message" onclick="SendMessageToWebSocket()" />
+    </br>
+    <input type="button" value="close ws" onclick="CloseWebSocket()" />
+    </br>
+    <div id="messages" style="height:200px;background:black;color:white;"></div>
+
+   
+    {% if permissionLevel == '1' %}
+        <p>Admin stuff here</p>
+    {% end %}
 </body>
 </html>
