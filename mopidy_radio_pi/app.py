@@ -25,9 +25,11 @@ clients = dict()
 
 from csvhelpers import GetUsers    
 from csvhelpers import GetPermissions   
+from csvhelpers import WriteRow  
+
+# TODO: refactor, currently using 2 dicts to get users and their permissions from same csv
 users = {}
 users = GetUsers('users.csv')
-
 permissions = {}
 permissions = GetPermissions('users.csv')
 
@@ -69,12 +71,31 @@ class LoginHandler(BaseHandler):
               self._template_kwargs['error'] = 'Username does not exist'   
               self.render('login.html', **self._template_kwargs)
         elif users[self.get_argument('name')] == self.get_argument('password'):
-              self.set_cookie("logincookie_user", self.get_argument('name'))
-              self.set_cookie("logincookie_password", self.get_argument('password'))                     
+              self.set_cookie("logincookie_user", self.get_argument('name'), expires_days=None)
+              self.set_cookie("logincookie_password", self.get_argument('password'), expires_days=None)                     
               self.redirect("index.html")
         else:
            self._template_kwargs['error'] = 'Invalid password'   
            self.render('login.html', **self._template_kwargs)
+
+class RegisterHandler(BaseHandler):      
+    def get(self, path):
+        self.current_user
+        return self.render('register.html', **self._template_kwargs)
+
+    def post(self, path):                 
+        if (self.get_argument('name', '') and self.get_argument('password', '')):                               
+            if(self.get_argument('password') == self.get_argument('confirmPassword')):  
+                #register user
+
+                WriteRow('users.csv', [self.get_argument('name'),self.get_argument('password'), '0'])
+                #self.render('login.html', **self._template_kwargs)
+            else:
+                self._template_kwargs['error'] = 'Passwords do not match'   
+                self.render('register.html', **self._template_kwargs)     
+        else:
+            self._template_kwargs['error'] = 'Please enter a username and password'   
+            self.render('register.html', **self._template_kwargs)
 
 
 class CookieHandler(BaseHandler):  
@@ -105,6 +126,7 @@ def radio_pi_factory(config, core):
     return [
         (r'/(index.html)?', IndexHandler, {'core': core, 'config': config}),             
         (r'/(login)?', LoginHandler, {'core': core, 'config': config}),
+        (r'/(register)?', RegisterHandler, {'core': core, 'config': config}),
         (r'/(clearcookie)?', CookieHandler, {'core': core, 'config': config}),
         (r'/(notifications)?', NotificationsWebSocket),
         (r'/(.*)', tornado.web.StaticFileHandler, {'path': _STATIC_DIR}),

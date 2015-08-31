@@ -41,6 +41,20 @@ def GetPermissions(filename):
                     dict[row[0]] = row[2]
     return dict
 
+def WriteRow(filename, row):
+    dict = {}
+    path = os.path.dirname(os.path.realpath(__file__))
+    with open(path + '/' + filename, 'ab') as f:
+        a = csv.writer(f, delimiter=b',');
+        data = [row];
+        a.writerows(data);
+        #f.write(row)
+        #f.close()
+    return dict
+
+
+
+
        
 
 

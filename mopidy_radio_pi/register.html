@@ -1,11 +1,11 @@
 ﻿<html>
 <body>
-    <form action="login" method="post">
+    <form action="register" method="post">
         <div style="width:100%;height:100%">
                 <div id="dvError">
                      {{ error }}
                 </div>     
-                <h1>Login</h1>              
+                <h1>Register</h1>              
                 Username:
                 </br>
                 <input type="text" name="name">
@@ -14,11 +14,12 @@
                 </br>
                 <input type="password" name="password">
                 </br>
+                Confirm Password:
                 </br>
-                <input type="submit" value="Sign in">    
+                <input type="password" name="confirmPassword">
                 </br>
                 </br>
-                Dont have an account <a href="register">Register</a>
+                <input type="submit" value="Create my Radio Pi account">       
         </div>
     </form>
 </body>
