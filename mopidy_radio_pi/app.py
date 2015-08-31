@@ -79,9 +79,7 @@ class LoginHandler(BaseHandler):
                   self.set_cookie("logincookie_user", self.get_argument('name'), expires_days=None)
                   self.set_cookie("logincookie_password", self.get_argument('password'), expires_days=None)  
                   # Call wsSend and send message to admins notifying of login
-                  for ws in wss:
-                      if (int(permissions[ws.id]) > 0):
-                         wsSend('UserLogin: ' + self.get_argument('name'), ws)                
+                  wsSendToAdmin('UserLogin: ' + self.get_argument('name'))             
                   self.redirect("index.html")
               else:
                   self._template_kwargs['error'] = 'Account has not yet been approved'   
@@ -99,7 +97,6 @@ class RegisterHandler(BaseHandler):
         if (self.get_argument('name', '') and self.get_argument('password', '')):                               
             if(self.get_argument('password') == self.get_argument('confirmPassword')):  
                 #register user
-
                 WriteRow('users.csv', [self.get_argument('name'),self.get_argument('password'), '0'])
                 #self.render('login.html', **self._template_kwargs)
             else:
@@ -134,8 +131,10 @@ class PiWebSocket(tornado.websocket.WebSocketHandler):
         clients[self.get_argument("clientId")] = {'clientId': self.id}
         if self not in wss:
             wss.append(self)
+        wsSendToAdmin('OpenWebSocket: ' + self.id)
 
-    def on_message(self, message):                     
+    def on_message(self, message):      
+        # Need some checks for the type of message - track liked, track voted for etc               
         self.messageDeser = json.dumps(urlparse.parse_qs(message))
         #clients[self.id] = {'clientId': self.id, 'message':self.messageDeser}           
         #self.write_message(clients[self.id])
@@ -145,7 +144,8 @@ class PiWebSocket(tornado.websocket.WebSocketHandler):
             wss.remove(self)
         if self.id in clients:
             del clients[self.id]
-
+            wsSendToAdmin('ClosedWebSocket: ' + self.id)
+                
 def wsSend(message, ws):   
     if not ws.ws_connection.stream.socket:
         print "Web socket does not exist anymore!!!"
@@ -160,6 +160,11 @@ def wsSendAll(message):
             wss.remove(ws)
         else:
             ws.write_message(message)
+
+def wsSendToAdmin(message):
+    for ws in wss:
+        if (int(permissions[ws.id]) > 0):
+            wsSend(message, ws) 
 
 
    
