@@ -18,7 +18,7 @@
         Logged in as: {{ current_user }}
 
         <!-- If user is an admin -->
-        {% if permissionLevel == '1' %}
+        {% if permissionLevel == '2' %}
             <img src="http://royalearn.net/aimg/login.png" width="20px" height="20px" alt="adminIcon"/>
         {% end %}
         &nbsp  &nbsp
@@ -39,5 +39,7 @@
 
         </div>
     </div> 
+
+    <input type="hidden" id="hdnCurrentUser" value={{ current_user }} />
 </body>
 </html>

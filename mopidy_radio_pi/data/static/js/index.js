@@ -30,8 +30,8 @@ var ConnectToMopidy = function () {
             $('#spnConnectionStatus').html('Connected');
             $('#dvMainContainer').show();
 
-
-            tstAddThreeTracksAndBeginPlaying();
+            OpenWebSocket();
+            //tstAddThreeTracksAndBeginPlaying();
 
         }, 2000);       
     });
@@ -90,5 +90,24 @@ var processSearchResults = function(resultArr) {
         console.log('results found');
         console.log(resultArr);
 
+    }
+}
+
+var OpenWebSocket = function () {
+    if ("WebSocket" in window) {       
+        ws = new WebSocket("ws://192.168.1.66:6680/radio-pi_app/piWs?clientId=" + $('#hdnCurrentUser').val());
+        ws.onopen = function () {
+                        
+        };
+        ws.onmessage = function (evt) {
+            var received_msg = evt.data;
+            var received_msg_obj = jQuery.parseJSON(received_msg);
+            console.log(received_msg_obj);
+        };
+        ws.onclose = function () {
+           
+        };
+    } else {
+        alert('WebSockets NOT supported by your Browser!');
     }
 }
