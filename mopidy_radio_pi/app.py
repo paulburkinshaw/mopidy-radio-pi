@@ -21,7 +21,7 @@ _STATIC_DIR = os.path.join(_DATA_DIR, 'static')
 _TEMPLATE_DIR = os.path.join(_DATA_DIR, 'template')
 
 logger = logging.getLogger(__name__)
-clients = dict()
+wsClients = dict()
 
 from csvhelpers import GetUsers    
 from csvhelpers import GetPermissions   
@@ -43,7 +43,8 @@ class BaseHandler(tornado.web.RequestHandler):
         self._template_kwargs = {
             'title': 'radioPi',
             'error': '',
-            'permissionLevel': ''           
+            'permissionLevel': '',  
+            'wsClients': wsClients         
         }
         self.core = core
 
@@ -128,7 +129,7 @@ class CookieHandler(BaseHandler):
 class PiWebSocket(tornado.websocket.WebSocketHandler):
     def open(self, *args):
         self.id = self.get_argument("clientId")
-        clients[self.get_argument("clientId")] = {'clientId': self.id}
+        wsClients[self.get_argument("clientId")] = {'clientId': self.id}
         if self not in wss:
             wss.append(self)
         wsSendToAdmin('OpenWebSocket: ' + self.id)
@@ -136,14 +137,14 @@ class PiWebSocket(tornado.websocket.WebSocketHandler):
     def on_message(self, message):      
         # Need some checks for the type of message - track liked, track voted for etc               
         self.messageDeser = json.dumps(urlparse.parse_qs(message))
-        #clients[self.id] = {'clientId': self.id, 'message':self.messageDeser}           
-        #self.write_message(clients[self.id])
+        #wsClients[self.id] = {'clientId': self.id, 'message':self.messageDeser}           
+        #self.write_message(wsClients[self.id])
  
     def on_close(self):
         if self in wss:
             wss.remove(self)
-        if self.id in clients:
-            del clients[self.id]
+        if self.id in wsClients:
+            del wsClients[self.id]
             wsSendToAdmin('ClosedWebSocket: ' + self.id)
                 
 def wsSend(message, ws):   

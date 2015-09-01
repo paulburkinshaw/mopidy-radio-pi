@@ -2,44 +2,50 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>{{ title }}</title>
-    <link href="favicon.ico" rel="shortcut icon" type="image/x-icon" /> 
+    <link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/blitzer/jquery-ui.min.css">
     <link rel="stylesheet" href="http://layout.jquery-dev.net/lib/css/layout-default-latest.css">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
     <script src="http://layout.jquery-dev.net/lib/js/jquery.layout-latest.js"></script>
- 
-    <script src="js/index.js"></script>
-    <script type="text/javascript" src="/mopidy/mopidy.min.js"></script>   
 
+    <script src="js/index.js"></script>
+    <script type="text/javascript" src="/mopidy/mopidy.min.js"></script>
 </head>
-<body>    
+<body>
     <div id="dvUser" style="text-align:right;">
         Logged in as: {{ current_user }}
 
         <!-- If user is an admin -->
         {% if permissionLevel == '2' %}
-            <img src="http://royalearn.net/aimg/login.png" width="20px" height="20px" alt="adminIcon"/>
+        <img src="http://royalearn.net/aimg/login.png" width="20px" height="20px" alt="adminIcon" />
         {% end %}
         &nbsp  &nbsp
         <span id="spnConnectionStatus">Connecting....</span>
     </div>
-
     <!-- Hide everything until connected to Mopidy -->
-    <div id="dvMainContainer" style="display:none;">  
+    <div id="dvMainContainer" style="display:none;">
         <div id="dvLeft">
 
         </div>
         <div id="dvCentre">
-            
-            
+
+
 
         </div>
         <div id="dvRight">
-
+            {% if permissionLevel == '2' %}
+                Current users online:
+                <ul>
+                    {% for wsClient in wsClients %}                  
+                        <li>                        
+                            {{ wsClient }}
+                        </li>                 
+                    {% end %}
+                </ul>
+            {% end %}
         </div>
-    </div> 
-
+    </div>
     <input type="hidden" id="hdnCurrentUser" value={{ current_user }} />
 </body>
 </html>
