@@ -133,6 +133,7 @@ class PiWebSocket(tornado.websocket.WebSocketHandler):
         if self not in wss:
             wss.append(self)
         wsSendToAdmin('OpenWebSocket: ' + self.id)
+        wsSendToAdmin(wsClients) #Send the dict as a WebSocket message so admin can see who is connected
 
     def on_message(self, message):      
         # Need some checks for the type of message - track liked, track voted for etc               
