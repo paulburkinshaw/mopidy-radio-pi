@@ -56,7 +56,8 @@ class BaseHandler(tornado.web.RequestHandler):
 class IndexHandler(BaseHandler):
     def get(self, path):      
         if not self.current_user:
-           self.redirect("login")
+           #self.redirect("login")
+           return self.render('index.html', **self._template_kwargs)
         else:        
            if not users[self.current_user] == self.get_cookie("logincookie_password"):
                self.redirect("login")

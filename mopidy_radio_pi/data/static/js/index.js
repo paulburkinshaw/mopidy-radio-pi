@@ -1,22 +1,29 @@
 ﻿$(document).ready(function () {
     mopidy = null;
+    _hostname = null;
     // Connect to Mopidy
     ConnectToMopidy();
 
-    
+
 
 });
 
+
+var set_host = function (hostname) {
+    _hostname = hostname
+    //_hostname = '192.168.1.66'
+}
+
 var ConnectToMopidy = function () {
+    set_host('192.168.1.66');
     // Initialize Mopidy
-   
-    try {       
+    try {
         mopidy = new Mopidy({
             callingConvention: 'by-position-or-by-name'
         });
     }
     catch (e) {
-        console.log("Connecting with Mopidy failed with the following error message: <br>" + e);      
+        console.log("Connecting with Mopidy failed with the following error message: <br>" + e);
     }
 
     // Subscribe to all events and log them
@@ -30,10 +37,10 @@ var ConnectToMopidy = function () {
             $('#spnConnectionStatus').html('Connected');
             $('#dvMainContainer').show();
 
-            OpenWebSocket();
+            //OpenWebSocket();
             //tstAddThreeTracksAndBeginPlaying();
 
-        }, 2000);       
+        }, 2000);
     });
     mopidy.on("state:offline", function () {
         $('#spnConnectionStatus').html('Offline');
@@ -44,7 +51,7 @@ var ConnectToMopidy = function () {
     mopidy.on("state:reconnecting", function () {
         $('#spnConnectionStatus').html('Reconnecting');
     });
-   
+
 
     mopidy.on("websocket:outgoingMessage", function (event) {
 
@@ -84,7 +91,7 @@ var tstAddThreeTracksAndBeginPlaying = function () {
 
 }
 
-var processSearchResults = function(resultArr) {
+var processSearchResults = function (resultArr) {
     console.log('processSearchResults called');
     if (resultArr.length > 0) {
         console.log('results found');
@@ -93,11 +100,16 @@ var processSearchResults = function(resultArr) {
     }
 }
 
+
+
 var OpenWebSocket = function () {
     if ("WebSocket" in window) {       
-        ws = new WebSocket("ws://192.168.1.66:6680/radio-pi_app/piWs?clientId=" + $('#hdnCurrentUser').val());
+        //ws = new WebSocket("ws://192.168.1.66:6680/radio-pi_app/piWs?clientId=" + $('#hdnCurrentUser').val());
+        ws = new WebSocket("ws://"+_hostname+":6680/radio-pi_app/piWs?clientId=" + $('#hdnCurrentUser').val());
+
+
         ws.onopen = function () {
-                        
+
         };
         ws.onmessage = function (evt) {
             var received_msg = evt.data;
@@ -105,7 +117,7 @@ var OpenWebSocket = function () {
             console.log(received_msg_obj);
         };
         ws.onclose = function () {
-           
+
         };
     } else {
         alert('WebSockets NOT supported by your Browser!');
