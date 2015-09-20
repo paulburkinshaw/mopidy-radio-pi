@@ -1,0 +1,109 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="Scripts/jquery.nivo.slider.js"></script>
+    <link href="CSS/nivo-slider.css" rel="stylesheet" />
+    <link href="CSS/site.css" rel="stylesheet" />
+    <script type="text/javascript">
+    $(window).load(function () {
+        $('#slider').nivoSlider();
+    });
+    </script> 
+    <title></title>
+</head>
+<body>
+    <div id="wrapper">
+        <div id="header">
+            <div id="headerContent">
+                <div id="onairStatus">
+                    <img src="Images/on-air.jpg" />
+                </div>
+            </div>
+        </div>
+
+        <div id="Content">
+            <div id="leftRip">
+                <img src="Images/main-left-rip.png" />
+            </div>
+
+            <div id="leftInfo">
+
+                <div id="currentTrack">
+                    <div class="ripT"><img src="Images/currenttrack-top.png" /></div>
+                    <div class="Info">
+                        <div class="ctHeader">Current Track</div>
+                        <div id="ctCoverArt"><img src="Images/track-cover.jpg" /></div>
+                        <div class="ctHeaderItalic">The Libertines</div>
+                        <div class="ctHeaderItalic">Can't Stand Me Now</div>
+                    </div>
+                    <div class="ripB"><img src="Images/currenttrack-bot.png" /></div>
+                </div>
+
+                <div id="voteSkip">
+                    <div class="Info">
+                        <div class="vHeader">Vote</div>
+                        <div class="vHeaderSMItalic">Like this track / Skip this track</div>
+                        <div id="voteHolder">
+                            <div class="voteOn"><img src="Images/note-on.png" /></div>
+                            <div class="voteOn"><img src="Images/note-on.png" /></div>
+                            <div class="voteOn"><img src="Images/note-on.png" /></div>
+                            <div class="voteOff"><img src="Images/note-off.png" /></div>
+                            <div class="voteOff"><img src="Images/note-off.png" /></div>
+                            <div class="voteOff"><img src="Images/note-off.png" /></div>
+                            <div class="voteOff"><img src="Images/note-off.png" /></div>
+                            <div class="voteOff"><img src="Images/note-off.png" /></div>
+                            <div class="voteOff"><img src="Images/note-off.png" /></div>
+                            <div class="voteOff"><img src="Images/note-off.png" /></div>
+                        </div>
+                    </div>
+                    <div id="voteButtons">
+                        <a href="#" class="voteLike"></a>
+                        <a href="#" class="voteSkip"></a>
+                    </div>
+                    <div class="ripB"><img src="Images/vote-bot.png" /></div>
+                </div>
+
+                <div id="dedication">
+                    <div class="Info">
+                        <div class="dtHeader">Requested By:</div>
+                        <div class="dtHeaderItalic">Andy Poole</div>
+                        <div class="dtHeader">Dedicated To:</div>
+                        <div class="dtHeaderItalic">Andy Poole</div>
+                        <div class="dtHeader">Comments:</div>
+                        <div class="dtHeaderItalic">This is a good track.  </div>
+                    </div>
+                    <div class="ripB"><img src="Images/dedicated-bot.png" /></div>
+                </div>
+            </div>
+
+
+            <div id="mainContent">
+                <div id="mainBanner">
+                    <div id="slider" class="nivoSlider">
+                        <a href="#"><img src="Images/mainbanner-soundwave.jpg" /></a>
+                        <a href="#"><img src="Images/mainbanner-headphones.jpg" /></a>
+                        <a href="#"><img src="Images/mainbanner-jukebox.jpg" /></a>
+                        <a href="#"><img src="Images/mainbanner-orangeband.jpg" /></a>
+                    </div>                 
+                </div>
+                
+
+                <div id="mainPage">
+
+                    <div id="pageTitles">
+                        <img src="Images/banner-bottom-headers.png" />
+                    </div>
+
+
+                </div>
+
+
+
+            </div>
+            <div id="rightRip"><img src="Images/main-right-rip.png" /></div>
+
+        </div>
+
+</body>
+</html>
