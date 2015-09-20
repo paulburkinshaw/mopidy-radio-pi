@@ -1,8 +1,30 @@
 ﻿body {
     margin:0;
     font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    font-size:12px;
+    font-size:12px;   
 }
+
+/* Let's get this party started */
+::-webkit-scrollbar {
+    width: 12px;
+}
+ 
+/* Track */
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: rgba(248,148,0,1); 
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+}
+
+
 /* Main divs 
 ############################# */
 #wrapper            { width:100%;  }
@@ -49,14 +71,36 @@
 .dtHeaderItalic         { color:#ccc; font-size:1em; font-style:italic; margin-bottom:10px; }
 #dedication .ripB img   { vertical-align:bottom; }
 
+
 /* Main Content
 ############################# */
 
-/* Banner  */
+/* Banner
+############################# */
 #mainBanner { width:1188px; height:240px; margin:4px 4px 0 4px; padding:4px 4px 0 4px; border-top:#d7d7d7 1px solid; border-left:#d7d7d7 1px solid; border-right:#d7d7d7 1px solid; }
 
-/* nivo overrides */
+/* nivo overrides
+############################# */
 .nivo-controlNav, .nivo-prevNav, .nivo-nextNav {display:none!important; }
 
-/* Titles */
+/* Titles
+############################# */
 #pageTitles { vertical-align:top; margin:0!important; padding:0!important;  }
+
+/* Main Page
+############################# */
+#mainPage { float:left; background: url('../Images/wave-mainBG.jpg') no-repeat; background-position-y: -70px; }
+
+/* Search Results
+############################# */
+#searchResults      { float:left; width: 824px; height:640px; overflow-y:scroll; margin:0 6px 0 4px; /*border-bottom:#bcbcbc 1px solid; border-top:#bcbcbc 1px solid;*/ }
+.resultsItem        { border:#bcbcbc 1px solid; height:58px; width:808px; }
+.resultsItem:hover  {  background-image: url('../Images/onHoverBG.png'); }
+.resultsItem ul     { list-style:none; margin:0; padding:0; color:#626262; }
+.resultsItem ul li  { list-style:none; margin:0; padding:0; }
+.riNumber           { float:left; width:55px; text-indent:20px; margin-top:6px!important; }
+.riThumb            { float:left; width:56px; margin-top:6px!important; }
+.riTrack            { float:left; width:367px; margin-top:6px!important; }
+.riArtist           { float:left; width:254px; margin-top:6px!important; }
+.riTime             { float:left; width:70px; }
+.trackHeader        { font-size:1.5em; }
