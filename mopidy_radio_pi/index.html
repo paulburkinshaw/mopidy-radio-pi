@@ -11,11 +11,39 @@
 
     <script src="js/index.js"></script>
     <script type="text/javascript" src="/mopidy/mopidy.min.js"></script>
+
+    <style>
+        #dvMainContainer {
+            height: 100%;
+        }
+
+        #dvSearch {
+            height: 50px;
+        } 
+        
+        #dvLeft {
+            height: 100px;
+        }
+
+        #dvCentre {
+            height: 100px;
+        }
+
+        #dvRight {
+            height: 100px;
+        }
+
+        #dvBottom {
+            height: 100px;
+        }
+    </style>
 </head>
 <body>
     <div id="dvUser" style="text-align:right;">
+        <!--{{ rpiConfig }}-->
+        {% if current_user %}
         Logged in as: {{ current_user }}
-
+        {% end %}
         <!-- If user is an admin -->
         {% if permissionLevel == '2' %}
         <img src="http://royalearn.net/aimg/login.png" width="20px" height="20px" alt="adminIcon" />
@@ -25,24 +53,44 @@
     </div>
     <!-- Hide everything until connected to Mopidy -->
     <div id="dvMainContainer" style="display:none;">
-        <div id="dvLeft">
+        <div id="dvSearch">
+            <input type="text" id="txtSearch" /> <input type="button" id="btnSearch" value="Search" onclick="search()" />
+        </div>
 
+
+        <div id="dvLeft">
+            <div id="currentTrack">
+                Current Track
+                <div id="artwork">
+
+                </div>
+                <div id="artist">
+
+                </div>
+                <div id="trackname">
+
+                </div>
+            </div>
         </div>
         <div id="dvCentre">
-
+            Search results
+            </br>
+            </br>
 
 
         </div>
         <div id="dvRight">
+            dvRight
+        </div>
+        <div id="dvBottom">
             {% if permissionLevel == '2' %}
-                Current users online:
-                <ul>
-                    {% for wsClient in wsClients %}                  
-                        <li>                        
-                            {{ wsClient }}
-                        </li>                 
-                    {% end %}
-                </ul>
+            <div id="djControl">
+                <input type="button" id="btnPlay" value="Play" />
+                <input type="button" id="btnPause" value="Pause" />
+                <input type="button" id="btnStop" value="Stop" />
+                <input type="button" id="btnSkip" value="Skip" />
+
+            </div>
             {% end %}
         </div>
     </div>

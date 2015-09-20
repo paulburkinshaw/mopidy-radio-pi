@@ -1,13 +1,73 @@
 ﻿$(document).ready(function () {
+    mopidy = null;
+    _hostname = null;
+    // Connect to Mopidy
+    ConnectToMopidy();
 
-    OpenWebSocketAdmin();
+
 
 });
 
+var set_host = function (hostname) {
+    _hostname = hostname
+    //_hostname = '192.168.1.66'
+}
+
+var ConnectToMopidy = function () {
+    set_host('192.168.1.66');
+
+    // Initialize Mopidy
+    try {
+        mopidy = new Mopidy({
+            callingConvention: 'by-position-or-by-name'
+        });
+    }
+    catch (e) {
+        console.log("Connecting with Mopidy failed with the following error message: <br>" + e);
+    }
+
+    // Subscribe to all events and log them
+    //mopidy.on(console.log.bind(console));
+
+    // Hooking up to events
+
+    // Mopidy.js object is connected to the server and ready for method calls,
+    mopidy.on("state:online", function () {
+        setTimeout(function () {
+            $('#spnConnectionStatus').html('Connected');
+            $('#dvMainContainer').show();
+
+            OpenWebSocketAdmin();
+           
+
+        }, 2000);
+    });
+
+    mopidy.on("state:offline", function () {
+        $('#spnConnectionStatus').html('Offline');
+    });
+    mopidy.on("state:reconnectionPending", function () {
+        $('#spnConnectionStatus').html('Reconnection pending');
+    });
+    mopidy.on("state:reconnecting", function () {
+        $('#spnConnectionStatus').html('Reconnecting');
+    });
+
+
+    mopidy.on("websocket:outgoingMessage", function (event) {
+
+    });
+    mopidy.on("websocket:incomingMessage", function (event) {
+
+    });
+}
 
 var OpenWebSocketAdmin = function () {
     if ("WebSocket" in window) {
-        ws = new WebSocket("ws://192.168.1.66:6680/radio-pi_app/piWs?clientId=" + $('#hdnCurrentUser').val());
+        
+        ws = new WebSocket("ws://" + _hostname + ":6680/radio-pi_app/piWs?clientId=" + $('#hdnCurrentUser').val());
+
+
         ws.onopen = function () {
 
         };

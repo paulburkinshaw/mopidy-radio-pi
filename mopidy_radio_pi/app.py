@@ -21,7 +21,7 @@ _STATIC_DIR = os.path.join(_DATA_DIR, 'static')
 _TEMPLATE_DIR = os.path.join(_DATA_DIR, 'template')
 
 logger = logging.getLogger(__name__)
-wsClients = dict()
+
 
 from csvhelpers import GetUsers    
 from csvhelpers import GetPermissions   
@@ -36,6 +36,8 @@ permissions = GetPermissions('users.csv')
 # Array for webSockets
 wss = []
 
+wsClients = dict()
+
 class BaseHandler(tornado.web.RequestHandler):
     DOMAIN = 'radiopi'
     def initialize(self, core, config):
@@ -44,7 +46,8 @@ class BaseHandler(tornado.web.RequestHandler):
             'title': 'radioPi',
             'error': '',
             'permissionLevel': '',  
-            'wsClients': wsClients         
+            'wsClients': wsClients  ,
+            'rpiConfig': config       
         }
         self.core = core
 
@@ -61,11 +64,7 @@ class IndexHandler(BaseHandler):
         else:        
            if not users[self.current_user] == self.get_cookie("logincookie_password"):
                self.redirect("login")
-           else:              
-               #self._template_kwargs['permissionLevel'] = permissions[self.current_user]
-               return self.render('index.html', **self._template_kwargs)
-
-
+         
 class LoginHandler(BaseHandler):      
     def get(self, path):
         self.current_user

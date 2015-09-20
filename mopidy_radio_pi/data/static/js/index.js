@@ -40,7 +40,7 @@ var ConnectToMopidy = function () {
             //OpenWebSocket();
             //tstAddThreeTracksAndBeginPlaying();
 
-        }, 2000);
+        }, 500);
     });
     mopidy.on("state:offline", function () {
         $('#spnConnectionStatus').html('Offline');
@@ -60,6 +60,76 @@ var ConnectToMopidy = function () {
 
     });
 }
+
+var search = function () {
+    var searchTerm = $('#txtSearch').val();
+    
+    mopidy.library.search({
+        any: searchTerm,
+        uris: ['spotify:']
+    }).then(processSearchResults, console.error);
+
+}
+
+var processSearchResults = function (resultArr) {
+    console.log('processSearchResults called');
+    if (resultArr.length > 0) {
+        //console.log('results found');
+        //console.log(resultArr);
+
+        var results = resultArr[0];
+
+        var flag = false;
+
+        for (var i = 0; i < (results.tracks.length) && (i < 50) ; ++i) {
+
+            console.log('i : ' + i);
+            var trk = results.tracks[i];
+            var trkUri = trk.uri;
+
+
+           // var deferred = $.Deferred(); //Create a deferred object
+
+           
+
+            var image = mopidy.library.getImages({ uris: [trkUri] }).then(function (data) {
+
+                
+                var tupleKey = trkUri;
+                //var img = data[tupleKey];
+
+
+                console.log('trkUri : ' + trkUri);
+                console.dir('data :' + data);
+                flag = true;
+                //deferred.resolve(); //resolve the deferred object
+               
+
+            });
+
+            //while (flag == false) {
+            //    console.log('waitin...');
+
+            //}
+
+            //checkFlag(flag);
+           
+            flag = false;
+
+            //$('#tblSearchResults tr:last').after('<tr><td style="width:200px; border-bottom:1px solid; border-right:1px solid;">' + window.results.tracks[i].name + '</td><td style="width:200px; border-bottom:1px solid; border-right:1px solid;">' + window.results.tracks[i].artists[0].name + '</td><td style="width:200px; border-bottom:1px solid;">' + window.results.tracks[i].album.name + '</td><td style="width:200px; border-bottom:1px solid;"><input type="button" value="add" style="font-size:10px" onclick=addTrackToTracklist(' + i + ') /></td></tr>');
+        }
+
+    }
+}
+
+function checkFlag(flag) {
+    if (flag == false) {
+        window.setTimeout(checkFlag, 100); /* this checks the flag every 100 milliseconds*/
+    } else {
+        /* do something*/
+    }
+}
+
 
 // Development method used to add a few tracks and start playing them so we have something to work with
 var tstAddThreeTracksAndBeginPlaying = function () {
@@ -91,22 +161,12 @@ var tstAddThreeTracksAndBeginPlaying = function () {
 
 }
 
-var processSearchResults = function (resultArr) {
-    console.log('processSearchResults called');
-    if (resultArr.length > 0) {
-        console.log('results found');
-        console.log(resultArr);
-
-    }
-}
 
 
 
 var OpenWebSocket = function () {
-    if ("WebSocket" in window) {       
-        //ws = new WebSocket("ws://192.168.1.66:6680/radio-pi_app/piWs?clientId=" + $('#hdnCurrentUser').val());
+    if ("WebSocket" in window) {              
         ws = new WebSocket("ws://"+_hostname+":6680/radio-pi_app/piWs?clientId=" + $('#hdnCurrentUser').val());
-
 
         ws.onopen = function () {
 
