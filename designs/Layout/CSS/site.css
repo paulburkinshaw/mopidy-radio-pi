@@ -26,6 +26,14 @@
 #leftInfo           { width: 212px; background-color:#333; min-height:100%; float:left; position:relative; }
 #mainContent        { min-height:100%; float:left; width:1206px; float:left; position:relative; }
 
+/* Search and login 
+############################# */
+#searchAndLogin                 { float:right; color:#bababa; }
+#logInOut                       { float:right; font-size:0.8em; margin:6px 10px 0 0; }
+#searchBox                      { float:right; margin:6px 10px 0 0; padding-top:3px; }
+#searchBox input[type="text"]   { background-color:#e7e7e7; border:none; width:500px; height:30px; padding-left:4px; color:#404040; font-size:1.3em; font-style:italic; outline: 0;  }
+#searchGlass                    { float:right; height:24px; background-color:#e7e7e7; padding:4px; }
+
 /* Current Track 
 ############################# */
 #currentTrack           { float:left; background-color:#444; }
