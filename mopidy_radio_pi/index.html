@@ -1,20 +1,41 @@
 ﻿<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
     <script src="Scripts/jquery.nivo.slider.js"></script>
     <link href="CSS/nivo-slider.css" rel="stylesheet" />
     <link href="CSS/site.css" rel="stylesheet" />
-
     <script src="Scripts/index.js"></script>
     <script type="text/javascript" src="/mopidy/mopidy.min.js"></script>
-
     <script type="text/javascript">
         $(window).load(function () {
             $('#slider').nivoSlider();
         });
     </script>
     <title></title>
+
+    <style>
+        #searchResultsProgress {
+            width: 817px;
+        }
+
+        .ui-progressbar {
+            position: relative;
+        }
+
+        .progress-label {
+            position: absolute;
+            left: 50%;
+            top: 4px;
+            font-weight: bold;
+            text-shadow: 1px 1px 0 #fff;
+        }
+
+    </style>
 </head>
 <body>
     <div id="wrapper">
@@ -23,6 +44,25 @@
                 <div id="onairStatus">
                     <img src="Images/on-air.jpg" />
                 </div>
+
+                <div id="searchAndLogin">
+                    {% if current_user %}
+                        
+                        {% if permissionLevel == '2' %}                         
+                            <div id="logInOut">You are logged in as: <img src="Images/logged-in.png" />{{ current_user }} (admin)</div> 
+                        {% else %} 
+                            <div id="logInOut">You are logged in as: <img src="Images/logged-in.png" />{{ current_user }}</div>
+                        {% end %}    
+
+                                            
+                    {% end %}
+                                  
+                    <div id="searchBox"><input type="text" value="Search..." id="txtSearch" />
+                        <div id="searchGlass"><input type="image" src="Images/search-glass.png" id="btnSearch" onclick="search()" /></div>
+                    </div>
+                    
+                </div>
+
             </div>
         </div>
 
@@ -81,12 +121,7 @@
                 </div>
             </div>
 
-
             <div id="mainContent">
-                <div id="dvSearch">
-                    <input type="text" id="txtSearch" /> <input type="button" id="btnSearch" value="Search" onclick="search()" />
-                </div>
-
                 <div id="mainBanner">
                     <div id="slider" class="nivoSlider">
                         <a href="#"><img src="Images/mainbanner-soundwave.jpg" /></a>
@@ -96,48 +131,73 @@
                     </div>
                 </div>
 
-
-
                 <div id="mainPage">
                     <div id="pageTitles">
                         <img src="Images/banner-bottom-headers.png" />
                     </div>
 
+                   
+
+                    <div id="searchResultsProgress"><div class="progress-label"></div></div>
+                    </br>
+
                     <div id="searchResults">
-                        
-                        
-
-                        <!--<div class="resultsItem">
-                            <ul>
-                                <li class="riNumber">3</li>
-                                <li class="riThumb"><img src="Images/search-3.jpg" /></li>
-                                <li class="riTrack">
-                                    <span class="trackHeader">Roll With It</span><br />
-                                    <span class="trackAlbum">What's the story morning glory</span>
-                                </li>
-                                <li class="riArtist">
-                                    <span class="trackHeader">Oasis</span><br />
-                                    Year 1995
-                                </li>
-
-                                <li class="riTime">
-                                    <span class="trackHeader"></span><br />
-                                    Time: 3:59
-                                </li>
-                            </ul>
-                        </div>-->
+                       
 
 
 
                     </div>
 
+                    <div id="upNext">
 
+
+                        <!--<div class="upnextItem">
+                            <ul>
+                                <li class="unThumb"><img src="Images/upnext-1.jpg" /></li>
+                                <li class="unTrack">
+                                    <span class="trackHeader">Birdy</span><br />
+                                    <span class="trackAlbum">Fire Within - 2013</span>
+                                    <span class="trackTitle">Wings</span> <br />
+                                    <span class="trackAlbum">Time: 4:36</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="upnextItem">
+                            <ul>
+                                <li class="unThumb"><img src="Images/upnext-2.jpg" /></li>
+                                <li class="unTrack">
+                                    <span class="trackHeader">Eagles</span><br />
+                                    <span class="trackAlbum">Hotel California - 1977</span>
+                                    <span class="trackTitle">Hotel California</span> <br />
+                                    <span class="trackAlbum">Time: 6:30</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="upnextItem">
+                            <ul>
+                                <li class="unThumb"><img src="Images/upnext-3.jpg" /></li>
+                                <li class="unTrack">
+                                    <span class="trackHeader">Pink Floyd</span><br />
+                                    <span class="trackAlbum">Wish You Were Here - 1975</span>
+                                    <span class="trackTitle">Wish You Were Here</span> <br />
+                                    <span class="trackAlbum">Time: 5:40</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div id="trackWarning">
+                            <img src="Images/low-track-warning.png" /></div>-->
+
+
+
+
+
+
+                    </div>
                 </div>
-
-
             </div>
-
-
             <div id="rightRip"><img src="Images/main-right-rip.png" /></div>
         </div>
 

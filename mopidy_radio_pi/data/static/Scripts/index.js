@@ -5,8 +5,34 @@
     ConnectToMopidy();
 
 
+    $("#txtSearch").on("focus", function () {
+        if ($("#txtSearch").val() == 'Search...')
+        {
+            $("#txtSearch").val('');
+        }      
+    });
 
+    var progressbar = $("#searchResultsProgress"),        
+      progressLabel = $(".progress-label"),
+      progressbarValue = progressbar.find(".ui-progressbar-value");
+
+    progressbar.progressbar({
+        value: false,
+        change: function () {
+            progressLabel.text(progressbar.progressbar("value") + "%");
+        },
+        complete: function () {
+            progressLabel.text("Complete!");
+        }
+    });
+
+    progressbar.hide();
+
+    //$("#searchResultsProgress").progressbar({
+    //    max: 20
+    //});
 });
+
 
 
 var set_host = function (hostname) {
@@ -76,9 +102,27 @@ var processSearchResults = function (resultArr) {
     if (resultArr.length > 0) {
         var results = resultArr[0];
 
-        for (var i = 0; i < (results.tracks.length) && (i < 5) ; ++i) {
+        $("#searchResults").html('');
+
+        $("#searchResultsProgress").show();
+
+        if (results.tracks.length < 20) {
+            $("#searchResultsProgress").progressbar("option", "max", results.tracks.length);
+        }
+        else {
+            $("#searchResultsProgress").progressbar("option", "max", 20);        
+        }
+       
+        $("#searchResultsProgress").find(".ui-progressbar-value").css({
+            "background": '#EAA469'
+        });
+        
+
+        for (var i = 0; i < (results.tracks.length) && (i < 20) ; ++i) {
             (function (i) {
-          
+                
+               
+
                 var date = new Date(results.tracks[i].length);
                 var h = date.getHours();
                 var m = date.getMinutes();
@@ -86,6 +130,8 @@ var processSearchResults = function (resultArr) {
                 var trackLength = m + ':' + s;
 
                 var image = mopidy.library.getImages({ uris: [results.tracks[i].uri] }).then(function (data) {
+
+                    $("#searchResultsProgress").progressbar("value", i + 1);
 
                     $("#searchResults").append("<div class='resultsItem'> \
                                                     <ul> \
@@ -105,6 +151,8 @@ var processSearchResults = function (resultArr) {
                                                          </li> \
                                                     </ul> \
                                                 </div>");
+
+
                 });
             })(i);
         }
