@@ -5,6 +5,10 @@
     <script src="Scripts/jquery.nivo.slider.js"></script>
     <link href="CSS/nivo-slider.css" rel="stylesheet" />
     <link href="CSS/site.css" rel="stylesheet" />
+
+    <script src="Scripts/index.js"></script>
+    <script type="text/javascript" src="/mopidy/mopidy.min.js"></script>
+
     <script type="text/javascript">
         $(window).load(function () {
             $('#slider').nivoSlider();
@@ -79,6 +83,10 @@
 
 
             <div id="mainContent">
+                <div id="dvSearch">
+                    <input type="text" id="txtSearch" /> <input type="button" id="btnSearch" value="Search" onclick="search()" />
+                </div>
+
                 <div id="mainBanner">
                     <div id="slider" class="nivoSlider">
                         <a href="#"><img src="Images/mainbanner-soundwave.jpg" /></a>
@@ -89,21 +97,52 @@
                 </div>
 
 
-                <div id="mainPage">
 
+                <div id="mainPage">
                     <div id="pageTitles">
                         <img src="Images/banner-bottom-headers.png" />
+                    </div>
+
+                    <div id="searchResults">
+                        
+                        
+
+                        <!--<div class="resultsItem">
+                            <ul>
+                                <li class="riNumber">3</li>
+                                <li class="riThumb"><img src="Images/search-3.jpg" /></li>
+                                <li class="riTrack">
+                                    <span class="trackHeader">Roll With It</span><br />
+                                    <span class="trackAlbum">What's the story morning glory</span>
+                                </li>
+                                <li class="riArtist">
+                                    <span class="trackHeader">Oasis</span><br />
+                                    Year 1995
+                                </li>
+
+                                <li class="riTime">
+                                    <span class="trackHeader"></span><br />
+                                    Time: 3:59
+                                </li>
+                            </ul>
+                        </div>-->
+
+
+
                     </div>
 
 
                 </div>
 
 
-
             </div>
-            <div id="rightRip"><img src="Images/main-right-rip.png" /></div>
 
+
+            <div id="rightRip"><img src="Images/main-right-rip.png" /></div>
         </div>
+
+
     </div>
+
 </body>
 </html>

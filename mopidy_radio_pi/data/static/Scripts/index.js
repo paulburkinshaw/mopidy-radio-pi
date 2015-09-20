@@ -63,7 +63,7 @@ var ConnectToMopidy = function () {
 
 var search = function () {
     var searchTerm = $('#txtSearch').val();
-    
+
     mopidy.library.search({
         any: searchTerm,
         uris: ['spotify:']
@@ -74,77 +74,49 @@ var search = function () {
 var processSearchResults = function (resultArr) {
     console.log('processSearchResults called');
     if (resultArr.length > 0) {
-        //console.log('results found');
-        //console.log(resultArr);
-        
         var results = resultArr[0];
 
-
         for (var i = 0; i < (results.tracks.length) && (i < 5) ; ++i) {
-
-            (function(i){
-
-
-                console.log('i : ' + i);
-                //var trk = results.tracks[i];
-                //var trkUri = trk.uri;
-
-
-                // var deferred = $.Deferred(); //Create a deferred object
-
+            (function (i) {
+          
+                var date = new Date(results.tracks[i].length);
+                var h = date.getHours();
+                var m = date.getMinutes();
+                var s = date.getSeconds();
+                var trackLength = m + ':' + s;
 
                 var image = mopidy.library.getImages({ uris: [results.tracks[i].uri] }).then(function (data) {
 
-
-                    //var tupleKey = trkUri;
-                    //var img = data[tupleKey];
-
-
-                    console.log('trkUri : ' + results.tracks[i].uri);
-                    console.dir('data :' + data);
-                    var img = data[results.tracks[i].uri];
-                   
-                    console.log(img[2]);
-                    console.log(img.length);
-
-                    $('#imgArtwork').attr("src", img[2].uri);
-
-                   
-
-                    //deferred.resolve(); //resolve the deferred object
-
-
+                    $("#searchResults").append("<div class='resultsItem'> \
+                                                    <ul> \
+                                                        <li class='riNumber'>"+ (i + 1) +"</li> \
+                                                         <li class='riThumb'><img src='" + data[results.tracks[i].uri][2].uri + "' style='width:46px;height:46px' /></li> \
+                                                         <li class='riTrack'> \
+                                                             <span class='trackHeader'>" + results.tracks[i].name + "</span><br /> \
+                                                             <span class='trackAlbum'>" + results.tracks[i].album.name + "</span> \
+                                                         </li> \
+                                                         <li class='riArtist'> \
+                                                            <span class='trackHeader'>" + results.tracks[i].album.artists[0].name + "</span><br /> \
+                                                            <span>Year:" + results.tracks[i].album.date + "</span> \
+                                                         </li> \
+                                                        <li class='riTime'> \
+                                                            <span class='trackHeader'></span><br /> \
+                                                            <span>Time:" + trackLength + "</span> \
+                                                         </li> \
+                                                    </ul> \
+                                                </div>");
                 });
-
-
-
-
-
             })(i);
-
-
         }
-
     }
 }
 
 function asyncEvent() {
     var dfd = jQuery.Deferred();
 
-   
-
     // Return the Promise so caller can't change the Deferred
     return dfd.promise();
 }
-
-function checkFlag(flag) {
-    if (flag == false) {
-        window.setTimeout(checkFlag, 100); /* this checks the flag every 100 milliseconds*/
-    } else {
-        /* do something*/
-    }
-}
-
 
 
 // Development method used to add a few tracks and start playing them so we have something to work with
@@ -181,8 +153,8 @@ var tstAddThreeTracksAndBeginPlaying = function () {
 
 
 var OpenWebSocket = function () {
-    if ("WebSocket" in window) {              
-        ws = new WebSocket("ws://"+_hostname+":6680/radio-pi_app/piWs?clientId=" + $('#hdnCurrentUser').val());
+    if ("WebSocket" in window) {
+        ws = new WebSocket("ws://" + _hostname + ":6680/radio-pi_app/piWs?clientId=" + $('#hdnCurrentUser').val());
 
         ws.onopen = function () {
 
