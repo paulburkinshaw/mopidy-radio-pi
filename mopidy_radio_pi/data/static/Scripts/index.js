@@ -76,50 +76,65 @@ var processSearchResults = function (resultArr) {
     if (resultArr.length > 0) {
         //console.log('results found');
         //console.log(resultArr);
-
+        
         var results = resultArr[0];
 
-        var flag = false;
 
-        for (var i = 0; i < (results.tracks.length) && (i < 50) ; ++i) {
+        for (var i = 0; i < (results.tracks.length) && (i < 5) ; ++i) {
 
-            console.log('i : ' + i);
-            var trk = results.tracks[i];
-            var trkUri = trk.uri;
+            (function(i){
 
 
-           // var deferred = $.Deferred(); //Create a deferred object
-
-           
-
-            var image = mopidy.library.getImages({ uris: [trkUri] }).then(function (data) {
-
-                
-                var tupleKey = trkUri;
-                //var img = data[tupleKey];
+                console.log('i : ' + i);
+                //var trk = results.tracks[i];
+                //var trkUri = trk.uri;
 
 
-                console.log('trkUri : ' + trkUri);
-                console.dir('data :' + data);
-                flag = true;
-                //deferred.resolve(); //resolve the deferred object
-               
+                // var deferred = $.Deferred(); //Create a deferred object
 
-            });
 
-            //while (flag == false) {
-            //    console.log('waitin...');
+                var image = mopidy.library.getImages({ uris: [results.tracks[i].uri] }).then(function (data) {
 
-            //}
 
-            //checkFlag(flag);
-           
-            flag = false;
+                    //var tupleKey = trkUri;
+                    //var img = data[tupleKey];
 
-            //$('#tblSearchResults tr:last').after('<tr><td style="width:200px; border-bottom:1px solid; border-right:1px solid;">' + window.results.tracks[i].name + '</td><td style="width:200px; border-bottom:1px solid; border-right:1px solid;">' + window.results.tracks[i].artists[0].name + '</td><td style="width:200px; border-bottom:1px solid;">' + window.results.tracks[i].album.name + '</td><td style="width:200px; border-bottom:1px solid;"><input type="button" value="add" style="font-size:10px" onclick=addTrackToTracklist(' + i + ') /></td></tr>');
+
+                    console.log('trkUri : ' + results.tracks[i].uri);
+                    console.dir('data :' + data);
+                    var img = data[results.tracks[i].uri];
+                   
+                    console.log(img[2]);
+                    console.log(img.length);
+
+                    $('#imgArtwork').attr("src", img[2].uri);
+
+                   
+
+                    //deferred.resolve(); //resolve the deferred object
+
+
+                });
+
+
+
+
+
+            })(i);
+
+
         }
 
     }
+}
+
+function asyncEvent() {
+    var dfd = jQuery.Deferred();
+
+   
+
+    // Return the Promise so caller can't change the Deferred
+    return dfd.promise();
 }
 
 function checkFlag(flag) {
@@ -129,6 +144,7 @@ function checkFlag(flag) {
         /* do something*/
     }
 }
+
 
 
 // Development method used to add a few tracks and start playing them so we have something to work with

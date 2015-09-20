@@ -1,0 +1,62 @@
+﻿body {
+    margin:0;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size:12px;
+}
+/* Main divs 
+############################# */
+#wrapper            { width:100%;  }
+#Content            { width:1474px; margin: 0 auto; height:1126px; }
+#header             { width:100%; height:78px; background-color:#333; }
+#headerContent      { width: 1418px; height:78px; margin:0 auto; }
+#onairStatus        { float:left; margin-left:-1px; height:78px; width:212px; border-left:#fff 1px solid; border-right:#fff 1px solid;}
+#onairStatus img    { margin:14px 0 0 10px; }
+#leftRip, #rightRip { float:left; }
+#leftInfo           { width: 212px; background-color:#333; min-height:100%; float:left; position:relative; }
+#mainContent        { min-height:100%; float:left; width:1206px; float:left; position:relative; }
+
+/* Current Track 
+############################# */
+#currentTrack           { float:left; background-color:#444; }
+#currentTrack .Info    { margin:0 16px 0 16px; }
+#currentTrack .ripT img { vertical-align:top; }
+#currentTrack .ripB img { vertical-align:bottom; padding-top:10px; }
+#ctCoverArt             { float:left; margin:6px 0 10px 0; }
+.ctHeader               { color:#fff; font-size:1.2em; }
+.ctHeaderItalic         { color:#fff; font-size:1.2em; font-style:italic; }
+
+/* Vote / Skip 
+############################# */
+#voteSkip               { background-color:#333; float:left; padding-top:6px; }
+#voteSkip .Info         { margin:0 16px 0 16px; }
+.vHeader                { color:#fff; font-size:1.2em; }
+.vHeaderSMItalic        { color:#fff; font-size:0.9em; font-style:italic; }
+#voteHolder             { float:left; width:100%; margin:6px 0 6px 0; }
+.voteOn                 { float:left; margin-right:3px; }
+.voteOff                { float:left; margin-right:3px; }
+#voteButtons            { float:left; width:100%; }
+.voteLike               { float:left; background: url('../Images/like-on-off.png'); height:86px; width:101px; }
+.voteLike:hover         { background-position-y: -84px; }
+.voteSkip               { float:left; background: url('../Images/skip-on-off.png'); height:86px; width:100px; }
+.voteSkip:hover         { background-position-y: -84px; }
+#voteSkip .ripB img     { vertical-align:bottom; }
+
+/* Dedication
+############################# */
+#dedication             { background-color:#444; float:left; width:100%; vertical-align:top; padding:4px 0 0 0; }
+#dedication .Info       { margin:0 16px 0 16px; }
+.dtHeader               { color:#ccc; font-size:1em; }
+.dtHeaderItalic         { color:#ccc; font-size:1em; font-style:italic; margin-bottom:10px; }
+#dedication .ripB img   { vertical-align:bottom; }
+
+/* Main Content
+############################# */
+
+/* Banner  */
+#mainBanner { width:1188px; height:240px; margin:4px 4px 0 4px; padding:4px 4px 0 4px; border-top:#d7d7d7 1px solid; border-left:#d7d7d7 1px solid; border-right:#d7d7d7 1px solid; }
+
+/* nivo overrides */
+.nivo-controlNav, .nivo-prevNav, .nivo-nextNav {display:none!important; }
+
+/* Titles */
+#pageTitles { vertical-align:top; margin:0!important; padding:0!important;  }

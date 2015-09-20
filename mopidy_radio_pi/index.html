@@ -1,99 +1,109 @@
 ﻿<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>{{ title }}</title>
-    <link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
-    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/blitzer/jquery-ui.min.css">
-    <link rel="stylesheet" href="http://layout.jquery-dev.net/lib/css/layout-default-latest.css">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
-    <script src="http://layout.jquery-dev.net/lib/js/jquery.layout-latest.js"></script>
-
-    <script src="js/index.js"></script>
-    <script type="text/javascript" src="/mopidy/mopidy.min.js"></script>
-
-    <style>
-        #dvMainContainer {
-            height: 100%;
-        }
-
-        #dvSearch {
-            height: 50px;
-        } 
-        
-        #dvLeft {
-            height: 100px;
-        }
-
-        #dvCentre {
-            height: 100px;
-        }
-
-        #dvRight {
-            height: 100px;
-        }
-
-        #dvBottom {
-            height: 100px;
-        }
-    </style>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="Scripts/jquery.nivo.slider.js"></script>
+    <link href="CSS/nivo-slider.css" rel="stylesheet" />
+    <link href="CSS/site.css" rel="stylesheet" />
+    <script type="text/javascript">
+        $(window).load(function () {
+            $('#slider').nivoSlider();
+        });
+    </script>
+    <title></title>
 </head>
 <body>
-    <div id="dvUser" style="text-align:right;">
-        <!--{{ rpiConfig }}-->
-        {% if current_user %}
-        Logged in as: {{ current_user }}
-        {% end %}
-        <!-- If user is an admin -->
-        {% if permissionLevel == '2' %}
-        <img src="http://royalearn.net/aimg/login.png" width="20px" height="20px" alt="adminIcon" />
-        {% end %}
-        &nbsp  &nbsp
-        <span id="spnConnectionStatus">Connecting....</span>
-    </div>
-    <!-- Hide everything until connected to Mopidy -->
-    <div id="dvMainContainer" style="display:none;">
-        <div id="dvSearch">
-            <input type="text" id="txtSearch" /> <input type="button" id="btnSearch" value="Search" onclick="search()" />
-        </div>
-
-
-        <div id="dvLeft">
-            <div id="currentTrack">
-                Current Track
-                <div id="artwork">
-
-                </div>
-                <div id="artist">
-
-                </div>
-                <div id="trackname">
-
+    <div id="wrapper">
+        <div id="header">
+            <div id="headerContent">
+                <div id="onairStatus">
+                    <img src="Images/on-air.jpg" />
                 </div>
             </div>
         </div>
-        <div id="dvCentre">
-            Search results
-            </br>
-            </br>
+
+        <div id="Content">
+            <div id="leftRip">
+                <img src="Images/main-left-rip.png" />
+            </div>
+
+            <div id="leftInfo">
+
+                <div id="currentTrack">
+                    <div class="ripT"><img src="Images/currenttrack-top.png" /></div>
+                    <div class="Info">
+                        <div class="ctHeader">Current Track</div>
+                        <div id="ctCoverArt"><img src="Images/track-cover.jpg" /></div>
+                        <div class="ctHeaderItalic">The Libertines</div>
+                        <div class="ctHeaderItalic">Can't Stand Me Now</div>
+                    </div>
+                    <div class="ripB"><img src="Images/currenttrack-bot.png" /></div>
+                </div>
+
+                <div id="voteSkip">
+                    <div class="Info">
+                        <div class="vHeader">Vote</div>
+                        <div class="vHeaderSMItalic">Like this track / Skip this track</div>
+                        <div id="voteHolder">
+                            <div class="voteOn"><img src="Images/note-on.png" /></div>
+                            <div class="voteOn"><img src="Images/note-on.png" /></div>
+                            <div class="voteOn"><img src="Images/note-on.png" /></div>
+                            <div class="voteOff"><img src="Images/note-off.png" /></div>
+                            <div class="voteOff"><img src="Images/note-off.png" /></div>
+                            <div class="voteOff"><img src="Images/note-off.png" /></div>
+                            <div class="voteOff"><img src="Images/note-off.png" /></div>
+                            <div class="voteOff"><img src="Images/note-off.png" /></div>
+                            <div class="voteOff"><img src="Images/note-off.png" /></div>
+                            <div class="voteOff"><img src="Images/note-off.png" /></div>
+                        </div>
+                    </div>
+                    <div id="voteButtons">
+                        <a href="#" class="voteLike"></a>
+                        <a href="#" class="voteSkip"></a>
+                    </div>
+                    <div class="ripB"><img src="Images/vote-bot.png" /></div>
+                </div>
+
+                <div id="dedication">
+                    <div class="Info">
+                        <div class="dtHeader">Requested By:</div>
+                        <div class="dtHeaderItalic">Andy Poole</div>
+                        <div class="dtHeader">Dedicated To:</div>
+                        <div class="dtHeaderItalic">Andy Poole</div>
+                        <div class="dtHeader">Comments:</div>
+                        <div class="dtHeaderItalic">This is a good track.  </div>
+                    </div>
+                    <div class="ripB"><img src="Images/dedicated-bot.png" /></div>
+                </div>
+            </div>
 
 
-        </div>
-        <div id="dvRight">
-            dvRight
-        </div>
-        <div id="dvBottom">
-            {% if permissionLevel == '2' %}
-            <div id="djControl">
-                <input type="button" id="btnPlay" value="Play" />
-                <input type="button" id="btnPause" value="Pause" />
-                <input type="button" id="btnStop" value="Stop" />
-                <input type="button" id="btnSkip" value="Skip" />
+            <div id="mainContent">
+                <div id="mainBanner">
+                    <div id="slider" class="nivoSlider">
+                        <a href="#"><img src="Images/mainbanner-soundwave.jpg" /></a>
+                        <a href="#"><img src="Images/mainbanner-headphones.jpg" /></a>
+                        <a href="#"><img src="Images/mainbanner-jukebox.jpg" /></a>
+                        <a href="#"><img src="Images/mainbanner-orangeband.jpg" /></a>
+                    </div>
+                </div>
+
+
+                <div id="mainPage">
+
+                    <div id="pageTitles">
+                        <img src="Images/banner-bottom-headers.png" />
+                    </div>
+
+
+                </div>
+
+
 
             </div>
-            {% end %}
+            <div id="rightRip"><img src="Images/main-right-rip.png" /></div>
+
         </div>
     </div>
-    <input type="hidden" id="hdnCurrentUser" value={{ current_user }} />
 </body>
 </html>
