@@ -1,7 +1,10 @@
 ﻿<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
     <script src="Scripts/jquery.nivo.slider.js"></script>
     <link href="CSS/nivo-slider.css" rel="stylesheet" />
     <link href="CSS/site.css" rel="stylesheet" />
@@ -9,10 +12,44 @@
         $(window).load(function () {
             $('#slider').nivoSlider();
         });
+
+        $(function () {
+            $('#dialog').dialog({
+                autoOpen: false,
+                resizable: false,
+                draggable: true,
+                modal: true
+
+            });
+
+            $('.resultsItem').click(function () {
+                $('#dialog').dialog('open');
+            });
+        });
+
+        function overlayclickclose() {
+            $('#dialog').dialog('close');
+        }
+
     </script>
-    <title></title>
+
+    <title>Radio Pi2 - Music to my ears!</title>
 </head>
 <body>
+
+
+    <div id="dialog" title="Add Track">
+        <div id="yourName"><input type="text" /></div>
+        <div id="dedicateTo"><input type="text" /></div>
+        <div id="addComment"><textarea class="addtrackComments"></textarea></div>
+        <div id="addtrackBtns">
+            <div id="addtrackBtn"><img src="Images/btn-add-track.png" onclick="overlayclickclose()" /></div>
+            <div id="addtrackanonBtn"><img src="Images/btn-add-track-anon.png" onclick="overlayclickclose()" /></div>
+        </div>
+    </div>
+
+
+
     <div id="wrapper">
         <div id="header">
             <div id="headerContent">
@@ -21,10 +58,12 @@
                 </div>
 
                 <div id="searchAndLogin">
-                    <div id="logInOut">You are logged in as: <img src="Images/logged-in.png" /> Andy (admin) </div>  
+                    <div id="logInOut">You are logged in as: <img src="Images/logged-in.png" /> Andy (admin) </div>
                     <form id="srchForm" method="post">
-                        <div id="searchBox"><input type="text" value="Search..."/>
-                            <div id="searchGlass"><input type="image" src="Images/search-glass.png" /></div></div>
+                        <div id="searchBox">
+                            <input type="text" value="Search..." />
+                            <div id="searchGlass"><input type="image" src="Images/search-glass.png" /></div>
+                        </div>
                     </form>
                 </div>
 
@@ -103,7 +142,7 @@
 
                     <div id="searchResults">
                         <div class="resultsItem">
-                            <ul onclick="Javascript:alert('You Clicked Me!!!')">
+                            <ul>
                                 <li class="riNumber">1</li>
                                 <li class="riThumb"><img src="Images/search-1.jpg" /></li>
                                 <li class="riTrack">
@@ -446,7 +485,8 @@
                         </div>
 
                         <div id="trackWarning">
-                            <img src="Images/low-track-warning.png" /></div>
+                            <img src="Images/low-track-warning.png" />
+                        </div>
 
 
 
