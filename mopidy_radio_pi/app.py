@@ -20,6 +20,8 @@ _LOCALE_DIR = os.path.join(_DATA_DIR, 'locale')
 _STATIC_DIR = os.path.join(_DATA_DIR, 'static')
 _TEMPLATE_DIR = os.path.join(_DATA_DIR, 'template')
 
+_SPECIALSCRIPTS_DIR = os.path.join(_STATIC_DIR, 'SpecialScripts')
+
 logger = logging.getLogger(__name__)
 
 
@@ -64,6 +66,8 @@ class IndexHandler(BaseHandler):
         else:        
            if not users[self.current_user] == self.get_cookie("logincookie_password"):
                self.redirect("login")
+           else:                            
+               return self.render('index.html', **self._template_kwargs)
          
 class LoginHandler(BaseHandler):      
     def get(self, path):
@@ -169,6 +173,12 @@ def wsSendToAdmin(message):
             wsSend(message, ws) 
 
 
+class AddTrackScriptHandler(BaseHandler):
+    def get(self, path):  
+        if not self.current_user:
+           self.write("")  
+        else:                            
+           return self.render('data/static/Scripts/addTrack.js', **self._template_kwargs)     
    
 
 def radio_pi_factory(config, core):
@@ -178,8 +188,11 @@ def radio_pi_factory(config, core):
         (r'/(admin)?', AdminHandler, {'core': core, 'config': config}),
         (r'/(register)?', RegisterHandler, {'core': core, 'config': config}),
         (r'/(clearcookie)?', CookieHandler, {'core': core, 'config': config}),
-        (r'/(piWs)?', PiWebSocket),
+        (r'/(piWs)?', PiWebSocket),   
+        #(r'/(SpecialScripts/.*)?', AddTrackScriptHandler, {'core': core, 'config': config}),    
+        (r'/(Scripts/addTrack.js)?', AddTrackScriptHandler, {'core': core, 'config': config}), 
         (r'/(.*)', tornado.web.StaticFileHandler, {'path': _STATIC_DIR}),
+       
         
     ]
 

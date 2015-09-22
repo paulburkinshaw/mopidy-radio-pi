@@ -2,23 +2,30 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 
     <script src="Scripts/jquery.nivo.slider.js"></script>
     <link href="CSS/nivo-slider.css" rel="stylesheet" />
     <link href="CSS/site.css" rel="stylesheet" />
     <script src="Scripts/index.js"></script>
+    {% if current_user %}
+        {% if permissionLevel > '0' %}
+            <script src="Scripts/addTrack.js"></script>
+        {% end %}
+    {% end %}
     <script type="text/javascript" src="/mopidy/mopidy.min.js"></script>
     <script type="text/javascript">
         $(window).load(function () {
             $('#slider').nivoSlider();
         });
+
+      
+
     </script>
-    <title></title>
 
     <style>
+        /* search progress bar styles */
         #searchResultsProgress {
             width: 817px;
         }
@@ -34,10 +41,31 @@
             font-weight: bold;
             text-shadow: 1px 1px 0 #fff;
         }
-
     </style>
+
+
+    <title>Radio Pi2 - Music to my ears!</title>
 </head>
 <body>
+
+    {% if current_user %}
+        {% if permissionLevel > '0' %}
+        <div id="dialog-addTrack" title="Add Track">
+            <div id="yourName"><input type="text" /></div>
+            <div id="dedicateTo"><input type="text" /></div>
+            <div id="addComment"><textarea class="addtrackComments"></textarea></div>
+
+            <input type="hidden" id="hdnTrackUri"/>
+
+            <div id="addtrackBtns">
+                <div id="addtrackBtn"><img src="Images/btn-add-track.png" onclick="addTrackToTracklist()" /></div>
+                <div id="addtrackanonBtn"><img src="Images/btn-add-track-anon.png" onclick="overlayclickclose()" /></div>
+            </div>
+        </div>
+        {% end %}
+    {% end %}
+
+
     <div id="wrapper">
         <div id="header">
             <div id="headerContent">
@@ -46,18 +74,23 @@
                 </div>
 
                 <div id="searchAndLogin">
-                    {% if current_user %}                       
-                        {% if permissionLevel == '2' %}                         
-                            <div id="logInOut">You are logged in as: <img src="Images/logged-in.png" />{{ current_user }} (admin)</div> 
-                        {% else %} 
-                            <div id="logInOut">You are logged in as: <img src="Images/logged-in.png" />{{ current_user }}</div>
-                        {% end %}                                       
-                    {% end %}
-                                  
-                    <div id="searchBox"><input type="text" value="Search..." id="txtSearch" />
-                        <div id="searchGlass"><input type="image" src="Images/search-glass.png" id="btnSearch" onclick="search()" /></div>
-                    </div>
                     
+                    {% if current_user %}
+                        {% if permissionLevel == '2' %}
+                        <div id="logInOut">You are logged in as: <img src="Images/logged-in.png" />{{ current_user }} (admin)</div>
+                        {% else %}
+                        <div id="logInOut">You are logged in as: <img src="Images/logged-in.png" />{{ current_user }}</div>
+                        {% end %}
+                    {% end %}
+                    
+                    {% if current_user %}
+                        {% if permissionLevel > '0' %}
+                            <div id="searchBox">
+                                <input type="text" value="Search..." id="txtSearch" />
+                                <div id="searchGlass"><input type="image" src="Images/search-glass.png" id="btnSearch" onclick="search()" /></div>
+                            </div>   
+                        {% end %}
+                    {% end %}            
                 </div>
 
             </div>
@@ -133,13 +166,11 @@
                         <img src="Images/banner-bottom-headers.png" />
                     </div>
 
-                   
-
                     <div id="searchResultsProgress"><div class="progress-label"></div></div>
                     </br>
 
                     <div id="searchResults">
-                       
+                        
 
 
 
@@ -185,7 +216,8 @@
                         </div>
 
                         <div id="trackWarning">
-                            <img src="Images/low-track-warning.png" /></div>-->
+                            <img src="Images/low-track-warning.png" />
+                        </div>-->
 
 
 
