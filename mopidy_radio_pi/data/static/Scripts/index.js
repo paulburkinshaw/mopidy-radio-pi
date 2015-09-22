@@ -127,32 +127,9 @@ var processSearchResults = function (resultArr) {
                 var s = date.getSeconds();
                 var trackLength = m + ':' + s;
 
-                var trackTitle = '';
-                var albumTitle = '';
-                var artistTitle = '';
-
-                // Check track name length, if greater than 37 truncate
-                if (results.tracks[i].name.length > 36)
-                {                
-                    trackTitle = jQuery.trim(results.tracks[i].name).substring(0, 34).split(" ").slice(0, -1).join(" ") + "...";
-                }
-                else {
-                    trackTitle = results.tracks[i].name;
-                }
-
-                if (results.tracks[i].album.name.length > 36) {
-                    albumTitle = jQuery.trim(results.tracks[i].album.name).substring(0, 34).split(" ").slice(0, -1).join(" ") + "...";
-                }
-                else {
-                    albumTitle = results.tracks[i].album.name;
-                }
-
-                if (results.tracks[i].album.artists[0].name.length > 25) {
-                    artistTitle = jQuery.trim(results.tracks[i].album.artists[0].name).substring(0, 22).split(" ").slice(0, -1).join(" ") + "...";
-                }
-                else {
-                    artistTitle = results.tracks[i].album.artists[0].name;
-                }
+                var trackTitle = TruncateString(results.tracks[i].name, 36, 34);
+                var albumTitle = TruncateString(results.tracks[i].album.name, 36, 34);
+                var artistTitle = TruncateString(results.tracks[i].album.artists[0].name, 25, 22);
 
                 var image = mopidy.library.getImages({ uris: [results.tracks[i].uri] }).then(function (data) {
 
@@ -243,4 +220,19 @@ var OpenWebSocket = function () {
     } else {
         alert('WebSockets NOT supported by your Browser!');
     }
+}
+
+
+// Helper functions
+
+var TruncateString = function (string, maxLength, truncateLength) {
+    var truncatedString = '';
+    if (string.length > maxLength) {
+        truncatedString = jQuery.trim(string).substring(0, truncateLength).split(" ").slice(0, -1).join(" ") + "...";
+    }
+    else {
+        truncatedString = string;
+    }
+
+    return truncatedString;
 }
