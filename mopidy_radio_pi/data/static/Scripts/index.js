@@ -120,14 +120,39 @@ var processSearchResults = function (resultArr) {
 
         for (var i = 0; i < (results.tracks.length) && (i < 20) ; ++i) {
             (function (i) {
-                
-               
-
+                             
                 var date = new Date(results.tracks[i].length);
                 var h = date.getHours();
                 var m = date.getMinutes();
                 var s = date.getSeconds();
                 var trackLength = m + ':' + s;
+
+                var trackTitle = '';
+                var albumTitle = '';
+                var artistTitle = '';
+
+                // Check track name length, if greater than 37 truncate
+                if (results.tracks[i].name.length > 36)
+                {                
+                    trackTitle = jQuery.trim(results.tracks[i].name).substring(0, 34).split(" ").slice(0, -1).join(" ") + "...";
+                }
+                else {
+                    trackTitle = results.tracks[i].name;
+                }
+
+                if (results.tracks[i].album.name.length > 36) {
+                    albumTitle = jQuery.trim(results.tracks[i].album.name).substring(0, 34).split(" ").slice(0, -1).join(" ") + "...";
+                }
+                else {
+                    albumTitle = results.tracks[i].album.name;
+                }
+
+                if (results.tracks[i].album.artists[0].name.length > 25) {
+                    artistTitle = jQuery.trim(results.tracks[i].album.artists[0].name).substring(0, 22).split(" ").slice(0, -1).join(" ") + "...";
+                }
+                else {
+                    artistTitle = results.tracks[i].album.artists[0].name;
+                }
 
                 var image = mopidy.library.getImages({ uris: [results.tracks[i].uri] }).then(function (data) {
 
@@ -138,11 +163,11 @@ var processSearchResults = function (resultArr) {
                                                         <li class='riNumber'>"+ (i + 1) +"</li> \
                                                          <li class='riThumb'><img src='" + data[results.tracks[i].uri][2].uri + "' style='width:46px;height:46px' /></li> \
                                                          <li class='riTrack'> \
-                                                             <span class='trackHeader'>" + results.tracks[i].name + "</span><br /> \
-                                                             <span class='trackAlbum'>" + results.tracks[i].album.name + "</span> \
+                                                             <span class='trackHeader'>" + trackTitle + "</span><br /> \
+                                                             <span class='trackAlbum'>" + albumTitle + "</span> \
                                                          </li> \
                                                          <li class='riArtist'> \
-                                                            <span class='trackHeader'>" + results.tracks[i].album.artists[0].name + "</span><br /> \
+                                                            <span class='trackHeader'>" + artistTitle + "</span><br /> \
                                                             <span>Year:" + results.tracks[i].album.date + "</span> \
                                                          </li> \
                                                         <li class='riTime'> \
