@@ -51,6 +51,16 @@
     {% if current_user %}
         {% if permissionLevel > '0' %}
         <div id="dialog-addTrack" title="Add Track">
+            <div id="addtrackDetails">
+                <div class="trackTitle" id="dialogArtistName">Oasis - 1995</div>
+                <div class="riThumb"><img src="Images/search-1.jpg" id="dialogImage" /></div>
+                <div id="trackdetailsHolder">
+                    <div class="trackdetailsTitle" id="dialogTrackName">Wonderwall</div>
+                    <div class="trackdetailsAlbum" id="dialogAlbumName"></div>
+                    <div class="trackTime" id="dialogTrackTime"></div>
+                </div>
+            </div>
+
             <div id="yourName"><input type="text" /></div>
             <div id="dedicateTo"><input type="text" /></div>
             <div id="addComment"><textarea class="addtrackComments"></textarea></div>
@@ -165,6 +175,12 @@
                     <div id="pageTitles">
                         <img src="Images/banner-bottom-headers.png" />
                     </div>
+
+                    <div id="loading" style="display:none;">
+                        <img src="Images/ajax-loader.gif" />
+                        <hr />
+                    </div>
+                    <br />
 
                     <div id="searchResultsProgress"><div class="progress-label"></div></div>
                     </br>

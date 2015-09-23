@@ -55,6 +55,8 @@ var addTrackToTracklist = function (uri) {
 var search = function () {
     var searchTerm = $('#txtSearch').val();
 
+    $('#loading').show();
+
     mopidy.library.search({
         any: searchTerm,
         uris: ['spotify:']
@@ -63,7 +65,7 @@ var search = function () {
 }
 
 var processSearchResults = function (resultArr) {
-    console.log('processSearchResults called');
+    
     if (resultArr.length > 0) {
         var results = resultArr[0];
 
@@ -95,11 +97,10 @@ var processSearchResults = function (resultArr) {
                 var trackTitle = TruncateString(results.tracks[i].name, 36, 34);
                 var albumTitle = TruncateString(results.tracks[i].album.name, 36, 34);
                 var artistTitle = TruncateString(results.tracks[i].album.artists[0].name, 25, 22);
-
+              
                 var image = mopidy.library.getImages({ uris: [results.tracks[i].uri] }).then(function (data) {
 
                     $("#searchResultsProgress").progressbar("value", i + 1);
-
                     $("#searchResults").append("<div class='resultsItem' id='searchResult-" + i + "'> \
                                                     <ul> \
                                                         <li class='riNumber'>"+ (i + 1) + "</li> \
@@ -127,14 +128,20 @@ var processSearchResults = function (resultArr) {
 
                         //dialogDiv = addTrackDialogue.find("div");
 
-                        //dialogImage = dialogDiv.find("#dialogImage");
-                        //dialogImage.attr("src", data[results.tracks[i].uri][2].uri);
+                        dialogImage = addTrackDialogue.find("#dialogImage");
+                        dialogImage.attr("src", data[results.tracks[i].uri][2].uri);
 
-                        //dialogTrackName = dialogDiv.find("#dialogTrackName");
-                        //dialogTrackName.html(trackTitle);
+                        dialogTrackName = addTrackDialogue.find("#dialogTrackName");
+                        dialogTrackName.html(trackTitle);
 
-                        //dialogArtistName = dialogDiv.find("#dialogArtistName");
-                        //dialogArtistName.html(artistTitle);
+                        dialogAlbumName = addTrackDialogue.find("#dialogAlbumName");
+                        dialogAlbumName.html(albumTitle);
+
+                        dialogTrackTime = addTrackDialogue.find("#dialogTrackTime");
+                        dialogTrackTime.html(trackLength);
+                        
+                        dialogArtistName = addTrackDialogue.find("#dialogArtistName");
+                        dialogArtistName.html(artistTitle);
 
                         //dialogDiv.show();
 
@@ -144,6 +151,7 @@ var processSearchResults = function (resultArr) {
                 });
             })(i);
         }
+        
     }
 }
 
