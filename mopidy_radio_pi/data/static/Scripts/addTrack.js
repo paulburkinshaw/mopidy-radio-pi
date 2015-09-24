@@ -38,6 +38,11 @@
         //} 
     });
 
+    //$("#addtrackBtn").on("focus", function () {
+    //    alert($('#hdnTrackUri'));
+    //});
+    
+
 });
 
 
@@ -45,9 +50,6 @@ var overlayclickclose = function () {
     $('#dialog-addTrack').dialog('close');
 }
 
-var addTrackToTracklist = function (uri) {
-    alert('adding ' + $('#hdnTrackUri').val());
-}
 
 
 
@@ -126,8 +128,6 @@ var processSearchResults = function (resultArr) {
                         hdnTrackUri = addTrackDialogue.find("#hdnTrackUri");
                         hdnTrackUri.val(results.tracks[i].uri);
 
-                        //dialogDiv = addTrackDialogue.find("div");
-
                         dialogImage = addTrackDialogue.find("#dialogImage");
                         dialogImage.attr("src", data[results.tracks[i].uri][2].uri);
 
@@ -141,9 +141,7 @@ var processSearchResults = function (resultArr) {
                         dialogTrackTime.html(trackLength);
                         
                         dialogArtistName = addTrackDialogue.find("#dialogArtistName");
-                        dialogArtistName.html(artistTitle);
-
-                        //dialogDiv.show();
+                        dialogArtistName.html(artistTitle);                      
 
                     });
 
@@ -160,6 +158,63 @@ var processSearchResults = function (resultArr) {
         
     }
 }
+
+
+
+
+var addTrackToTracklist = function (uri) {
+
+    var trackUri = $('#hdnTrackUri').val();
+    var trackName = $('#dialogTrackName').html();
+    var dialogArtistName = $('#dialogArtistName').html();
+    var dialogAlbumName = $('#dialogAlbumName').html();
+
+    var uris = [trackUri]
+
+    // First check if the track has already been added to tracklist
+    mopidy.tracklist.filter({"uri": uris }).then(function (data) {
+        if(data.length < 1)
+        {
+            mopidy.tracklist.add({ "tracks": null, "at_position": null, "uri": null, "uris": uris }).then(function (data) {
+                
+                overlayclickclose();
+                alert('Track added');
+
+
+            });
+        }
+        else
+        {
+            overlayclickclose();
+            alert('Track has already been added!');
+        }
+    });
+
+   
+
+    mopidy.tracklist.getLength({}).then(function (data) {
+        console.log(data);
+    });
+}
+
+
+var GetNextTracks = function (currentTrackUri) {
+
+    for (var i = 0; i < 3; ++i) {
+
+        //mopidy.tracklist.eotTrack({ "tl_track": null }).then(function (data) {
+        //    console.log(data);
+        //});
+
+
+    }
+
+}
+
+
+
+
+
 
 
 
