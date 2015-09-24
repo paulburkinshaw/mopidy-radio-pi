@@ -193,23 +193,12 @@ var addTrackToTracklist = function (uri) {
    
 
     mopidy.tracklist.getLength({}).then(function (data) {
-        console.log(data);
+       
     });
 }
 
 
-var GetNextTracks = function (currentTrackUri) {
 
-    for (var i = 0; i < 3; ++i) {
-
-        //mopidy.tracklist.eotTrack({ "tl_track": null }).then(function (data) {
-        //    console.log(data);
-        //});
-
-
-    }
-
-}
 
 
 
@@ -247,4 +236,50 @@ var tstAddThreeTracksAndBeginPlaying = function () {
     });
 
 }
+
+
+
+var play = function () {
+    mopidy.playback.play({ "tl_track": null }).then(function (data) {
+        //console.log(data);
+    });
+}
+
+var pause = function () {
+    mopidy.playback.pause({}).then(function (data) {
+        //console.log(data);
+    });
+}
+
+var resume = function () {
+    mopidy.playback.resume({}).then(function (data) {
+        //console.log(data);
+    });
+}
+
+
+var stop = function () {
+    mopidy.playback.stop({}).then(function (data) {
+        //console.log(data);
+    });
+}
+
+var skip = function () {
+    mopidy.playback.next({}).then(function (data) {
+        //console.log(data);
+    });
+}
+
+
+
+function ChangeVolume(newVol) {
+    window.mopidy.playback.getVolume().then(function (vol) {
+        var currentVolume = vol;
+        console.log('curent vol: ' + currentVolume);
+        currentVolume = currentVolume + newVol;
+        mopidy.mixer.setVolume({ "volume": currentVolume }).then(function (data) {
+            console.log(data);
+        });
+    });
+};
 

@@ -37,7 +37,36 @@ var ConnectToMopidy = function () {
             $('#dvMainContainer').show();
 
             //OpenWebSocket();
-            //tstAddThreeTracksAndBeginPlaying();
+            
+            mopidy.playback.getState({}).then(function (state) {
+                switch (state) {
+                    case "playing":
+                        console.log(state);
+                        break;
+                    case "stopped":
+                        console.log(state);
+                        break;
+                    case "paused":
+                        console.log(state);
+                        break;
+                }
+            });
+
+            mopidy.on("event:playbackStateChanged", function (data) {
+                switch (data["new_state"]) {
+                    case "stopped":
+                        console.log("playbackStateChanged: stopped");
+                        break;
+                    case "playing":
+                        console.log("playbackStateChanged: playing");
+                        
+                        break;
+                    case "paused":
+                        console.log("playbackStateChanged: paused");
+                        break;
+                }
+            });
+                
 
         }, 500);
     });
@@ -59,6 +88,107 @@ var ConnectToMopidy = function () {
 
     });
 }
+
+
+
+var GetNextTracks = function (currentTrackUri) {
+
+
+    mopidy.playback.getCurrentTlTrack({}).then(function (data) {
+
+
+        // Next Track
+        mopidy.tracklist.nextTrack({ "tl_track": data }).then(function (data) {
+            if (data != null) {
+                var upnextItem1TlTrack = data;
+                var upnextItem1Track = data.track;
+                var date = new Date(upnextItem1Track.length);
+                var h = date.getHours();
+                var m = date.getMinutes();
+                var s = date.getSeconds();
+                var trackLength = m + ':' + s;
+
+                var trackTitle = TruncateString(data.track.name, 41, 38);
+                var albumTitle = TruncateString(data.track.album.name, 22, 19);
+                var artistTitle = TruncateString(data.track.album.artists[0].name, 25, 22);
+
+                mopidy.library.getImages({ uris: [upnextItem1Track.uri] }).then(function (data) {
+
+                    $('#upnextItem1_img').attr("src", data[upnextItem1Track.uri][1].uri);
+
+                    $('#upnextItem1_artist').html(artistTitle);
+                    $('#upnextItem1_trackName').html(trackTitle);
+                    $('#upnextItem1_albumName').html(albumTitle);
+                    //$('#upnextItem1_trackTime').html(data.track.name);
+                });
+
+                // 2nd next Track
+                mopidy.tracklist.nextTrack({ "tl_track": upnextItem1TlTrack }).then(function (data) {
+                    if (data != null) {
+                        var upnextItem2TlTrack = data;
+                        var upnextItem2Track = data.track;
+                        var date = new Date(upnextItem2Track.length);
+                        var h = date.getHours();
+                        var m = date.getMinutes();
+                        var s = date.getSeconds();
+                        var trackLength = m + ':' + s;
+
+                        var trackTitle = TruncateString(data.track.name, 41, 38);
+                        var albumTitle = TruncateString(data.track.album.name, 22, 19);
+                        var artistTitle = TruncateString(data.track.album.artists[0].name, 25, 22);
+
+                        mopidy.library.getImages({ uris: [upnextItem2Track.uri] }).then(function (data) {
+
+                            $('#upnextItem2_img').attr("src", data[upnextItem2Track.uri][1].uri);
+
+                            $('#upnextItem2_artist').html(artistTitle);
+                            $('#upnextItem2_trackName').html(trackTitle);
+                            $('#upnextItem2_albumName').html(albumTitle);
+                            //$('#upnextItem1_trackTime').html(data.track.name);
+                        });
+
+                        // 3rd next Track
+                        mopidy.tracklist.nextTrack({ "tl_track": upnextItem2TlTrack }).then(function (data) {
+                            if (data != null) {
+                                var upnextItem3TlTrack = data;
+                                var upnextItem3Track = data.track;
+                                var date = new Date(upnextItem3Track.length);
+                                var h = date.getHours();
+                                var m = date.getMinutes();
+                                var s = date.getSeconds();
+                                var trackLength = m + ':' + s;
+
+                                var trackTitle = TruncateString(data.track.name, 41, 38);
+                                var albumTitle = TruncateString(data.track.album.name, 22, 19);
+                                var artistTitle = TruncateString(data.track.album.artists[0].name, 25, 22);
+
+                                mopidy.library.getImages({ uris: [upnextItem3Track.uri] }).then(function (data) {
+
+                                    $('#upnextItem3_img').attr("src", data[upnextItem3Track.uri][1].uri);
+
+                                    $('#upnextItem3_artist').html(artistTitle);
+                                    $('#upnextItem3_trackName').html(trackTitle);
+                                    $('#upnextItem3_albumName').html(albumTitle);
+                                    //$('#upnextItem1_trackTime').html(data.track.name);
+                                });
+
+                            }//eo if there is a 3rd next track
+                        }); //eo 3rd next track
+                    }//eo if there is a 2nd next track
+                }); //eo 2nd next track
+            } //eo if there is a next track
+        });//eo next track
+    });//eo current track
+
+
+
+}
+
+
+
+
+
+
 
 
 
