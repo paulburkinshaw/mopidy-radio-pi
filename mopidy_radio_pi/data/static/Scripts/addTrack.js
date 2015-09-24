@@ -13,10 +13,10 @@
     progressbar.progressbar({
         value: false,
         change: function () {
-            progressLabel.text(progressbar.progressbar("value") + "%");
+            //progressLabel.text(progressbar.progressbar("value") + "%");
         },
         complete: function () {
-            progressLabel.text("Complete!");
+            //progressLabel.text("Complete!");
         }
     });
 
@@ -147,6 +147,12 @@ var processSearchResults = function (resultArr) {
 
                     });
 
+                    $('#loading').hide();
+
+                    if (i == 19)
+                    {
+                        $("#searchResultsProgress").hide();
+                    }
 
                 });
             })(i);

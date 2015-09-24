@@ -125,7 +125,7 @@
 #addtrackDetails                { margin:130px 0 0 192px; width:392px; height:100px; }
 #addtrackDetails .trackTitle    { float:left!important; color:#fff; font-size:1.2em; margin:0!important; float:left!important; width:100%; }
 #addtrackDetails .riThumb       { width:56px; margin:0!important; margin:8px 8px 0 0!important; }
-#trackdetailsHolder             { float:left; margin:12px 0 0 0; }
+#trackdetailsHolder             { float:left; margin:12px 0 0 10px; }
 .trackdetailsTitle              { color:#fff; }
 .trackdetailsAlbum              { float:left; color:#fff; font-size:1em; }
 .trackTime                      { color:#fff; float:right; margin:0 0 0 20px; }
