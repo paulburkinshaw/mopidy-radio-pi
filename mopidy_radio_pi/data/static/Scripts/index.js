@@ -58,7 +58,7 @@ var ConnectToMopidy = function () {
                         console.log("playbackStateChanged: stopped");
                         break;
                     case "playing":
-                        console.log("playbackStateChanged: playing");
+                        GetNextTracks();
                         
                         break;
                     case "paused":
