@@ -58,6 +58,9 @@ var ConnectToMopidy = function () {
                         console.log("playbackStateChanged: stopped");
                         break;
                     case "playing":
+
+                        GetCurrentTrack();
+
                         GetNextTracks();
                         
                         break;
@@ -90,6 +93,30 @@ var ConnectToMopidy = function () {
 }
 
 
+var GetCurrentTrack = function () {
+
+    mopidy.playback.getCurrentTlTrack({}).then(function (data) {      
+        var currentTrack = data.track;
+        var date = new Date(currentTrack.length);
+        var h = date.getHours();
+        var m = date.getMinutes();
+        var s = date.getSeconds();
+        var trackLength = m + ':' + s;
+
+        var trackTitle = TruncateString(data.track.name, 41, 38);
+        var albumTitle = TruncateString(data.track.album.name, 22, 19);
+        var artistTitle = TruncateString(data.track.album.artists[0].name, 25, 22);
+
+        mopidy.library.getImages({ uris: [currentTrack.uri] }).then(function (data) {
+            $('#currentTrackImg').attr("src", data[currentTrack.uri][1].uri);
+            $('#currentTrackArtist').html(artistTitle);
+            $('#currentTrackTitle').html(trackTitle);                     
+        });
+
+
+    });
+
+}
 
 var GetNextTracks = function (currentTrackUri) {
 
