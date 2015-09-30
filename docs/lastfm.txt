@@ -1,0 +1,6 @@
+﻿username: radio-pi
+password: sm4shh1t5
+profile url: http://www.last.fm/user/radio-pi
+
+email:		radio-pi@hotmail.com
+password:	sm4shh1t5

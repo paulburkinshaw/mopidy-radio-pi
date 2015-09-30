@@ -37,17 +37,20 @@ var ConnectToMopidy = function () {
             $('#dvMainContainer').show();
 
             //OpenWebSocket();
+
+            GetCurrentTrack();
+            GetNextTracks();
             
             mopidy.playback.getState({}).then(function (state) {
                 switch (state) {
                     case "playing":
-                        console.log(state);
+                        
                         break;
                     case "stopped":
-                        console.log(state);
+                        
                         break;
                     case "paused":
-                        console.log(state);
+                        
                         break;
                 }
             });
@@ -55,7 +58,7 @@ var ConnectToMopidy = function () {
             mopidy.on("event:playbackStateChanged", function (data) {
                 switch (data["new_state"]) {
                     case "stopped":
-                        console.log("playbackStateChanged: stopped");
+                       
                         break;
                     case "playing":
 
@@ -65,9 +68,19 @@ var ConnectToMopidy = function () {
                         
                         break;
                     case "paused":
-                        console.log("playbackStateChanged: paused");
+                        
                         break;
                 }
+            });
+
+            window.mopidy.on("event:tracklistChanged", function (data) {
+               
+                GetNextTracks();
+
+                //mopidy.tracklist.getLength({}).then(function (data) {
+                //    $('#trackCount').html(data);
+                //});
+
             });
                 
 
@@ -120,6 +133,22 @@ var GetCurrentTrack = function () {
 
 var GetNextTracks = function (currentTrackUri) {
 
+    $('#upnextItem1_img').attr("src", '');
+    $('#upnextItem1_artist').html('');
+    $('#upnextItem1_trackName').html('');
+    $('#upnextItem1_albumName').html('');
+
+    $('#upnextItem2_img').attr("src", '');
+    $('#upnextItem2_artist').html('');
+    $('#upnextItem2_trackName').html('');
+    $('#upnextItem2_albumName').html('');
+
+    $('#upnextItem3_img').attr("src", '');
+    $('#upnextItem3_artist').html('');
+    $('#upnextItem3_trackName').html('');
+    $('#upnextItem3_albumName').html('');
+
+
 
     mopidy.playback.getCurrentTlTrack({}).then(function (data) {
 
@@ -135,7 +164,7 @@ var GetNextTracks = function (currentTrackUri) {
                 var s = date.getSeconds();
                 var trackLength = m + ':' + s;
 
-                var trackTitle = TruncateString(data.track.name, 41, 38);
+                var trackTitle = TruncateString(data.track.name, 35, 32);
                 var albumTitle = TruncateString(data.track.album.name, 22, 19);
                 var artistTitle = TruncateString(data.track.album.artists[0].name, 25, 22);
 
@@ -160,7 +189,7 @@ var GetNextTracks = function (currentTrackUri) {
                         var s = date.getSeconds();
                         var trackLength = m + ':' + s;
 
-                        var trackTitle = TruncateString(data.track.name, 41, 38);
+                        var trackTitle = TruncateString(data.track.name, 35, 32);
                         var albumTitle = TruncateString(data.track.album.name, 22, 19);
                         var artistTitle = TruncateString(data.track.album.artists[0].name, 25, 22);
 
@@ -185,7 +214,7 @@ var GetNextTracks = function (currentTrackUri) {
                                 var s = date.getSeconds();
                                 var trackLength = m + ':' + s;
 
-                                var trackTitle = TruncateString(data.track.name, 41, 38);
+                                var trackTitle = TruncateString(data.track.name, 35, 32);
                                 var albumTitle = TruncateString(data.track.album.name, 22, 19);
                                 var artistTitle = TruncateString(data.track.album.artists[0].name, 25, 22);
 

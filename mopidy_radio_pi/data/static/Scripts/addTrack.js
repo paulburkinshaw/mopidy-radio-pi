@@ -164,6 +164,8 @@ var processSearchResults = function (resultArr) {
 
 var addTrackToTracklist = function (uri) {
 
+    overlayclickclose();
+
     var trackUri = $('#hdnTrackUri').val();
     var trackName = $('#dialogTrackName').html();
     var dialogArtistName = $('#dialogArtistName').html();
@@ -177,9 +179,7 @@ var addTrackToTracklist = function (uri) {
         {
             mopidy.tracklist.add({ "tracks": null, "at_position": null, "uri": null, "uris": uris }).then(function (data) {
                 
-                overlayclickclose();
-                alert('Track added');
-
+               // TODO: Add notification modal when track has been added
 
             });
         }
@@ -241,32 +241,32 @@ var tstAddThreeTracksAndBeginPlaying = function () {
 
 var play = function () {
     mopidy.playback.play({ "tl_track": null }).then(function (data) {
-        //console.log(data);
+        
     });
 }
 
 var pause = function () {
     mopidy.playback.pause({}).then(function (data) {
-        //console.log(data);
+        
     });
 }
 
 var resume = function () {
     mopidy.playback.resume({}).then(function (data) {
-        //console.log(data);
+        
     });
 }
 
 
 var stop = function () {
     mopidy.playback.stop({}).then(function (data) {
-        //console.log(data);
+       
     });
 }
 
 var skip = function () {
     mopidy.playback.next({}).then(function (data) {
-        //console.log(data);
+        
     });
 }
 
