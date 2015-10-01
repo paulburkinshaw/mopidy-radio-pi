@@ -27,21 +27,10 @@
         resizable: false,
         draggable: true,
         modal: true
-        //buttons: {
-        //    "Add track": addTrackToTracklist,
-        //    Cancel: function () {
-        //        addTrackDialogue.dialog("close");
-        //    }
-        //},
-        //close: function () {
-        //    form[0].reset();
-        //} 
     });
 
-    //$("#addtrackBtn").on("focus", function () {
-    //    alert($('#hdnTrackUri'));
-    //});
-    
+   
+
 
 });
 
@@ -67,7 +56,7 @@ var search = function () {
 }
 
 var processSearchResults = function (resultArr) {
-    
+
     if (resultArr.length > 0) {
         var results = resultArr[0];
 
@@ -99,7 +88,7 @@ var processSearchResults = function (resultArr) {
                 var trackTitle = TruncateString(results.tracks[i].name, 36, 34);
                 var albumTitle = TruncateString(results.tracks[i].album.name, 36, 34);
                 var artistTitle = TruncateString(results.tracks[i].album.artists[0].name, 25, 22);
-              
+
                 var image = mopidy.library.getImages({ uris: [results.tracks[i].uri] }).then(function (data) {
 
                     $("#searchResultsProgress").progressbar("value", i + 1);
@@ -139,23 +128,22 @@ var processSearchResults = function (resultArr) {
 
                         dialogTrackTime = addTrackDialogue.find("#dialogTrackTime");
                         dialogTrackTime.html(trackLength);
-                        
+
                         dialogArtistName = addTrackDialogue.find("#dialogArtistName");
-                        dialogArtistName.html(artistTitle);                      
+                        dialogArtistName.html(artistTitle);
 
                     });
 
                     $('#loading').hide();
 
-                    if (i == 19)
-                    {
+                    if (i == 19) {
                         $("#searchResultsProgress").hide();
                     }
 
                 });
             })(i);
         }
-        
+
     }
 }
 
@@ -174,26 +162,24 @@ var addTrackToTracklist = function (uri) {
     var uris = [trackUri]
 
     // First check if the track has already been added to tracklist
-    mopidy.tracklist.filter({"uri": uris }).then(function (data) {
-        if(data.length < 1)
-        {
+    mopidy.tracklist.filter({ "uri": uris }).then(function (data) {
+        if (data.length < 1) {
             mopidy.tracklist.add({ "tracks": null, "at_position": null, "uri": null, "uris": uris }).then(function (data) {
-                
-               // TODO: Add notification modal when track has been added
+
+                // TODO: Add notification modal when track has been added
 
             });
         }
-        else
-        {
+        else {
             overlayclickclose();
             alert('Track has already been added!');
         }
     });
 
-   
+
 
     mopidy.tracklist.getLength({}).then(function (data) {
-       
+
     });
 }
 
@@ -241,32 +227,32 @@ var tstAddThreeTracksAndBeginPlaying = function () {
 
 var play = function () {
     mopidy.playback.play({ "tl_track": null }).then(function (data) {
-        
+
     });
 }
 
 var pause = function () {
     mopidy.playback.pause({}).then(function (data) {
-        
+
     });
 }
 
 var resume = function () {
     mopidy.playback.resume({}).then(function (data) {
-        
+
     });
 }
 
 
 var stop = function () {
     mopidy.playback.stop({}).then(function (data) {
-       
+
     });
 }
 
 var skip = function () {
     mopidy.playback.next({}).then(function (data) {
-        
+
     });
 }
 

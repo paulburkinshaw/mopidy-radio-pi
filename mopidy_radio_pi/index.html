@@ -10,9 +10,9 @@
     <link href="CSS/site.css" rel="stylesheet" />
     <script src="Scripts/index.js"></script>
     {% if current_user %}
-        {% if permissionLevel > '0' %}
-            <script src="Scripts/addTrack.js"></script>
-        {% end %}
+    {% if permissionLevel > '0' %}
+    <script src="Scripts/addTrack.js"></script>
+    {% end %}
     {% end %}
     <script type="text/javascript" src="/mopidy/mopidy.min.js"></script>
     <script type="text/javascript">
@@ -20,7 +20,7 @@
             $('#slider').nivoSlider();
         });
 
-      
+
 
     </script>
 
@@ -48,9 +48,18 @@
     <title>Radio Pi2 - Music to my ears!</title>
 </head>
 <body>
+    <div id="login-dialog">
+        <div id="yourLogin"><input type="text" /></div>
+        <div id="yourPass"><input type="text" /></div>
+        <div id="loginBtns">
+            <div id="loginBtn"><img src="Images/btn-login.png" onclick="" /></div>
+            <div id="cancelloginBtn"><img src="Images/btn-login-cancel.png" onclick="loginClose()" /></div>
+        </div>
+    </div>
 
     {% if current_user %}
         {% if permissionLevel > '0' %}
+        
         <div id="dialog-addTrack" title="Add Track">
             <div id="addtrackDetails">
                 <div class="trackTitle" id="dialogArtistName">Oasis - 1995</div>
@@ -66,7 +75,7 @@
             <div id="dedicateTo"><input type="text" /></div>
             <div id="addComment"><textarea class="addtrackComments"></textarea></div>
 
-            <input type="hidden" id="hdnTrackUri"/>
+            <input type="hidden" id="hdnTrackUri" />
 
             <div id="addtrackBtns">
                 <div id="addtrackBtn"><img src="Images/btn-add-track.png" onclick="addTrackToTracklist()" /></div>
@@ -85,23 +94,25 @@
                 </div>
 
                 <div id="searchAndLogin">
-                    
+
                     {% if current_user %}
                         {% if permissionLevel == '2' %}
-                        <div id="logInOut">You are logged in as: <img src="Images/logged-in.png" />{{ current_user }} (admin)</div>
+                            <div id="logInOut">You are logged in as: <img src="Images/logged-in.png" />{{ current_user }} (admin) &nbsp;&nbsp;<a href="logout"> | Log out |</a></div>
                         {% else %}
-                        <div id="logInOut">You are logged in as: <img src="Images/logged-in.png" />{{ current_user }}</div>
+                            <div id="logInOut">You are logged in as: <img src="Images/logged-in.png" />{{ current_user }} &nbsp;&nbsp;<a href="logout"> | Log out |</a></div>
                         {% end %}
+                    {% else %}
+                        <div id="loggedOut"><a href="#">Click here to log in: </a><img src="Images/logged-out.png" /></div>
                     {% end %}
-                    
+
                     {% if current_user %}
                         {% if permissionLevel > '0' %}
                             <div id="searchBox">
                                 <input type="text" value="Search..." id="txtSearch" />
                                 <div id="searchGlass"><input type="image" src="Images/search-glass.png" id="btnSearch" onclick="search()" /></div>
-                            </div>   
+                            </div>
                         {% end %}
-                    {% end %}            
+                    {% end %}
                 </div>
 
             </div>
@@ -161,6 +172,8 @@
                     <div class="ripB"><img src="Images/dedicated-bot.png" /></div>
                 </div>
 
+                {% if current_user %}
+                {% if permissionLevel == '2' %}
                 <input type="button" value="Play" onclick="play()" />
                 <input type="button" value="pause" onclick="pause()" />
                 <input type="button" value="resume" onclick="resume()" />
@@ -169,7 +182,8 @@
 
                 <input type="button" value="vol +" onclick="ChangeVolume(1)" />
                 <input type="button" value="vol -" onclick="ChangeVolume(-1)" />
-
+                {% end %}
+                {% end %}
             </div>
 
             <div id="mainContent">
@@ -197,7 +211,7 @@
                     </br>
 
                     <div id="searchResults">
-                        
+
 
 
 
@@ -207,11 +221,11 @@
 
                     <div id="upNext">
 
-                        
-                        
+
+
                         <div class="upnextItem" id="upnextItem1">
                             <ul>
-                                <li class="unThumb"><img src="" id="upnextItem1_img" style="width:93px; height:93px;"/></li>
+                                <li class="unThumb"><img src="" id="upnextItem1_img" style="width:93px; height:93px;" /></li>
                                 <li class="unTrack">
                                     <span class="trackHeader" id="upnextItem1_artist"></span><br />
                                     <span class="trackAlbum" id="upnextItem1_trackName"></span>
@@ -248,7 +262,6 @@
                         <!--<div style="margin: 2px 0 0 20px; color: #626262; ">
                             Number of tracks in tracklist: <div id="trackCount"></div>
                         </div>-->
-
                         <!--<div id="trackWarning">
                             <img src="Images/low-track-warning.png" />
                         </div>-->

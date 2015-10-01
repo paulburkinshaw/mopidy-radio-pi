@@ -130,6 +130,14 @@ class CookieHandler(BaseHandler):
         self.clear_cookie("logincookie_user")         
 
 
+class LogoutHandler(BaseHandler):  
+    def get(self, path):        
+        self.clear_cookie("logincookie_password") 
+        self.clear_cookie("logincookie_user")  
+        self.redirect("index.html")
+                   
+
+
 class PiWebSocket(tornado.websocket.WebSocketHandler):
     def open(self, *args):
         self.id = self.get_argument("clientId")
@@ -187,7 +195,7 @@ def radio_pi_factory(config, core):
         (r'/(login)?', LoginHandler, {'core': core, 'config': config}),
         (r'/(admin)?', AdminHandler, {'core': core, 'config': config}),
         (r'/(register)?', RegisterHandler, {'core': core, 'config': config}),
-        (r'/(clearcookie)?', CookieHandler, {'core': core, 'config': config}),
+        (r'/(logout)?', LogoutHandler, {'core': core, 'config': config}),
         (r'/(piWs)?', PiWebSocket),   
         #(r'/(SpecialScripts/.*)?', AddTrackScriptHandler, {'core': core, 'config': config}),    
         (r'/(Scripts/addTrack.js)?', AddTrackScriptHandler, {'core': core, 'config': config}), 

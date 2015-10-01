@@ -4,9 +4,27 @@
     // Connect to Mopidy
     ConnectToMopidy();
 
+    $('#login-dialog').dialog({
+        autoOpen: false,
+        resizable: false,
+        draggable: true,
+        modal: true
+
+    });
+
+    $('#loggedOut').click(function () {
+        $('#login-dialog').dialog('open');
+    });
+
+
+   
+
 });
 
 
+var loginClose = function () {
+    $('#login-dialog').dialog('close');
+}
 
 var set_host = function (hostname) {
     _hostname = hostname

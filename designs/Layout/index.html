@@ -8,13 +8,16 @@
     <script src="Scripts/jquery.nivo.slider.js"></script>
     <link href="CSS/nivo-slider.css" rel="stylesheet" />
     <link href="CSS/site.css" rel="stylesheet" />
+
+    
     <script type="text/javascript">
         $(window).load(function () {
             $('#slider').nivoSlider();
         });
 
+        // Paul - this is the one you changed slightly for the add track popup 
         $(function () {
-            $('#dialog').dialog({
+            $('#addTtrack-dialog').dialog({
                 autoOpen: false,
                 resizable: false,
                 draggable: true,
@@ -23,7 +26,7 @@
             });
 
             $('.resultsItem').click(function () {
-                $('#dialog').dialog('open');
+                $('#addTtrack-dialog').dialog('open');
             });
         });
 
@@ -33,12 +36,47 @@
 
     </script>
 
+
+    <!-- This one is for the login popup but i've "functionised it" -->
+    <script type="text/javascript">
+    $(function () {
+        $('#login-dialog').dialog({
+            autoOpen: false,
+            resizable: false,
+            draggable: true,
+            modal: true
+
+        });
+
+        $('#loggedOut').click(function () {
+            $('#login-dialog').dialog('open');
+        });
+    });
+
+    function overlayclickclose() {
+        $('#login-dialog').dialog('close');
+    }
+
+
+
+    </script>
+
+
     <title>Radio Pi2 - Music to my ears!</title>
 </head>
 <body>
 
+    <div id="login-dialog">
+        <div id="yourLogin"><input type="text" /></div>
+        <div id="yourPass"><input type="text" /></div>
+        <div id="loginBtns">            
+            <div id="loginBtn"><img src="Images/btn-login.png" onclick="overlayclickclose()" /></div>
+            <div id="cancelloginBtn"><img src="Images/btn-login-cancel.png" onclick="overlayclickclose()" /></div>
+        </div>
+    </div>
 
-    <div id="dialog" title="Add Track">
+
+    <div id="addTtrack-dialog" title="Add Track">
         <div id="addtrackDetails">
             <div class="trackTitle">Oasis - 1995</div>
             <div class="riThumb"><img src="Images/search-1.jpg" /></div>
@@ -47,7 +85,6 @@
                 <div class="trackdetailsAlbum">What's the story morning glory</div>
                 <div class="trackTime">Time: 4:19</div>
             </div>
-
         </div>
 
         <div id="yourName"><input type="text" /></div>
@@ -68,7 +105,15 @@
                 </div>
 
                 <div id="searchAndLogin">
-                    <div id="logInOut">You are logged in as: <img src="Images/logged-in.png" /> Andy (admin) </div>
+                    <div id="logInOut">
+                        <!-- If logged in -->
+                        <div id="loggedIn">You are logged in as: <img src="Images/logged-in.png" /> Andy (admin)  &nbsp;&nbsp;<a href="#"> | Log out |</a> </div>
+                        <!-- Else -->
+                        <div id="loggedOut"><a href="#">Click here to log in: </a><img src="Images/logged-out.png" /></div>
+                        <!-- End -->
+
+
+                    </div>
                     <form id="srchForm" method="post">
                         <div id="searchBox">
                             <input type="text" value="Search..." />
@@ -496,7 +541,7 @@
 
                         <div id="trackWarning">
                             <img src="Images/low-track-warning.png" />
-                        </div>                        
+                        </div>
                     </div>
 
                     <div id="playBar">
