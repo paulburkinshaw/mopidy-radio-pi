@@ -32,6 +32,13 @@
 #logInOut                       { float:right; font-size:0.8em; margin:6px 10px 0 0; }
 #logInOut a                     { color:#bababa; text-decoration:none; }
 #logInOut a:hover               { color:#eb8820; }
+
+#loggedOut a:link, a:visited, a:active  { color:#bababa; text-decoration:none; }
+#loggedOut a:hover                      { color:#eb8820; }
+
+#loggedIn a:link, a:visited, a:active  { color:#bababa; text-decoration:none; }
+#loggedIn a:hover                      { color:#eb8820; }
+
 #searchBox                      { float:right; margin:6px 10px 0 0; padding-top:3px; }
 #searchBox input[type="text"]   { background-color:#e7e7e7; border:none; width:500px; height:30px; padding-left:4px; color:#404040; font-size:1.3em; font-style:italic; outline: 0;  }
 #searchGlass                    { float:right; height:24px; background-color:#e7e7e7; padding:4px; }
@@ -144,6 +151,14 @@
 #addtrackanonBtn                { float:right; }
 #addtrackBtn:hover              { cursor:pointer; }
 #addtrackanonBtn:hover          { cursor:pointer; }
+
+
+/* Playbar 
+############################# */
+/*#playBar { float:left; width:1200px; border:#ff0000 1px solid; margin-top:20px; }*/
+
+#audioSlider { border:#ff0000 1px solid; float:left; width:100%; height:200px; }
+
 
 /* Login 
 ############################# */
