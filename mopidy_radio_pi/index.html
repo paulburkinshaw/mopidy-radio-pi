@@ -283,21 +283,13 @@
 
             <div id="playBar">
                 <audio id="yourAudio" preload='none'>
-
                     <source src='http://10.254.105.95:8000/radiopi' type="audio/mpeg">
-
                 </audio>
 
-                <a href="#" id="audioControl">play!</a>
-
-
                 <script>
-
                     var yourAudio = document.getElementById('yourAudio'),
                     ctrl = document.getElementById('yourAudio');
-
-                  
-
+                    yourAudio['play']();
                 </script>
 
             </div>
