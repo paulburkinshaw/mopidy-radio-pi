@@ -48,41 +48,44 @@
     <title>Radio Pi2 - Music to my ears!</title>
 </head>
 <body>
+
     <div id="login-dialog">
-        <div id="yourLogin"><input type="text" /></div>
-        <div id="yourPass"><input type="text" /></div>
-        <div id="loginBtns">
-            <div id="loginBtn"><img src="Images/btn-login.png" onclick="" /></div>
-            <div id="cancelloginBtn"><img src="Images/btn-login-cancel.png" onclick="loginClose()" /></div>
-        </div>
+        <form action="login" method="post" id="loginForm">
+            <div id="yourLogin"><input type="text" name="name" /></div>
+            <div id="yourPass"><input type="password" name="password" /></div>
+            <div id="loginBtns">
+                <div id="loginBtn"><img src="Images/btn-login.png" id="loginButnImg" /></div>
+                <div id="cancelloginBtn"><img src="Images/btn-login-cancel.png" onclick="loginClose()" /></div>
+            </div>
+        </form>
     </div>
 
     {% if current_user %}
-        {% if permissionLevel > '0' %}
-        
-        <div id="dialog-addTrack" title="Add Track">
-            <div id="addtrackDetails">
-                <div class="trackTitle" id="dialogArtistName">Oasis - 1995</div>
-                <div class="riThumb"><img src="Images/search-1.jpg" id="dialogImage" /></div>
-                <div id="trackdetailsHolder">
-                    <div class="trackdetailsTitle" id="dialogTrackName">Wonderwall</div>
-                    <div class="trackdetailsAlbum" id="dialogAlbumName"></div>
-                    <div class="trackTime" id="dialogTrackTime"></div>
-                </div>
-            </div>
+    {% if permissionLevel > '0' %}
 
-            <div id="yourName"><input type="text" /></div>
-            <div id="dedicateTo"><input type="text" /></div>
-            <div id="addComment"><textarea class="addtrackComments"></textarea></div>
-
-            <input type="hidden" id="hdnTrackUri" />
-
-            <div id="addtrackBtns">
-                <div id="addtrackBtn"><img src="Images/btn-add-track.png" onclick="addTrackToTracklist()" /></div>
-                <div id="addtrackanonBtn"><img src="Images/btn-add-track-anon.png" onclick="overlayclickclose()" /></div>
+    <div id="dialog-addTrack" title="Add Track">
+        <div id="addtrackDetails">
+            <div class="trackTitle" id="dialogArtistName">Oasis - 1995</div>
+            <div class="riThumb"><img src="Images/search-1.jpg" id="dialogImage" /></div>
+            <div id="trackdetailsHolder">
+                <div class="trackdetailsTitle" id="dialogTrackName">Wonderwall</div>
+                <div class="trackdetailsAlbum" id="dialogAlbumName"></div>
+                <div class="trackTime" id="dialogTrackTime"></div>
             </div>
         </div>
-        {% end %}
+
+        <div id="yourName"><input type="text" /></div>
+        <div id="dedicateTo"><input type="text" /></div>
+        <div id="addComment"><textarea class="addtrackComments"></textarea></div>
+
+        <input type="hidden" id="hdnTrackUri" />
+
+        <div id="addtrackBtns">
+            <div id="addtrackBtn"><img src="Images/btn-add-track.png" onclick="addTrackToTracklist()" /></div>
+            <div id="addtrackanonBtn"><img src="Images/btn-add-track-anon.png" onclick="overlayclickclose()" /></div>
+        </div>
+    </div>
+    {% end %}
     {% end %}
 
 
@@ -96,22 +99,22 @@
                 <div id="searchAndLogin">
 
                     {% if current_user %}
-                        {% if permissionLevel == '2' %}
-                            <div id="logInOut">You are logged in as: <img src="Images/logged-in.png" />{{ current_user }} (admin) &nbsp;&nbsp;<a href="logout"> | Log out |</a></div>
-                        {% else %}
-                            <div id="logInOut">You are logged in as: <img src="Images/logged-in.png" />{{ current_user }} &nbsp;&nbsp;<a href="logout"> | Log out |</a></div>
-                        {% end %}
+                    {% if permissionLevel == '2' %}
+                    <div id="logInOut">You are logged in as: <img src="Images/logged-in.png" />{{ current_user }} (admin) &nbsp;&nbsp;<a href="logout"> | Log out |</a></div>
                     {% else %}
-                        <div id="loggedOut"><a href="#">Click here to log in: </a><img src="Images/logged-out.png" /></div>
+                    <div id="logInOut">You are logged in as: <img src="Images/logged-in.png" />{{ current_user }} &nbsp;&nbsp;<a href="logout"> | Log out |</a></div>
+                    {% end %}
+                    {% else %}
+                    <div id="loggedOut"><a href="#">Click here to log in: </a><img src="Images/logged-out.png" /></div>
                     {% end %}
 
                     {% if current_user %}
-                        {% if permissionLevel > '0' %}
-                            <div id="searchBox">
-                                <input type="text" value="Search..." id="txtSearch" />
-                                <div id="searchGlass"><input type="image" src="Images/search-glass.png" id="btnSearch" onclick="search()" /></div>
-                            </div>
-                        {% end %}
+                    {% if permissionLevel > '0' %}
+                    <div id="searchBox">
+                        <input type="text" value="Search..." id="txtSearch" />
+                        <div id="searchGlass"><input type="image" src="Images/search-glass.png" id="btnSearch" onclick="search()" /></div>
+                    </div>
+                    {% end %}
                     {% end %}
                 </div>
 
@@ -275,10 +278,44 @@
                 </div>
             </div>
             <div id="rightRip"><img src="Images/main-right-rip.png" /></div>
-        </div>
 
+            
+
+            <div id="playBar">
+                <audio id="yourAudio" preload='none'>
+
+                    <source src='http://10.254.105.95:8000/radiopi' type="audio/mpeg">
+
+                </audio>
+
+                <a href="#" id="audioControl">play!</a>
+
+
+                <script>
+
+                    var yourAudio = document.getElementById('yourAudio'),
+                    ctrl = document.getElementById('yourAudio');
+
+                  
+
+                </script>
+
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+       
 
     </div>
-
+    
 </body>
 </html>

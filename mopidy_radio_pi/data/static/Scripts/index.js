@@ -16,7 +16,9 @@
         $('#login-dialog').dialog('open');
     });
 
-
+    $("#loginButnImg").click(function () {
+        $("#loginForm").submit();
+    });
    
 
 });

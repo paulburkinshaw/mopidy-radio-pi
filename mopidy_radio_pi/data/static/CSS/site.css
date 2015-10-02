@@ -132,7 +132,7 @@
 
 /* Add Track
 ############################# */
-#addTtrack-dialog               { }
+#dialog-addTrack                { }
 #addtrackDetails                { margin:130px 0 0 192px; width:392px; height:100px; }
 #addtrackDetails .trackTitle    { float:left!important; color:#fff; font-size:1.2em; margin:0!important; float:left!important; width:100%; }
 #addtrackDetails .riThumb       { width:56px; margin:0!important; margin:8px 8px 0 0!important; }
@@ -166,7 +166,7 @@
 #yourLogin                      { margin:182px 0 0 134px; }
 #yourLogin input[type="text"]   { background-color:#f3921f; border:none; width:350px; height:20px; padding-left:4px; color:#fff; font-size:1.1em; font-style:italic; outline: 0;  }
 #yourPass                       { margin:81px 0 0 134px; }
-#yourPass input[type="text"]    { background-color:#eb8820; border:none; width:350px; height:20px; padding-left:4px; color:#fff; font-size:1.1em; font-style:italic; outline: 0;  }
+#yourPass input[type="password"]    { background-color:#eb8820; border:none; width:350px; height:20px; padding-left:4px; color:#fff; font-size:1.1em; font-style:italic; outline: 0;  }
 #loginBtns                      { margin:32px 0 0 89px; width:455px; }
 
 #loginBtn                       { float:left; }
@@ -181,6 +181,6 @@
 .ui-dialog-titlebar         { display:none!important; }
 .ui-dialog                  { border:none; top:60px!important; width:760px!important; height:633px!important; }
 .ui-front                   { background:none; } 
-.ui-front #addTtrack-dialog { background: url('../Images/add-track-popupBG.png') no-repeat; background-color:none; }
+.ui-front #dialog-addTrack { background: url('../Images/add-track-popupBG.png') no-repeat; background-color:none; }
 .ui-front #login-dialog     { background: url('../Images/login-popupBG.png') no-repeat; background-color:none; width:670px!important; height:494px!important; }
 div.ui-widget-overlay       { background: url('../Images/popupBG.png')!important; opacity: .1; }
