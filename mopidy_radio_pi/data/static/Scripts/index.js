@@ -85,6 +85,8 @@ var ConnectToMopidy = function () {
                         GetCurrentTrack();
 
                         GetNextTracks();
+
+                        shuffleTracklist();
                         
                         break;
                     case "paused":
@@ -96,7 +98,7 @@ var ConnectToMopidy = function () {
             window.mopidy.on("event:tracklistChanged", function (data) {
                
                 GetNextTracks();
-
+                
                 //mopidy.tracklist.getLength({}).then(function (data) {
                 //    $('#trackCount').html(data);
                 //});

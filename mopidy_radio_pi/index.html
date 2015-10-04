@@ -13,6 +13,9 @@
     {% if permissionLevel > '0' %}
     <script src="Scripts/addTrack.js"></script>
     {% end %}
+    {% if permissionLevel > '1' %}
+    <script src="Scripts/dj.js"></script>
+    {% end %}
     {% end %}
     <script type="text/javascript" src="/mopidy/mopidy.min.js"></script>
     <script type="text/javascript">
@@ -264,6 +267,18 @@
                             </ul>
                         </div>
 
+
+
+                        {% if current_user %}
+                            {% if permissionLevel == '2' %}
+                                <div class="upnextItem" id="upnextRest">
+
+                                </div>
+                            {% end %}
+                        {% end %}
+
+
+
                         <!--<div style="margin: 2px 0 0 20px; color: #626262; ">
                             Number of tracks in tracklist: <div id="trackCount"></div>
                         </div>-->
@@ -281,7 +296,7 @@
             </div>
             <div id="rightRip"><img src="Images/main-right-rip.png" /></div>
 
-            
+
 
             <div id="playBar">
                 <audio id="yourAudio" preload='none'>
@@ -307,9 +322,9 @@
 
 
         </div>
-       
+
 
     </div>
-    
+
 </body>
 </html>
