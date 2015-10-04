@@ -81,8 +81,8 @@
         <input type="hidden" id="hdnTrackUri" />
 
         <div id="addtrackBtns">
-            <div id="addtrackBtn"><img src="Images/btn-add-track.png" onclick="addTrackToTracklist()" /></div>
-            <div id="addtrackanonBtn"><img src="Images/btn-add-track-anon.png" onclick="overlayclickclose()" /></div>
+            <div id="addtrackBtn"><!--<img src="Images/btn-add-track.png" />--></div>
+            <div id="addtrackanonBtn"><img src="Images/btn-add-track-anon.png" onclick="addTrackToTracklist()" /></div>
         </div>
     </div>
     {% end %}
@@ -107,6 +107,8 @@
                     {% else %}
                     <div id="loggedOut"><a href="#">Click here to log in: </a><img src="Images/logged-out.png" /></div>
                     {% end %}
+
+                    <br />
 
                     {% if current_user %}
                     {% if permissionLevel > '0' %}
