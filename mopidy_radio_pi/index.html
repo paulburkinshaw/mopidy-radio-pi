@@ -270,10 +270,14 @@
 
 
                         {% if current_user %}
-                            {% if permissionLevel == '2' %}
-                                <div class="upnextItem" id="upnextRest">
-
-                                </div>
+                            {% if permissionLevel == '2' %}                              
+                                <table id="tblTracklist" class="jtable">
+                                    <tr>
+                                        <th><b>Title</b></th>
+                                        <th><b>Artist</b></th>
+                                        <th><b>Remove</b></th>
+                                    </tr>
+                                </table>                               
                             {% end %}
                         {% end %}
 
