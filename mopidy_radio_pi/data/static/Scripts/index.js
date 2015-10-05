@@ -58,6 +58,9 @@ var ConnectToMopidy = function () {
 
             //OpenWebSocket();
 
+            // get random mode
+            //GetMode();
+
             GetCurrentTrack();
             GetNextTracks();
             
@@ -272,7 +275,17 @@ var GetNextTracks = function (currentTrackUri) {
 
 
 
+var GetMode = function()
+{
+    mopidy.tracklist.getRandom({}).then(function (randomMode) {
+        if (randomMode == false) {
+            mopidy.tracklist.setRandom({ "value": 'True' }).then(function (data) {
+                console.log(data);
+            });
+        };
+    });
 
+}
 
 
 var OpenWebSocket = function () {
@@ -294,6 +307,8 @@ var OpenWebSocket = function () {
         alert('WebSockets NOT supported by your Browser!');
     }
 }
+
+
 
 
 // Helper functions

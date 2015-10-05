@@ -20,14 +20,14 @@ var shuffleTracklist = function () {
                             // currentTlTrackIndex +1 = next track (dont shuffle)
                             // currentTlTrackIndex +2 = 2nd next track (dont shuffle)
                             // currentTlTrackIndex +3 = 3rd next track (can be shuffled)
-                            if (tracklist.length > 4) {
+
+                            if ((tracklist.length - currentTlTrackIndex) > 4) {
 
                                 mopidy.tracklist.shuffle({ "start": (currentTlTrackIndex + 4), "end": tracklist.length }).then(function (data) {
 
                                 });
                             }
                         });
-
                     });
                 });
 }
