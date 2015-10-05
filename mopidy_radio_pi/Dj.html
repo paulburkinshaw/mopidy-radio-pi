@@ -1,0 +1,334 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+    <script src="Scripts/jquery.nivo.slider.js"></script>
+    <link href="CSS/nivo-slider.css" rel="stylesheet" />
+    <link href="CSS/site.css" rel="stylesheet" />
+    <script src="Scripts/index.js"></script>
+    {% if current_user %}
+    {% if permissionLevel > '0' %}
+    <script src="Scripts/addTrack.js"></script>
+    {% end %}
+    {% if permissionLevel > '1' %}
+    <script src="Scripts/dj.js"></script>
+    {% end %}
+    {% end %}
+    <script type="text/javascript" src="/mopidy/mopidy.min.js"></script>
+    <script type="text/javascript">
+        $(window).load(function () {
+            $('#slider').nivoSlider();
+        });
+
+
+
+    </script>
+
+    <style>
+        /* search progress bar styles */
+        #searchResultsProgress {
+            width: 817px;
+            height: 4px;
+        }
+
+        .ui-progressbar {
+            position: relative;
+        }
+
+        .progress-label {
+            position: absolute;
+            left: 50%;
+            top: 4px;
+            font-weight: bold;
+            text-shadow: 1px 1px 0 #fff;
+        }
+    </style>
+
+
+    <title>Radio Pi2 - Music to my ears!</title>
+</head>
+<body>
+
+    <div id="login-dialog">
+        <form action="login" method="post" id="loginForm">
+            <div id="yourLogin"><input type="text" name="name" /></div>
+            <div id="yourPass"><input type="password" name="password" /></div>
+            <div id="loginBtns">
+                <div id="loginBtn"><img src="Images/btn-login.png" id="loginButnImg" /></div>
+                <div id="cancelloginBtn"><img src="Images/btn-login-cancel.png" onclick="loginClose()" /></div>
+            </div>
+        </form>
+    </div>
+
+    {% if current_user %}
+    {% if permissionLevel > '0' %}
+
+    <div id="dialog-addTrack" title="Add Track">
+        <div id="addtrackDetails">
+            <div class="trackTitle" id="dialogArtistName">Oasis - 1995</div>
+            <div class="riThumb"><img src="Images/search-1.jpg" id="dialogImage" /></div>
+            <div id="trackdetailsHolder">
+                <div class="trackdetailsTitle" id="dialogTrackName">Wonderwall</div>
+                <div class="trackdetailsAlbum" id="dialogAlbumName"></div>
+                <div class="trackTime" id="dialogTrackTime"></div>
+            </div>
+        </div>
+
+        <div id="yourName"><input type="text" /></div>
+        <div id="dedicateTo"><input type="text" /></div>
+        <div id="addComment"><textarea class="addtrackComments"></textarea></div>
+
+        <input type="hidden" id="hdnTrackUri" />
+
+        <div id="addtrackBtns">
+            <div id="addtrackBtn"><!--<img src="Images/btn-add-track.png" />--></div>
+            <div id="addtrackanonBtn"><img src="Images/btn-add-track-anon.png" onclick="addTrackToTracklist()" /></div>
+        </div>
+    </div>
+    {% end %}
+    {% end %}
+
+
+    <div id="wrapper">
+        <div id="header">
+            <div id="headerContent">
+                <div id="onairStatus">
+                    <img src="Images/on-air.jpg" />
+                </div>
+
+                <div id="searchAndLogin">
+
+                    {% if current_user %}
+                    {% if permissionLevel == '2' %}
+                    <div id="logInOut">You are logged in as: <img src="Images/logged-in.png" />{{ current_user }} (admin) &nbsp;&nbsp;<a href="logout"> | Log out |</a></div>
+                    {% else %}
+                    <div id="logInOut">You are logged in as: <img src="Images/logged-in.png" />{{ current_user }} &nbsp;&nbsp;<a href="logout"> | Log out |</a></div>
+                    {% end %}
+                    {% else %}
+                    <div id="loggedOut"><a href="#">Click here to log in: </a><img src="Images/logged-out.png" /></div>
+                    {% end %}
+
+                    <br />
+
+                    {% if current_user %}
+                    {% if permissionLevel > '0' %}
+                    <div id="searchBox">
+                        <input type="text" value="Search..." id="txtSearch" />
+                        <div id="searchGlass"><input type="image" src="Images/search-glass.png" id="btnSearch" onclick="search()" /></div>
+                    </div>
+                    {% end %}
+                    {% end %}
+                </div>
+
+            </div>
+        </div>
+
+        <div id="Content">
+            <div id="leftRip">
+                <img src="Images/main-left-rip.png" />
+            </div>
+
+            <div id="leftInfo">
+
+                <div id="currentTrack">
+                    <div class="ripT"><img src="Images/currenttrack-top.png" /></div>
+                    <div class="Info">
+                        <div class="ctHeader">Current Track</div>
+                        <div id="ctCoverArt"><img src="Images/track-cover-offair.jpg" id="currentTrackImg" style="width:177px;height:177px" /></div>
+                        <div class="ctHeaderItalic" id="currentTrackArtist">The Libertines</div>
+                        <div class="ctHeaderItalic" id="currentTrackTitle">Can't Stand Me Now</div>
+                    </div>
+                    <div class="ripB"><img src="Images/currenttrack-bot.png" /></div>
+                </div>
+
+                <div id="voteSkip">
+                    <div class="Info">
+                        <div class="vHeader">Vote</div>
+                        <div class="vHeaderSMItalic">Like this track / Skip this track</div>
+                        <div id="voteHolder">
+                            <div class="voteOff"><img src="Images/note-off.png" /></div>
+                            <div class="voteOff"><img src="Images/note-off.png" /></div>
+                            <div class="voteOff"><img src="Images/note-off.png" /></div>
+                            <div class="voteOff"><img src="Images/note-off.png" /></div>
+                            <div class="voteOff"><img src="Images/note-off.png" /></div>
+                            <div class="voteOff"><img src="Images/note-off.png" /></div>
+                            <div class="voteOff"><img src="Images/note-off.png" /></div>
+                            <div class="voteOff"><img src="Images/note-off.png" /></div>
+                            <div class="voteOff"><img src="Images/note-off.png" /></div>
+                            <div class="voteOff"><img src="Images/note-off.png" /></div>
+                        </div>
+                    </div>
+                    <div id="voteButtons">
+                        <a href="#" class="voteLike"></a>
+                        <a href="#" class="voteSkip"></a>
+                    </div>
+                    <div class="ripB"><img src="Images/vote-bot.png" /></div>
+                </div>
+
+                <div id="dedication">
+                    <div class="Info">
+                        <div class="dtHeader">Requested By:</div>
+                        <div class="dtHeaderItalic"></div>
+                        <div class="dtHeader">Dedicated To:</div>
+                        <div class="dtHeaderItalic"></div>
+                        <div class="dtHeader">Comments:</div>
+                        <div class="dtHeaderItalic"></div>
+                    </div>
+                    <div class="ripB"><img src="Images/dedicated-bot.png" /></div>
+                </div>
+
+                {% if current_user %}
+                {% if permissionLevel == '2' %}
+                <input type="button" value="Play" onclick="play()" />
+                <input type="button" value="pause" onclick="pause()" />
+                <input type="button" value="resume" onclick="resume()" />
+                <input type="button" value="Stop" onclick="stop()" />
+                <input type="button" value="Skip" onclick="skip()" />
+
+                <input type="button" value="vol +" onclick="ChangeVolume(1)" />
+                <input type="button" value="vol -" onclick="ChangeVolume(-1)" />
+                {% end %}
+                {% end %}
+            </div>
+
+            <div id="mainContent">
+                <div id="mainBanner">
+                    <div id="slider" class="nivoSlider">
+                        <a href="#"><img src="Images/mainbanner-soundwave.jpg" /></a>
+                        <a href="#"><img src="Images/mainbanner-headphones.jpg" /></a>
+                        <a href="#"><img src="Images/mainbanner-jukebox.jpg" /></a>
+                        <a href="#"><img src="Images/mainbanner-orangeband.jpg" /></a>
+                    </div>
+                </div>
+
+                <div id="mainPage">
+                    <div id="pageTitles">
+                        <img src="Images/banner-bottom-headers.png" />
+                    </div>
+
+                    <div id="loading" style="display:none;">
+                        <img src="Images/ajax-loader.gif" />
+                        <hr style="border:orange 1px solid;" />
+                    </div>
+                    <br />
+
+                    <div id="searchResultsProgress"><div class="progress-label"></div></div>
+                    </br>
+
+                    <div id="searchResults">
+
+
+
+
+                    </div>
+
+                    <!--<input type="button" value="getUpNExt" onclick="GetNextTracks()" />-->
+
+                    <div id="upNext">
+
+
+
+                        <div class="upnextItem" id="upnextItem1">
+                            <ul>
+                                <li class="unThumb"><img src="" id="upnextItem1_img" style="width:93px; height:93px;" /></li>
+                                <li class="unTrack">
+                                    <span class="trackHeader" id="upnextItem1_artist"></span><br />
+                                    <span class="trackAlbum" id="upnextItem1_trackName"></span>
+                                    <span class="trackTitle" id="upnextItem1_albumName"></span> <br />
+                                    <span class="trackAlbum" id="upnextItem1_trackTime"></span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="upnextItem" id="upnextItem2">
+                            <ul>
+                                <li class="unThumb"><img src="" id="upnextItem2_img" style="width:93px; height:93px;" /></li>
+                                <li class="unTrack">
+                                    <span class="trackHeader" id="upnextItem2_artist"></span><br />
+                                    <span class="trackAlbum" id="upnextItem2_trackName"></span>
+                                    <span class="trackTitle" id="upnextItem2_albumName"></span> <br />
+                                    <span class="trackAlbum" id="upnextItem2_trackTime"></span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="upnextItem" id="upnextItem3">
+                            <ul>
+                                <li class="unThumb"><img src="" id="upnextItem3_img" style="width:93px; height:93px;" /></li>
+                                <li class="unTrack">
+                                    <span class="trackHeader" id="upnextItem3_artist"></span><br />
+                                    <span class="trackAlbum" id="upnextItem3_trackName"></span>
+                                    <span class="trackTitle" id="upnextItem3_albumName"></span> <br />
+                                    <span class="trackAlbum" id="upnextItem3_trackTime"></span>
+                                </li>
+                            </ul>
+                        </div>
+
+
+
+                        {% if current_user %}
+                            {% if permissionLevel == '2' %}                              
+                                <table id="tblTracklist" class="jtable">
+                                    <tr>
+                                        <th><b>Title</b></th>
+                                        <th><b>Artist</b></th>
+                                        <th><b>Remove</b></th>
+                                    </tr>
+                                </table>                               
+                            {% end %}
+                        {% end %}
+
+
+
+                        <!--<div style="margin: 2px 0 0 20px; color: #626262; ">
+                            Number of tracks in tracklist: <div id="trackCount"></div>
+                        </div>-->
+                        <!--<div id="trackWarning">
+                            <img src="Images/low-track-warning.png" />
+                        </div>-->
+
+
+
+
+
+
+                    </div>
+                </div>
+            </div>
+            <div id="rightRip"><img src="Images/main-right-rip.png" /></div>
+
+
+
+            <div id="playBar">
+                <audio id="yourAudio" preload='none'>
+                    <source src='http://10.254.105.95:8000/radiopi' type="audio/mpeg">
+                </audio>
+
+                <script>
+                    var yourAudio = document.getElementById('yourAudio'),
+                    ctrl = document.getElementById('yourAudio');
+                    yourAudio['play']();
+                </script>
+
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+
+
+    </div>
+
+</body>
+</html>
