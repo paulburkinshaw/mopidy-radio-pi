@@ -195,7 +195,7 @@ var GetNextTracks = function (currentTrackUri) {
 
                 var trackTitle = TruncateString(data.track.name, 35, 32);
                 var albumTitle = TruncateString(data.track.album.name, 22, 19);
-                var artistTitle = TruncateString(data.track.album.artists[0].name, 25, 22);
+                var artistTitle = TruncateString(data.track.album.artists[0].name, 23, 22);
 
                 mopidy.library.getImages({ uris: [upnextItem1Track.uri] }).then(function (data) {
 
@@ -220,7 +220,7 @@ var GetNextTracks = function (currentTrackUri) {
 
                         var trackTitle = TruncateString(data.track.name, 35, 32);
                         var albumTitle = TruncateString(data.track.album.name, 22, 19);
-                        var artistTitle = TruncateString(data.track.album.artists[0].name, 25, 22);
+                        var artistTitle = TruncateString(data.track.album.artists[0].name, 23, 22);
 
                         mopidy.library.getImages({ uris: [upnextItem2Track.uri] }).then(function (data) {
 
@@ -245,7 +245,7 @@ var GetNextTracks = function (currentTrackUri) {
 
                                 var trackTitle = TruncateString(data.track.name, 35, 32);
                                 var albumTitle = TruncateString(data.track.album.name, 22, 19);
-                                var artistTitle = TruncateString(data.track.album.artists[0].name, 25, 22);
+                                var artistTitle = TruncateString(data.track.album.artists[0].name, 23, 22);
 
                                 mopidy.library.getImages({ uris: [upnextItem3Track.uri] }).then(function (data) {
 
