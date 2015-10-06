@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+    <script src="Scripts/jquery.nivo.slider.js"></script>
+    <link href="CSS/nivo-slider.css" rel="stylesheet" />
+    <link href="CSS/site.css" rel="stylesheet" />
+    <script src="Scripts/index.js"></script>
+
+    <title>Tracklist</title>
+</head>
+<body>
+
+    <h1>Tracklists</h1>
+
+  
+
+    {{ tracklists }}
+
+    <table>
+        <tr>
+            <th>Tracklist title</th>
+            <th>Tracklist description</th>
+            <th>Tracklist date</th>
+            <th>Is current tracklist</th>                   
+        </tr>
+
+        <tr>
+            <td>Tracklist 1</td>
+            <td>Tracklist 1 description</td>
+            <td>01/10/2015</td>
+            
+                <td>Yes</td>          
+            
+                <td><input type="button" id="btnSetCurrent" value="Set as current" /></td>
+            
+        </tr>
+    </table>
+
+    <h2>Add new tracklist</h2>
+
+</body>
+</html>

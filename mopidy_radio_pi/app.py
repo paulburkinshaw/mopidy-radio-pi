@@ -49,7 +49,8 @@ class BaseHandler(tornado.web.RequestHandler):
             'error': '',
             'permissionLevel': '',  
             'wsClients': wsClients  ,
-            'rpiConfig': config       
+            'rpiConfig': config,
+            'tracklists' :  dict()     
         }
         self.core = core
 
@@ -110,6 +111,20 @@ class RegisterHandler(BaseHandler):
         else:
             self._template_kwargs['error'] = 'Please enter a username and password'   
             self.render('register.html', **self._template_kwargs)
+
+class TracklistsHandler(BaseHandler):
+    def get(self, path):
+        if not self.current_user:
+           self.redirect("login")
+        else:        
+           if not users[self.current_user] == self.get_cookie("logincookie_password"):
+               self.redirect("login")
+           else:              
+               if (int(permissions[self.current_user]) > 1):
+                    self._template_kwargs['tracklists']['tracklistname'] = 'tracklist1' 
+                    return self.render('tracklists.html', **self._template_kwargs)
+               else:
+                    self.redirect("404")
 
 class AdminHandler(BaseHandler):      
     def get(self, path):      
@@ -199,6 +214,8 @@ def radio_pi_factory(config, core):
         (r'/(piWs)?', PiWebSocket),   
         #(r'/(SpecialScripts/.*)?', AddTrackScriptHandler, {'core': core, 'config': config}),    
         (r'/(Scripts/addTrack.js)?', AddTrackScriptHandler, {'core': core, 'config': config}), 
+        (r'/(tracklists)?', TracklistsHandler, {'core': core, 'config': config}),
+        
         (r'/(.*)', tornado.web.StaticFileHandler, {'path': _STATIC_DIR}),
        
         
