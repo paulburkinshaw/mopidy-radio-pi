@@ -181,16 +181,16 @@
                 </div>
 
                 {% if current_user %}
-                {% if permissionLevel == '2' %}
-                <input type="button" value="Play" onclick="play()" />
-                <input type="button" value="pause" onclick="pause()" />
-                <input type="button" value="resume" onclick="resume()" />
-                <input type="button" value="Stop" onclick="stop()" />
-                <input type="button" value="Skip" onclick="skip()" />
+                    {% if permissionLevel == '2' %}
+                        <input type="button" value="Play" onclick="play()" />
+                        <input type="button" value="pause" onclick="pause()" />
+                        <input type="button" value="resume" onclick="resume()" />
+                        <input type="button" value="Stop" onclick="stop()" />
+                        <input type="button" value="Skip" onclick="skip()" />
 
-                <input type="button" value="vol +" onclick="ChangeVolume(1)" />
-                <input type="button" value="vol -" onclick="ChangeVolume(-1)" />
-                {% end %}
+                        <input type="button" value="vol +" onclick="ChangeVolume(1)" />
+                        <input type="button" value="vol -" onclick="ChangeVolume(-1)" />
+                    {% end %}
                 {% end %}
             </div>
 
@@ -270,14 +270,14 @@
 
 
                         {% if current_user %}
-                            {% if permissionLevel == '2' %}                              
+                            {% if permissionLevel == '2' %}
                                 <table id="tblTracklist" class="jtable">
                                     <tr>
                                         <th><b>Title</b></th>
                                         <th><b>Artist</b></th>
                                         <th><b>Remove</b></th>
                                     </tr>
-                                </table>                               
+                                </table>
                             {% end %}
                         {% end %}
 
@@ -301,19 +301,22 @@
             <div id="rightRip"><img src="Images/main-right-rip.png" /></div>
 
 
+            {% if current_user %}
+                {% if permissionLevel > '0' %}
+                    <div id="playBar">
+                        <audio id="yourAudio" preload='none'>
+                            <source src='http://10.254.105.95:8000/radiopi' type="audio/mpeg">
+                        </audio>
 
-            <div id="playBar">
-                <audio id="yourAudio" preload='none'>
-                    <source src='http://10.254.105.95:8000/radiopi' type="audio/mpeg">
-                </audio>
+                        <script>
+                            var yourAudio = document.getElementById('yourAudio'),
+                            ctrl = document.getElementById('yourAudio');
+                            yourAudio['play']();
+                        </script>
 
-                <script>
-                    var yourAudio = document.getElementById('yourAudio'),
-                    ctrl = document.getElementById('yourAudio');
-                    yourAudio['play']();
-                </script>
-
-            </div>
+                    </div>
+                {% end %}
+            {% end %}
 
 
 
