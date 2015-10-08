@@ -24,7 +24,9 @@
             $('#slider').nivoSlider({
                 effect: 'random',
                 //animSpeed: 500,   // Slide transition speed
-                pauseTime: 5000   // How long each slide will show
+                pauseTime: 20000,   // How long each slide will show
+                directionNav: true,             // Next & Prev navigation
+                controlNav: true                 // 1,2,3... navigation
 
              });
         });
@@ -210,11 +212,11 @@
 
             <div id="mainContent">
                 <div id="mainBanner">
-                    <div id="slider" class="nivoSlider">
+                    <div id="slider" class="nivoSlider">                       
+                        <a href="#"><img src="Images/mainbanner-soundwave.jpg"  /></a>
                         <a href="#"><img src="Images/mainbanner-orangeband_blank.jpg" title="#nivoCaption1" /></a>
-                        <!--<a href="#"><img src="Images/mainbanner-soundwave.jpg" title="#nivoCaption2" /></a>
-                        <a href="#"><img src="Images/mainbanner-headphones.jpg" title="#nivoCaption3" /></a>
-                        <a href="#"><img src="Images/mainbanner-jukebox.jpg" title="#nivoCaption4" /></a>-->
+                        <a href="#"><img src="Images/mainbanner-headphones.jpg"  /></a>                      
+                        <a href="#"><img src="Images/mainbanner-jukebox.jpg"  /></a>
                         
                     </div>
                    
