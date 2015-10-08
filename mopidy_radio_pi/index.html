@@ -20,7 +20,13 @@
     <script type="text/javascript" src="/mopidy/mopidy.min.js"></script>
     <script type="text/javascript">
         $(window).load(function () {
-            $('#slider').nivoSlider();
+
+            $('#slider').nivoSlider({
+                effect: 'random',
+                //animSpeed: 500,   // Slide transition speed
+                pauseTime: 5000   // How long each slide will show
+
+             });
         });
 
 
@@ -44,6 +50,14 @@
             top: 4px;
             font-weight: bold;
             text-shadow: 1px 1px 0 #fff;
+        }
+
+        .nivo-caption {
+            color: black;
+            background: none !important;
+            top: 63px !important;
+            left: 33px !important;
+            white-space: pre-line;
         }
     </style>
 
@@ -197,10 +211,29 @@
             <div id="mainContent">
                 <div id="mainBanner">
                     <div id="slider" class="nivoSlider">
-                        <a href="#"><img src="Images/mainbanner-soundwave.jpg" /></a>
-                        <a href="#"><img src="Images/mainbanner-headphones.jpg" /></a>
-                        <a href="#"><img src="Images/mainbanner-jukebox.jpg" /></a>
-                        <a href="#"><img src="Images/mainbanner-orangeband.jpg" /></a>
+                        <a href="#"><img src="Images/mainbanner-orangeband_blank.jpg" title="#nivoCaption1" /></a>
+                        <!--<a href="#"><img src="Images/mainbanner-soundwave.jpg" title="#nivoCaption2" /></a>
+                        <a href="#"><img src="Images/mainbanner-headphones.jpg" title="#nivoCaption3" /></a>
+                        <a href="#"><img src="Images/mainbanner-jukebox.jpg" title="#nivoCaption4" /></a>-->
+                        
+                    </div>
+                   
+                    <div id="nivoCaption1" class="nivo-html-caption">
+                        
+                    </div>
+
+                  
+
+                    <div id="nivoCaption2" class="nivo-html-caption">
+                        <strong>This</strong> is an example of a <em>HTML</em> caption with <a href="#">a link</a>.
+                    </div>
+
+                    <div id="nivoCaption3" class="nivo-html-caption">
+                        <strong>This</strong> is an example of a <em>HTML</em> caption with <a href="#">a link</a>.
+                    </div>
+
+                    <div id="nivoCaption4" class="nivo-html-caption">
+                        <strong>This</strong> is an example of a <em>HTML</em> caption with <a href="#">a link</a>.
                     </div>
                 </div>
 

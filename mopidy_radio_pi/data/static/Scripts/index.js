@@ -20,8 +20,67 @@
         $("#loginForm").submit();
     });
    
+   
+    
 
 });
+
+
+var musixmatchGetArtistId = function(track_title, artist_name)
+{
+    $.ajax({
+        type: 'GET',
+        data: {
+            apikey: "f7b6e121440dbd2e156be3cd1f4569a4",
+            q_track: track_title,
+            q_artist: artist_name,
+            f_has_lyrics: 1,
+            format: "jsonp",
+            callback: "jsonp_callback"
+        },
+        url: "http://api.musixmatch.com/ws/1.1/track.search",
+        dataType: "jsonp",
+        jsonpCallback: 'jsonp_callback',
+        contentType: 'application/json',
+        success: function (data) {
+            var track_id = data.message.body.track_list[0].track.track_id;
+            musixmatchGetTrackLyrics(track_id);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR);
+            console.log(textStatus);
+            console.log(errorThrown);
+        }
+    });
+}
+
+var musixmatchGetTrackLyrics = function(track_id)
+{
+    $.ajax({
+        type: 'GET',
+        data: {
+            apikey: "f7b6e121440dbd2e156be3cd1f4569a4",
+            track_id: track_id,           
+            format: "jsonp",
+            callback: "jsonp_callback"
+        },
+        url: "http://api.musixmatch.com/ws/1.1/track.lyrics.get",
+        dataType: "jsonp",
+        jsonpCallback: 'jsonp_callback',
+        contentType: 'application/json',
+        success: function (data) {
+            
+            var lyrics_body = data.message.body.lyrics.lyrics_body;
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR);
+            console.log(textStatus);
+            console.log(errorThrown);
+        }
+    });
+
+}
+
 
 
 var loginClose = function () {
@@ -155,6 +214,68 @@ var GetCurrentTrack = function () {
             $('#currentTrackTitle').html(trackTitle);                     
         });
 
+       
+
+        // Call musixmatch API to get track lyrics to display on banner
+        $.ajax({
+            type: 'GET',
+            data: {
+                apikey: "f7b6e121440dbd2e156be3cd1f4569a4",
+                q_track: trackTitle,
+                q_artist: artistTitle,
+                f_has_lyrics: 1,
+                format: "jsonp",
+                callback: "jsonp_callback"
+            },
+            url: "http://api.musixmatch.com/ws/1.1/track.search",
+            dataType: "jsonp",
+            jsonpCallback: 'jsonp_callback',
+            contentType: 'application/json',
+            success: function (data) {
+                var track_id = data.message.body.track_list[0].track.track_id;
+                $.ajax({
+                    type: 'GET',
+                    data: {
+                        apikey: "f7b6e121440dbd2e156be3cd1f4569a4",
+                        track_id: track_id,
+                        format: "jsonp",
+                        callback: "jsonp_callback"
+                    },
+                    url: "http://api.musixmatch.com/ws/1.1/track.lyrics.get",
+                    dataType: "jsonp",
+                    jsonpCallback: 'jsonp_callback',
+                    contentType: 'application/json',
+                    success: function (data) {
+                        var lyrics_body = data.message.body.lyrics.lyrics_body;
+                    
+                        var firstP = lyrics_body.substring(0, lyrics_body.indexOf("\n\n"));
+
+                        var bannerLyrics = '"' + firstP + '"';
+
+                        bannerLyrics += '<br>';
+                        bannerLyrics += '- ' + artistTitle;
+
+                        $('#nivoCaption1').html(bannerLyrics);
+
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log(jqXHR);
+                        console.log(textStatus);
+                        console.log(errorThrown);
+                    }
+                });
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR);
+                console.log(textStatus);
+                console.log(errorThrown);
+            }
+        });
+
+
+
+
+        
 
     });
 
