@@ -252,8 +252,8 @@ var GetCurrentTrack = function () {
 
                         var bannerLyrics = '"' + firstP + '"';
 
-                        bannerLyrics += '<br>';
-                        bannerLyrics += '- ' + artistTitle;
+                        //bannerLyrics += '<br>';
+                        //bannerLyrics += '- ' + artistTitle;
 
                         $('#nivoCaption1').html(bannerLyrics);
 
