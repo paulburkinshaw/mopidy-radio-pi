@@ -126,6 +126,20 @@ class TracklistsHandler(BaseHandler):
                else:
                     self.redirect("404")
 
+class AddTrackHandler(BaseHandler):
+    def get(self, path):
+        if not self.current_user:
+           self.redirect("login")
+        else:        
+           if not users[self.current_user] == self.get_cookie("logincookie_password"):
+               self.redirect("login")
+           else:              
+               if (int(permissions[self.current_user]) > 1):
+                    self._template_kwargs['tracklists']['tracklistname'] = 'tracklist1' 
+                    return self.render('tracklists.html', **self._template_kwargs)
+               else:
+                    self.redirect("404")
+
 class AdminHandler(BaseHandler):      
     def get(self, path):      
         if not self.current_user:
@@ -215,6 +229,7 @@ def radio_pi_factory(config, core):
         #(r'/(SpecialScripts/.*)?', AddTrackScriptHandler, {'core': core, 'config': config}),    
         (r'/(Scripts/addTrack.js)?', AddTrackScriptHandler, {'core': core, 'config': config}), 
         (r'/(tracklists)?', TracklistsHandler, {'core': core, 'config': config}),
+        (r'/(tracklists)?', AddTrackHandler, {'core': core, 'config': config}),
         
         (r'/(.*)', tornado.web.StaticFileHandler, {'path': _STATIC_DIR}),
        
