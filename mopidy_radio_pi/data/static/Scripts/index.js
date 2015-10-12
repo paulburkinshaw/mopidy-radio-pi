@@ -207,6 +207,7 @@ var GetCurrentTrack = function () {
         var trackTitle = TruncateString(data.track.name, 41, 38);
         var albumTitle = TruncateString(data.track.album.name, 22, 19);
         var artistTitle = TruncateString(data.track.album.artists[0].name, 25, 22);
+        var artistTitleLyrics = TruncateString(data.track.album.artists[0].name, 35, 34);
 
         mopidy.library.getImages({ uris: [currentTrack.uri] }).then(function (data) {
             $('#currentTrackImg').attr("src", data[currentTrack.uri][1].uri);
@@ -222,7 +223,7 @@ var GetCurrentTrack = function () {
             data: {
                 apikey: "f7b6e121440dbd2e156be3cd1f4569a4",
                 q_track: trackTitle,
-                q_artist: artistTitle,
+                q_artist: artistTitleLyrics,
                 f_has_lyrics: 1,
                 format: "jsonp",
                 callback: "jsonp_callback"
@@ -252,8 +253,10 @@ var GetCurrentTrack = function () {
 
                         var bannerLyrics = '"' + firstP + '"';
 
-                        //bannerLyrics += '<br>';
-                        //bannerLyrics += '- ' + artistTitle;
+                        bannerLyrics += '<br>';
+                        bannerLyrics += '<div style="padding-top:5px;">';
+                        bannerLyrics += '- ' + artistTitleLyrics;
+                        bannerLyrics += '</div>';
 
                         $('#nivoCaption1').html(bannerLyrics);
 
@@ -298,6 +301,9 @@ var GetNextTracks = function (currentTrackUri) {
     $('#upnextItem3_trackName').html('');
     $('#upnextItem3_albumName').html('');
 
+  
+    $('#upLaterItem1_artist').html('');
+    $('#upLaterItem2_artist').html('');
 
 
     mopidy.playback.getCurrentTlTrack({}).then(function (data) {
@@ -341,15 +347,16 @@ var GetNextTracks = function (currentTrackUri) {
 
                         var trackTitle = TruncateString(data.track.name, 35, 32);
                         var albumTitle = TruncateString(data.track.album.name, 22, 19);
-                        var artistTitle = TruncateString(data.track.album.artists[0].name, 23, 22);
+                        //var artistTitle = TruncateString(data.track.album.artists[0].name, 23, 22);
+                        var artistTitle = TruncateString(data.track.album.artists[0].name, 33, 32);
 
                         mopidy.library.getImages({ uris: [upnextItem2Track.uri] }).then(function (data) {
 
-                            $('#upnextItem2_img').attr("src", data[upnextItem2Track.uri][1].uri);
+                            //$('#upnextItem2_img').attr("src", data[upnextItem2Track.uri][1].uri);
 
-                            $('#upnextItem2_artist').html(artistTitle);
-                            $('#upnextItem2_trackName').html(trackTitle);
-                            $('#upnextItem2_albumName').html(albumTitle);
+                            $('#upLaterItem1_artist').html(artistTitle);
+                            //$('#upnextItem2_trackName').html(trackTitle);
+                            //$('#upnextItem2_albumName').html(albumTitle);
                             //$('#upnextItem1_trackTime').html(data.track.name);
                         });
 
@@ -366,15 +373,16 @@ var GetNextTracks = function (currentTrackUri) {
 
                                 var trackTitle = TruncateString(data.track.name, 35, 32);
                                 var albumTitle = TruncateString(data.track.album.name, 22, 19);
-                                var artistTitle = TruncateString(data.track.album.artists[0].name, 23, 22);
+                                //var artistTitle = TruncateString(data.track.album.artists[0].name, 23, 22);
+                                var artistTitle = TruncateString(data.track.album.artists[0].name, 33, 32);
 
                                 mopidy.library.getImages({ uris: [upnextItem3Track.uri] }).then(function (data) {
 
-                                    $('#upnextItem3_img').attr("src", data[upnextItem3Track.uri][1].uri);
+                                    //$('#upnextItem3_img').attr("src", data[upnextItem3Track.uri][1].uri);
 
-                                    $('#upnextItem3_artist').html(artistTitle);
-                                    $('#upnextItem3_trackName').html(trackTitle);
-                                    $('#upnextItem3_albumName').html(albumTitle);
+                                    $('#upLaterItem2_artist').html(artistTitle);
+                                    //$('#upnextItem3_trackName').html(trackTitle);
+                                   // $('#upnextItem3_albumName').html(albumTitle);
                                     //$('#upnextItem1_trackTime').html(data.track.name);
                                 });
 

@@ -268,12 +268,9 @@
                     <div id="searchResults">
 
 
-
-
                     </div>
 
-                    <!--<input type="button" value="getUpNExt" onclick="GetNextTracks()" />-->
-
+               
                     <div id="upNext">
 
 
@@ -290,7 +287,7 @@
                             </ul>
                         </div>
 
-                        <div class="upnextItem" id="upnextItem2">
+                        <!--<div class="upnextItem" id="upnextItem2">
                             <ul>
                                 <li class="unThumb"><img src="" id="upnextItem2_img" style="width:93px; height:93px;" /></li>
                                 <li class="unTrack">
@@ -312,22 +309,7 @@
                                     <span class="trackAlbum" id="upnextItem3_trackTime"></span>
                                 </li>
                             </ul>
-                        </div>
-
-
-
-                        {% if current_user %}
-                            {% if permissionLevel == '2' %}
-                                <table id="tblTracklist" class="jtable">
-                                    <tr>
-                                        <th><b>Title</b></th>
-                                        <th><b>Artist</b></th>
-                                        <th><b>Remove</b></th>
-                                    </tr>
-                                </table>
-                            {% end %}
-                        {% end %}
-
+                        </div>-->
 
 
                         <!--<div style="margin: 2px 0 0 20px; color: #626262; ">
@@ -337,12 +319,48 @@
                             <img src="Images/low-track-warning.png" />
                         </div>-->
 
-
-
-
-
-
                     </div>
+
+                    <div id="upLater">
+                        <div>
+                            <span id="upLaterHeader">Up later...</span>
+
+                            <div class="upLaterItem" id="upLaterItem1">
+                                <ul>
+                                    <li class="ulTrack">
+                                        <span class="trackHeader" id="upLaterItem1_artist"></span><br />                             
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="upLaterItem" id="upLaterItem2">
+                                <ul>
+                                    <li class="ulTrack">
+                                        <span class="trackHeader" id="upLaterItem2_artist"></span><br />
+                                    </li>
+                                </ul>
+                            </div>
+
+                           
+
+                        </div>
+                    </div>
+
+
+                    {% if current_user %}
+                        {% if permissionLevel == '2' %}
+                            <table id="tblTracklist" class="jtable">
+                                <tr>
+                                    <th><b>Title</b></th>
+                                    <th><b>Artist</b></th>
+                                    <th><b>Remove</b></th>
+                                </tr>
+                            </table>
+                        {% end %}
+                    {% end %}
+
+
+
                 </div>
             </div>
             <div id="rightRip"><img src="Images/main-right-rip.png" /></div>
