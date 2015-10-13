@@ -354,7 +354,9 @@ var GetNextTracks = function (currentTrackUri) {
 
                             //$('#upnextItem2_img').attr("src", data[upnextItem2Track.uri][1].uri);
 
+                            $('#upLaterItem1_img').attr("src", data[upnextItem2Track.uri][1].uri);
                             $('#upLaterItem1_artist').html(artistTitle);
+
                             //$('#upnextItem2_trackName').html(trackTitle);
                             //$('#upnextItem2_albumName').html(albumTitle);
                             //$('#upnextItem1_trackTime').html(data.track.name);
@@ -380,6 +382,7 @@ var GetNextTracks = function (currentTrackUri) {
 
                                     //$('#upnextItem3_img').attr("src", data[upnextItem3Track.uri][1].uri);
 
+                                    $('#upLaterItem2_img').attr("src", data[upnextItem3Track.uri][1].uri);
                                     $('#upLaterItem2_artist').html(artistTitle);
                                     //$('#upnextItem3_trackName').html(trackTitle);
                                    // $('#upnextItem3_albumName').html(albumTitle);
