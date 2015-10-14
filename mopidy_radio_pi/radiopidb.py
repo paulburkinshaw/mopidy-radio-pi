@@ -11,7 +11,7 @@ with con:
     #cur.execute("DROP TABLE IF EXISTS Tracklist")
     #cur.execute("CREATE TABLE Tracklist(Id INTEGER PRIMARY KEY, ThemeId INT, PlaylistUri TEXT, TrackListTitle TEXT, TrackListDescription TEXT, TrackListImage TEXT, TracklistUser TEXT, TrackListDate DATE, IsCurrent INT)")
     #cur.execute("DROP TABLE IF EXISTS TracklistTracks")
-    #cur.execute("CREATE TABLE TracklistTracks(Id INTEGER PRIMARY KEY, TracklistId INT, PlaylistUri TEXT, UserProfileId INT INT, TrackTitle TEXT, TrackArtist TEXT, TrackAlbum TEXT, TrackUri TEXT, ChosenBy TEXT, DedicatedTo TEXT, Comments TEXT, DateAdded DATE, Username TEXT, BeenPlayed INT, OnHold INT)")
+    #cur.execute("CREATE TABLE TracklistTracks(Id INTEGER PRIMARY KEY, TracklistId INT, PlaylistUri TEXT, UserProfileId INT, TrackTitle TEXT, TrackArtist TEXT, TrackAlbum TEXT, TrackUri TEXT, ChosenBy TEXT, DedicatedTo TEXT, Comments TEXT, DateAdded DATE, Username TEXT, BeenPlayed INT, OnHold INT)")
     #cur.execute("DROP TABLE IF EXISTS CurrentTrack")
     #cur.execute("CREATE TABLE CurrentTrack(Id INTEGER PRIMARY KEY, TrackId INT, TracklistId INT, TrackUri TEXT)")      
     #cur.execute("DROP TABLE IF EXISTS TrackComments")

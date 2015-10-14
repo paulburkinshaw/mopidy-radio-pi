@@ -148,7 +148,7 @@ var processSearchResults = function (resultArr) {
 
 
 
-var addTrackToTracklist = function (uri) {
+var addTrackToTracklistAnon = function (uri) {
 
     overlayclickclose();
 
@@ -183,87 +183,77 @@ var addTrackToTracklist = function (uri) {
 
 
 
+var addTrackToTracklist = function (uri) {
+
+   
+
+    
+    var requestorName = $('#txtYourName').val();
+    var requestorDedicate = $('#txtDedicateTo').val();
+    var requestorComment = $('#txtTrackComments').val();
+
+    var trackUri = $('#hdnTrackUri').val();
+    var trackName = $('#dialogTrackName').html();
+    var dialogArtistName = $('#dialogArtistName').html();
+    var dialogAlbumName = $('#dialogAlbumName').html();
+
+    var uris = [trackUri]
+
+    overlayclickclose();
+
+    // First check if the track has already been added to tracklist
+    mopidy.tracklist.filter({ "uri": uris }).then(function (data) {
+        if (data.length < 1) {
+            mopidy.tracklist.add({ "tracks": null, "at_position": null, "uri": null, "uris": uris }).then(function (data) {
+
+                $.ajax({
+                    type: 'POST',
+                    data: {
+                        trackUri: trackUri,
+                        trackName: trackName,
+                        artistName: dialogArtistName,
+                        albumName: dialogAlbumName,
+                        requestorName: requestorName,
+                        requestorDedicate: requestorDedicate,
+                        requestorComment: requestorComment
+                    },
+                    url: "addTrack",
+                    dataType: "JSON",                   
+                    success: function (data) {
+                        console.log(data);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log(jqXHR);
+                        console.log(textStatus);
+                        console.log(errorThrown);
+                    }
+                });
 
 
 
 
-
-
-
-
-// Development method used to add a few tracks and start playing them so we have something to work with
-var tstAddThreeTracksAndBeginPlaying = function () {
-
-    //mopidy.library.search({
-    //    any: "travis",
-    //    uris: ['spotify:']
-    //}).then(processSearchResults, console.error);
-
-    //var aTrack = {};
-    //aTrack.__model__ = "Track";
-    //aTrack.track_no = 7;
-    //aTrack.name = "Why Does It Always Rain On Me?";
-    //aTrack.uri = 'spotify:track:6JXD70ZqUhx02AteE50CIS';
-    //var dummyTracks = { 'tracks': [], 'artists': [], 'albums': [] };
-    //dummyTracks['tracks'] = dummyTracks['tracks'].concat(aTrack);
-
-    //mopidy.tracklist.add(dummyTracks.tracks);
-
-    var uris = ['spotify:track:6JXD70ZqUhx02AteE50CIS', 'spotify:track:01p5NB0mgtrEFM7hXlcLDd', 'spotify:track:18ADNI1zYXdedfooug68SQ', 'spotify:track:2LM9J5szSxGVYs3Mi33rBW']
-
-    mopidy.tracklist.add({ "tracks": null, "at_position": null, "uri": null, "uris": uris }).then(function (data) {
-        console.log(data);
+            });
+        }
+        else {
+            overlayclickclose();
+            alert('Track has already been added!');
+        }
     });
+
+
 
     mopidy.tracklist.getLength({}).then(function (data) {
-        console.log(data);
-    });
-
-}
-
-
-
-var play = function () {
-    mopidy.playback.play({ "tl_track": null }).then(function (data) {
-
-    });
-}
-
-var pause = function () {
-    mopidy.playback.pause({}).then(function (data) {
-
-    });
-}
-
-var resume = function () {
-    mopidy.playback.resume({}).then(function (data) {
-
-    });
-}
-
-
-var stop = function () {
-    mopidy.playback.stop({}).then(function (data) {
-
-    });
-}
-
-var skip = function () {
-    mopidy.playback.next({}).then(function (data) {
 
     });
 }
 
 
 
-function ChangeVolume(newVol) {
-    window.mopidy.playback.getVolume().then(function (vol) {
-        var currentVolume = vol;
-        console.log('curent vol: ' + currentVolume);
-        currentVolume = currentVolume + newVol;
-        mopidy.mixer.setVolume({ "volume": currentVolume }).then(function (data) {
-            console.log(data);
-        });
-    });
-};
+
+
+
+
+
+
+
 

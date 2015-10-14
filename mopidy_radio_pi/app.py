@@ -14,6 +14,8 @@ import json
 import urlparse
 import csv
 import codecs
+import sqlite3 as lite
+import sys
 
 _DATA_DIR = os.path.join(os.path.dirname(__file__), 'data')
 _LOCALE_DIR = os.path.join(_DATA_DIR, 'locale')
@@ -21,6 +23,7 @@ _STATIC_DIR = os.path.join(_DATA_DIR, 'static')
 _TEMPLATE_DIR = os.path.join(_DATA_DIR, 'template')
 
 _SPECIALSCRIPTS_DIR = os.path.join(_STATIC_DIR, 'SpecialScripts')
+db_path = os.path.join(_DATA_DIR, "radiopi.db")
 
 logger = logging.getLogger(__name__)
 
@@ -127,18 +130,20 @@ class TracklistsHandler(BaseHandler):
                     self.redirect("404")
 
 class AddTrackHandler(BaseHandler):
-    def get(self, path):
+    def post(self, path):
         if not self.current_user:
-           self.redirect("login")
+           self.redirect("500")
         else:        
            if not users[self.current_user] == self.get_cookie("logincookie_password"):
-               self.redirect("login")
-           else:              
-               if (int(permissions[self.current_user]) > 1):
-                    self._template_kwargs['tracklists']['tracklistname'] = 'tracklist1' 
-                    return self.render('tracklists.html', **self._template_kwargs)
-               else:
-                    self.redirect("404")
+               self.redirect("500")
+           else:   
+               con = lite.connect(db_path)
+               with con:
+                   trackName = self.request.arguments['trackName']
+                   cur = con.cursor()
+                   cur.execute("insert into TracklistTracks (TracklistId, PlaylistUri, UserProfileId, TrackTitle, TrackArtist, TrackAlbum, TrackUri, ChosenBy, DedicatedTo, Comments, DateAdded, Username, BeenPlayed, OnHold) values (1, '', 0, ?, ?, ?, ?, ?, ?, ?, date('now'), 'blh', 0, 0)", (unicode(trackName), unicode(self.request.arguments['artistName']), unicode(self.request.arguments['albumName']), unicode(self.request.arguments['trackUri']), unicode(self.request.arguments['requestorName']), unicode(self.request.arguments['requestorDedicate']), unicode(self.request.arguments['requestorComment'])))	
+                   
+              
 
 class AdminHandler(BaseHandler):      
     def get(self, path):      
@@ -225,12 +230,10 @@ def radio_pi_factory(config, core):
         (r'/(admin)?', AdminHandler, {'core': core, 'config': config}),
         (r'/(register)?', RegisterHandler, {'core': core, 'config': config}),
         (r'/(logout)?', LogoutHandler, {'core': core, 'config': config}),
-        (r'/(piWs)?', PiWebSocket),   
-        #(r'/(SpecialScripts/.*)?', AddTrackScriptHandler, {'core': core, 'config': config}),    
+        (r'/(piWs)?', PiWebSocket),          
         (r'/(Scripts/addTrack.js)?', AddTrackScriptHandler, {'core': core, 'config': config}), 
         (r'/(tracklists)?', TracklistsHandler, {'core': core, 'config': config}),
-        (r'/(tracklists)?', AddTrackHandler, {'core': core, 'config': config}),
-        
+        (r'/(addTrack)?', AddTrackHandler, {'core': core, 'config': config}),        
         (r'/(.*)', tornado.web.StaticFileHandler, {'path': _STATIC_DIR}),
        
         

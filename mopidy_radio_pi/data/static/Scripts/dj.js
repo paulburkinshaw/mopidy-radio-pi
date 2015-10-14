@@ -3,6 +3,50 @@
 
 });
 
+var play = function () {
+    mopidy.playback.play({ "tl_track": null }).then(function (data) {
+
+    });
+}
+
+var pause = function () {
+    mopidy.playback.pause({}).then(function (data) {
+
+    });
+}
+
+var resume = function () {
+    mopidy.playback.resume({}).then(function (data) {
+
+    });
+}
+
+
+var stop = function () {
+    mopidy.playback.stop({}).then(function (data) {
+
+    });
+}
+
+var skip = function () {
+    mopidy.playback.next({}).then(function (data) {
+
+    });
+}
+
+
+
+function ChangeVolume(newVol) {
+    window.mopidy.playback.getVolume().then(function (vol) {
+        var currentVolume = vol;
+        console.log('curent vol: ' + currentVolume);
+        currentVolume = currentVolume + newVol;
+        mopidy.mixer.setVolume({ "volume": currentVolume }).then(function (data) {
+            console.log(data);
+        });
+    });
+};
+
 
 
 var shuffleTracklist = function () {
