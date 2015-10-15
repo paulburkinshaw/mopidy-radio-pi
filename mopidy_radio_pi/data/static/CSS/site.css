@@ -115,7 +115,7 @@
 /* Up Next
 ############################# */
 #trackWarning           { text-align:center;}
-#upNext                 { float:left; width: 372px; height:140px; overflow-y:scroll; }
+#upNext                 { float:left; width: 372px; height:140px; }
 .upnextItem             { border:#bcbcbc 1px solid; height:107px; margin:0 2px 0 20px; }
 .upnextItem ul          { list-style:none; margin:0; padding:0; color:#626262; }
 .upnextItem ul li       { list-style:none; margin:0; padding:0; }
@@ -127,7 +127,7 @@
 
 /* Up Later
 ############################# */
-#upLater                { float:left; width: 372px; height:280px; overflow-y:scroll; }
+#upLater                { float:left; width: 372px; height:320px; }
 #upLaterHeader          { padding-left: 20px; font-size: 20px;}
 .upLaterItem            { height:110px; margin:0 2px 0 20px; }
 .upLaterItem ul         { list-style:none; margin:0; padding:0; color:#626262; }

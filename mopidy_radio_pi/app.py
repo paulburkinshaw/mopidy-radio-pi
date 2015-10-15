@@ -140,8 +140,29 @@ class AddTrackHandler(BaseHandler):
                con = lite.connect(db_path)
                with con:
                    trackName = self.request.arguments['trackName']
+
+                   if self.request.arguments['requestorName']:
+                        requestorName = self.request.arguments['requestorName']
+                   else: 
+                        requestorName = ''
+
+                   if self.request.arguments['requestorDedicate']:
+                        requestorDedicate = self.request.arguments['requestorDedicate']
+                   else: 
+                        requestorDedicate = ''
+
+                   if self.request.arguments['requestorComment']:
+                        requestorComment = self.request.arguments['requestorComment']
+                   else: 
+                        requestorComment = ''
+
+                 
+
                    cur = con.cursor()
-                   cur.execute("insert into TracklistTracks (TracklistId, PlaylistUri, UserProfileId, TrackTitle, TrackArtist, TrackAlbum, TrackUri, ChosenBy, DedicatedTo, Comments, DateAdded, Username, BeenPlayed, OnHold) values (1, '', 0, ?, ?, ?, ?, ?, ?, ?, date('now'), 'blh', 0, 0)", (unicode(trackName), unicode(self.request.arguments['artistName']), unicode(self.request.arguments['albumName']), unicode(self.request.arguments['trackUri']), unicode(self.request.arguments['requestorName']), unicode(self.request.arguments['requestorDedicate']), unicode(self.request.arguments['requestorComment'])))	
+                   sql = "insert into TracklistTracks (TracklistId, PlaylistUri, UserProfileId, TrackTitle, TrackArtist, TrackAlbum, TrackUri, ChosenBy, DedicatedTo, Comments, DateAdded, Username, BeenPlayed, OnHold) values (1, '', 0, ?, ?, ?, ?, ?, ?, ?, date('now'), ?, 0, 0)"
+                   parameters = [str(trackName), unicode(self.request.arguments['artistName']), unicode(self.request.arguments['albumName']), unicode(self.request.arguments['trackUri']), unicode(requestorName), unicode(requestorDedicate), unicode(requestorComment), unicode(self.current_user)]
+                   cur.execute(sql, parameters)
+                   #cur.execute("insert into TracklistTracks (TracklistId, PlaylistUri, UserProfileId, TrackTitle, TrackArtist, TrackAlbum, TrackUri, ChosenBy, DedicatedTo, Comments, DateAdded, Username, BeenPlayed, OnHold) values (1, '', 0, ?, ?, ?, ?, ?, ?, ?, date('now'), ?, 0, 0)", (trackName, unicode(self.request.arguments['artistName']), unicode(self.request.arguments['albumName']), unicode(self.request.arguments['trackUri']), unicode(self.request.arguments['requestorName']), unicode(self.request.arguments['requestorDedicate']), unicode(self.request.arguments['requestorComment']), unicode(self.current_user)))	
                    
               
 

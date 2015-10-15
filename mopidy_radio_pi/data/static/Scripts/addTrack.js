@@ -187,10 +187,22 @@ var addTrackToTracklist = function (uri) {
 
    
 
-    
+   
     var requestorName = $('#txtYourName').val();
+    if (requestorName == '')
+    {
+        requestorName = ' ';
+    }
+  
     var requestorDedicate = $('#txtDedicateTo').val();
+    if (requestorDedicate == '') {
+        requestorDedicate = ' ';
+    }
+   
     var requestorComment = $('#txtTrackComments').val();
+    if (requestorComment == '') {
+        requestorComment = ' ';
+    }
 
     var trackUri = $('#hdnTrackUri').val();
     var trackName = $('#dialogTrackName').html();
