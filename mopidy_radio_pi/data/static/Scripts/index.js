@@ -21,8 +21,6 @@
     });
    
    
-    
-
 });
 
 
@@ -204,6 +202,7 @@ var GetCurrentTrack = function () {
         var s = date.getSeconds();
         var trackLength = m + ':' + s;
 
+        var trackUri = data.track.uri;
         var trackTitle = TruncateString(data.track.name, 41, 38);
         var albumTitle = TruncateString(data.track.album.name, 22, 19);
         var artistTitle = TruncateString(data.track.album.artists[0].name, 25, 22);
@@ -213,6 +212,31 @@ var GetCurrentTrack = function () {
             $('#currentTrackImg').attr("src", data[currentTrack.uri][1].uri);
             $('#currentTrackArtist').html(artistTitle);
             $('#currentTrackTitle').html(trackTitle);                     
+        });
+
+
+        // Make ajax request to get requestor, any comments \ dedication ect
+
+        $.ajax({
+            type: 'GET',
+            data: {
+                trackUri: "['"+trackUri+"']"
+            },
+            url: "getTrack",
+            dataType: "JSON",
+            success: function (data) {             
+                var requestedBy = data.ChosenBy.replace("['", "").replace("']", "");              
+                $('#dvRequestedBy').html(requestedBy);
+                var dedicatedTo = data.DedicatedTo.replace("['", "").replace("']", "");
+                $('#dvDedicatedTo').html(dedicatedTo);
+                var comments = data.Comments.replace("['", "").replace("']", "");
+                $('#dvComments').html(comments);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR);
+                console.log(textStatus);
+                console.log(errorThrown);
+            }
         });
 
        

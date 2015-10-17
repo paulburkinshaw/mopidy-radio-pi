@@ -1,5 +1,6 @@
 ﻿
 from __future__ import unicode_literals
+from tornado.escape import json_encode
 
 #import ptvsd
 #ptvsd.enable_attach(None)
@@ -140,31 +141,34 @@ class AddTrackHandler(BaseHandler):
                con = lite.connect(db_path)
                with con:
                    trackName = self.request.arguments['trackName']
-
-                   if self.request.arguments['requestorName']:
-                        requestorName = self.request.arguments['requestorName']
-                   else: 
-                        requestorName = ''
-
-                   if self.request.arguments['requestorDedicate']:
-                        requestorDedicate = self.request.arguments['requestorDedicate']
-                   else: 
-                        requestorDedicate = ''
-
-                   if self.request.arguments['requestorComment']:
-                        requestorComment = self.request.arguments['requestorComment']
-                   else: 
-                        requestorComment = ''
-
-                 
-
+                   requestorName = self.request.arguments['requestorName']
+                   requestorDedicate = self.request.arguments['requestorDedicate']
+                   requestorComment = self.request.arguments['requestorComment']
+                                   
                    cur = con.cursor()
                    sql = "insert into TracklistTracks (TracklistId, PlaylistUri, UserProfileId, TrackTitle, TrackArtist, TrackAlbum, TrackUri, ChosenBy, DedicatedTo, Comments, DateAdded, Username, BeenPlayed, OnHold) values (1, '', 0, ?, ?, ?, ?, ?, ?, ?, date('now'), ?, 0, 0)"
                    parameters = [str(trackName), unicode(self.request.arguments['artistName']), unicode(self.request.arguments['albumName']), unicode(self.request.arguments['trackUri']), unicode(requestorName), unicode(requestorDedicate), unicode(requestorComment), unicode(self.current_user)]
                    cur.execute(sql, parameters)
-                   #cur.execute("insert into TracklistTracks (TracklistId, PlaylistUri, UserProfileId, TrackTitle, TrackArtist, TrackAlbum, TrackUri, ChosenBy, DedicatedTo, Comments, DateAdded, Username, BeenPlayed, OnHold) values (1, '', 0, ?, ?, ?, ?, ?, ?, ?, date('now'), ?, 0, 0)", (trackName, unicode(self.request.arguments['artistName']), unicode(self.request.arguments['albumName']), unicode(self.request.arguments['trackUri']), unicode(self.request.arguments['requestorName']), unicode(self.request.arguments['requestorDedicate']), unicode(self.request.arguments['requestorComment']), unicode(self.current_user)))	
-                   
-              
+             
+                         
+class GetTrackHandler(BaseHandler):
+    def get(self, path):
+        con = lite.connect(db_path)
+        with con:
+            cur = con.cursor()   
+            cur.execute("SELECT TrackUri, ChosenBy, DedicatedTo, Comments FROM TracklistTracks WHERE TrackUri=?", self.request.arguments['trackUri'])        
+            con.commit()
+            row = cur.fetchone()
+            print row[0], row[1], row[2], row[3]
+            obj = { 
+             'TrackUri': row[0],
+             'ChosenBy': row[1],
+             'DedicatedTo': row[2],
+             'Comments': row[3]  
+            }
+        self.write(json_encode(obj))
+        
+
 
 class AdminHandler(BaseHandler):      
     def get(self, path):      
@@ -244,6 +248,7 @@ class AddTrackScriptHandler(BaseHandler):
            return self.render('data/static/Scripts/addTrack.js', **self._template_kwargs)     
    
 
+
 def radio_pi_factory(config, core):
     return [
         (r'/(index.html)?', IndexHandler, {'core': core, 'config': config}),             
@@ -254,7 +259,8 @@ def radio_pi_factory(config, core):
         (r'/(piWs)?', PiWebSocket),          
         (r'/(Scripts/addTrack.js)?', AddTrackScriptHandler, {'core': core, 'config': config}), 
         (r'/(tracklists)?', TracklistsHandler, {'core': core, 'config': config}),
-        (r'/(addTrack)?', AddTrackHandler, {'core': core, 'config': config}),        
+        (r'/(addTrack)?', AddTrackHandler, {'core': core, 'config': config}),      
+        (r'/(getTrack)?', GetTrackHandler, {'core': core, 'config': config}),     
         (r'/(.*)', tornado.web.StaticFileHandler, {'path': _STATIC_DIR}),
        
         
