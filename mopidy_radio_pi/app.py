@@ -146,8 +146,16 @@ class AddTrackHandler(BaseHandler):
                    requestorComment = self.request.arguments['requestorComment']
                                    
                    cur = con.cursor()
-                   sql = "insert into TracklistTracks (TracklistId, PlaylistUri, UserProfileId, TrackTitle, TrackArtist, TrackAlbum, TrackUri, ChosenBy, DedicatedTo, Comments, DateAdded, Username, BeenPlayed, OnHold) values (1, '', 0, ?, ?, ?, ?, ?, ?, ?, date('now'), ?, 0, 0)"
-                   parameters = [str(trackName), unicode(self.request.arguments['artistName']), unicode(self.request.arguments['albumName']), unicode(self.request.arguments['trackUri']), unicode(requestorName), unicode(requestorDedicate), unicode(requestorComment), unicode(self.current_user)]
+
+                   cur.execute("SELECT Id FROM UserProfile WHERE UserName=?", (self.current_user,))        
+                   con.commit()
+                   row = cur.fetchone()
+                   print row[0]
+
+                   cur = con.cursor()
+
+                   sql = "insert into TracklistTracks (TracklistId, PlaylistUri, UserProfileId, TrackTitle, TrackArtist, TrackAlbum, TrackUri, ChosenBy, DedicatedTo, Comments, DateAdded, Username, BeenPlayed, OnHold) values (1, '', ?, ?, ?, ?, ?, ?, ?, ?, date('now'), ?, 0, 0)"
+                   parameters = [row[0], str(trackName), unicode(self.request.arguments['artistName']), unicode(self.request.arguments['albumName']), unicode(self.request.arguments['trackUri']), unicode(requestorName), unicode(requestorDedicate), unicode(requestorComment), unicode(self.current_user)]
                    cur.execute(sql, parameters)
              
                          
@@ -156,7 +164,7 @@ class GetTrackHandler(BaseHandler):
         con = lite.connect(db_path)
         with con:
             cur = con.cursor()   
-            cur.execute("SELECT TrackUri, ChosenBy, DedicatedTo, Comments FROM TracklistTracks WHERE TrackUri=?", self.request.arguments['trackUri'])        
+            cur.execute("SELECT TrackUri, ChosenBy, DedicatedTo, Comments FROM TracklistTracks WHERE DateAdded = date('now') AND TrackUri=?", self.request.arguments['trackUri'])        
             con.commit()
             row = cur.fetchone()
             print row[0], row[1], row[2], row[3]

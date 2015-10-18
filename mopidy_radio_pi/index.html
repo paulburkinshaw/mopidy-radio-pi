@@ -118,24 +118,24 @@
                 <div id="searchAndLogin">
 
                     {% if current_user %}
-                    {% if permissionLevel == '2' %}
-                    <div id="logInOut">You are logged in as: <img src="Images/logged-in.png" />{{ current_user }} (admin) &nbsp;&nbsp;<a href="logout"> | Log out |</a></div>
+                        {% if permissionLevel == '2' %}
+                            <div id="logInOut">You are logged in as: <img src="Images/logged-in.png" />{{ current_user }} (admin) &nbsp;&nbsp;<a href="logout"> | Log out |</a></div>
+                        {% else %}
+                            <div id="logInOut">You are logged in as: <img src="Images/logged-in.png" />{{ current_user }} &nbsp;&nbsp;<a href="logout"> | Log out |</a></div>
+                        {% end %}
                     {% else %}
-                    <div id="logInOut">You are logged in as: <img src="Images/logged-in.png" />{{ current_user }} &nbsp;&nbsp;<a href="logout"> | Log out |</a></div>
-                    {% end %}
-                    {% else %}
-                    <div id="loggedOut"><a href="#">Click here to log in: </a><img src="Images/logged-out.png" /></div>
+                        <div id="loggedOut"><a href="#">Click here to log in: </a><img src="Images/logged-out.png" /></div>
                     {% end %}
 
                     <br />
 
                     {% if current_user %}
-                    {% if permissionLevel > '0' %}
-                    <div id="searchBox">
-                        <input type="text" value="Search..." id="txtSearch" />
-                        <div id="searchGlass"><input type="image" src="Images/search-glass.png" id="btnSearch" onclick="search()" /></div>
-                    </div>
-                    {% end %}
+                        {% if permissionLevel > '0' %}
+                            <div id="searchBox">
+                                <input type="text" value="Search..." id="txtSearch" />
+                                <div id="searchGlass"><input type="image" src="Images/search-glass.png" id="btnSearch" onclick="search()" /></div>
+                            </div>
+                        {% end %}
                     {% end %}
                 </div>
 
