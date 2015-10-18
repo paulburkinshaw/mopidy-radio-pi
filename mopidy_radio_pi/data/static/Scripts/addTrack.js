@@ -40,8 +40,31 @@
 
 
     $("#like").on("click", function () {
-        console.log('like');
 
+        mopidy.playback.getCurrentTlTrack({}).then(function (data) {
+            var currentTrack = data.track;
+
+            $.ajax({
+                type: 'POST',
+                data: {
+                    trackUri: data.track.uri,
+                    trackName: data.track.name,
+                    artistName: data.track.album.artists[0].name,
+                    albumName: data.track.album.name                 
+                },
+                url: "likeTrack",
+                dataType: "JSON",
+                success: function (data) {
+                    console.log(data);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(jqXHR);
+                    console.log(textStatus);
+                    console.log(errorThrown);
+                }
+            });
+
+        });
     });
 
     $("#skip").on("click", function () {
@@ -51,9 +74,9 @@
 
     $("#like").hide();
     $("#skip").hide();
-    
-   
-    
+
+
+
 
 });
 
@@ -210,20 +233,19 @@ var addTrackToTracklistAnon = function (uri) {
 
 var addTrackToTracklist = function (uri) {
 
-   
 
-   
+
+
     var requestorName = $('#txtYourName').val();
-    if (requestorName == '')
-    {
+    if (requestorName == '') {
         requestorName = ' ';
     }
-  
+
     var requestorDedicate = $('#txtDedicateTo').val();
     if (requestorDedicate == '') {
         requestorDedicate = ' ';
     }
-   
+
     var requestorComment = $('#txtTrackComments').val();
     if (requestorComment == '') {
         requestorComment = ' ';
@@ -255,7 +277,7 @@ var addTrackToTracklist = function (uri) {
                         requestorComment: requestorComment
                     },
                     url: "addTrack",
-                    dataType: "JSON",                   
+                    dataType: "JSON",
                     success: function (data) {
                         console.log(data);
                     },

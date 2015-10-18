@@ -175,9 +175,40 @@ class GetTrackHandler(BaseHandler):
              'Comments': row[3]  
             }
         self.write(json_encode(obj))
+
+class LikeTrackHandler(BaseHandler):
+    def post(self, path):
+        con = lite.connect(db_path)
+        with con:
+            cur = con.cursor()   
+            cur.execute("SELECT Id FROM UserProfile WHERE UserName=?", (self.current_user,))        
+            con.commit()
+            row = cur.fetchone()
+            print row[0]
+            profileId = row[0]
+
+            #self.write(repr(self.request))
+
+            cur = con.cursor()   
+            cur.execute("Select count(*) from TrackLikes WHERE DateLiked=date('now') AND Username=? AND HostAddress=? AND TrackUri=?",(unicode(self.current_user), unicode(self.request.remote_ip), unicode(self.request.arguments['trackUri'])))        					          
+            
+            con.commit()
+            row = cur.fetchone()
+            print row[0]
+            if row[0] < 1:                
+                sql = "insert into TrackLikes (TrackUri, TrackTitle, TrackArtist, TrackAlbum, TracklistId, UserProfileId, Username, HostAddress, DateLiked) values (?, ?, ?, ?, 1, ?, ?, ?, date('now'))"
+                parameters = [unicode(self.request.arguments['trackUri']), unicode(self.request.arguments['trackName']) , unicode(self.request.arguments['artistName']), unicode(self.request.arguments['albumName']), profileId, unicode(self.current_user), unicode(self.request.remote_ip)]
+                cur.execute(sql, parameters)
+                obj = { 
+                 'sucess': 'Track sucessfully liked', 
+                }
+            else:
+                obj = { 
+                 'error': 'Track already liked once by you today', 
+                }
+        self.write(json_encode(obj))
+       
         
-
-
 class AdminHandler(BaseHandler):      
     def get(self, path):      
         if not self.current_user:
@@ -269,6 +300,7 @@ def radio_pi_factory(config, core):
         (r'/(tracklists)?', TracklistsHandler, {'core': core, 'config': config}),
         (r'/(addTrack)?', AddTrackHandler, {'core': core, 'config': config}),      
         (r'/(getTrack)?', GetTrackHandler, {'core': core, 'config': config}),     
+        (r'/(likeTrack)?', LikeTrackHandler, {'core': core, 'config': config}),
         (r'/(.*)', tornado.web.StaticFileHandler, {'path': _STATIC_DIR}),
        
         
