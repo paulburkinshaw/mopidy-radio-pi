@@ -138,9 +138,17 @@ var ConnectToMopidy = function () {
             mopidy.on("event:playbackStateChanged", function (data) {
                 switch (data["new_state"]) {
                     case "stopped":
+                        $("#like").hide();
+                        $("#skip").hide();
+
+                        $("#imgOnAirStatus").attr("src", 'Images/off-air.jpg');
                        
                         break;
                     case "playing":
+                        $("#imgOnAirStatus").attr("src", 'Images/on-air.jpg');
+
+                        $("#like").show();
+                        $("#skip").show();
 
                         GetCurrentTrack();
 
@@ -152,7 +160,9 @@ var ConnectToMopidy = function () {
                         
                         break;
                     case "paused":
-                        
+                        $("#imgOnAirStatus").attr("src", 'Images/off-air.jpg');
+                        $("#like").hide();
+                        $("#skip").hide();
                         break;
                 }
             });
@@ -297,15 +307,11 @@ var GetCurrentTrack = function () {
                 console.log(textStatus);
                 console.log(errorThrown);
             }
-        });
-
-
-
-
-        
+        });     
 
     });
 
+   
 }
 
 var GetNextTracks = function (currentTrackUri) {

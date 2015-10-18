@@ -38,6 +38,23 @@
         }
     });
 
+
+    $("#like").on("click", function () {
+        console.log('like');
+
+    });
+
+    $("#skip").on("click", function () {
+        console.log('skip');
+
+    });
+
+    $("#like").hide();
+    $("#skip").hide();
+    
+   
+    
+
 });
 
 
