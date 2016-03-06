@@ -71,7 +71,7 @@ class IndexHandler(BaseHandler):
         else:        
            if not users[self.current_user] == self.get_cookie("logincookie_password"):
                self.redirect("login")
-           else:                            
+           else:                                     
                return self.render('index.html', **self._template_kwargs)
          
 class LoginHandler(BaseHandler):      
@@ -202,6 +202,7 @@ class LikeTrackHandler(BaseHandler):
                 obj = { 
                  'sucess': 'Track sucessfully liked', 
                 }
+                wsSendAll({'notificationType': 'trackLiked', 'trackUri' : self.request.arguments['trackUri']}) 
             else:
                 obj = { 
                  'error': 'Track already liked once by you today', 
@@ -275,7 +276,7 @@ def wsSendAll(message):
 
 def wsSendToAdmin(message):
     for ws in wss:
-        if (int(permissions[ws.id]) > 0):
+        if (int(permissions[ws.id]) > 1):
             wsSend(message, ws) 
 
 

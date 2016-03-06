@@ -113,7 +113,8 @@ var ConnectToMopidy = function () {
             $('#spnConnectionStatus').html('Connected');
             $('#dvMainContainer').show();
 
-            //OpenWebSocket();
+
+            OpenWebSocket();
 
             // get random mode
             //GetMode();
@@ -450,6 +451,26 @@ var GetMode = function()
 }
 
 
+// Web socket functions
+
+/* 
+- method - A String containing the name of the method to be invoked.
+- params - An Array of objects to pass as arguments to the method.
+- id - The request id. This can be of any type. It is used to match the response with the request that it is replying to.
+
+
+{"method":"core.playback.get_state","params":{},"jsonrpc":"2.0","id":3}
+{"jsonrpc": "2.0", "id": 3, "result": "stopped"}
+
+
+"id":0 can be used to indicate the response can go to all clients
+
+{"method":"likeTrack","params":[{"trackUri":data.track.uri}, {"trackName":data.track.uri}, {"artistName":data.track.uri}, {"albumName":data.track.uri}],"id":0}
+
+{"pburkinshaw": {"clientId": "pburkinshaw"}}
+
+*/
+
 var OpenWebSocket = function () {
     if ("WebSocket" in window) {
         ws = new WebSocket("ws://" + _hostname + ":6680/radio-pi_app/piWs?clientId=" + $('#hdnCurrentUser').val());
@@ -460,17 +481,47 @@ var OpenWebSocket = function () {
         ws.onmessage = function (evt) {
             var received_msg = evt.data;
             var received_msg_obj = jQuery.parseJSON(received_msg);
-            console.log(received_msg_obj);
+            
+
+            if (received_msg_obj.notificationType != null)
+            {
+                if (received_msg_obj.notificationType == 'trackLiked') {
+                    if (received_msg_obj.trackUri != null) {
+                        var trackUri = received_msg_obj.trackUri;
+                        console.log(trackUri);
+                    }
+                }
+            }
+
         };
         ws.onclose = function () {
 
         };
     } else {
-        alert('WebSockets NOT supported by your Browser!');
+        //alert('WebSockets NOT supported by your Browser!');
     }
 }
 
+var SendMessageToWebSocket = function () {
+    var messageObj =
+        {
+            messageType: 'likeTrack',
+            trackId: 'sp:abc445xxx',
+            messageText: $('#wsMessage').val()
+        };
+    var messageStr = $.param(messageObj);
 
+    ws.send(messageStr);
+
+}
+
+
+
+
+
+
+
+// eo web socket functions
 
 
 // Helper functions
