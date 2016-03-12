@@ -65,7 +65,7 @@
 .voteOff                { float:left; margin-right:3px; }
 #voteButtons            { float:left; width:100%; }
 .voteLike               { float:left; background: url('../Images/like-on-off.png'); height:86px; width:101px; }
-.voteLike:hover         { background-position-y: -84px; }
+.voteLike:hover         { background-position-y: -84px!important; }
 .voteSkip               { float:left; background: url('../Images/skip-on-off.png'); height:86px; width:100px; }
 .voteSkip:hover         { background-position-y: -84px; }
 #voteSkip .ripB img     { vertical-align:bottom; }
@@ -78,6 +78,12 @@
 .dtHeaderItalic         { color:#ccc; font-size:1em; font-style:italic; margin-bottom:10px; }
 #dedication .ripB img   { vertical-align:bottom; }
 
+/* News Feed
+############################# */
+#newsFeed { padding:0px 16px 0px 16px; color: #ccc;}
+#newsFeed .newsFeedItem { padding: 2px 0px 0px 0px; }
+#newsFeed .feedUser { color:#F7941D; }
+#newsFeed .feedTime { color:#867E76; }
 
 /* Main Content
 ############################# */

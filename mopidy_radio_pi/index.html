@@ -165,16 +165,16 @@
                         <div class="vHeader">Vote</div>
                         <div class="vHeaderSMItalic">Like this track / Skip this track</div>
                         <div id="voteHolder">
-                            <div class="voteOff"><img src="Images/note-off.png" /></div>
-                            <div class="voteOff"><img src="Images/note-off.png" /></div>
-                            <div class="voteOff"><img src="Images/note-off.png" /></div>
-                            <div class="voteOff"><img src="Images/note-off.png" /></div>
-                            <div class="voteOff"><img src="Images/note-off.png" /></div>
-                            <div class="voteOff"><img src="Images/note-off.png" /></div>
-                            <div class="voteOff"><img src="Images/note-off.png" /></div>
-                            <div class="voteOff"><img src="Images/note-off.png" /></div>
-                            <div class="voteOff"><img src="Images/note-off.png" /></div>
-                            <div class="voteOff"><img src="Images/note-off.png" /></div>
+                            <div class="voteOff" id="vote_1"><img src="Images/note-off.png" /></div>
+                            <div class="voteOff" id="vote_2"><img src="Images/note-off.png" /></div>
+                            <div class="voteOff" id="vote_3"><img src="Images/note-off.png" /></div>
+                            <div class="voteOff" id="vote_4"><img src="Images/note-off.png" /></div>
+                            <div class="voteOff" id="vote_5"><img src="Images/note-off.png" /></div>
+                            <div class="voteOff" id="vote_6"><img src="Images/note-off.png" /></div>
+                            <div class="voteOff" id="vote_7"><img src="Images/note-off.png" /></div>
+                            <div class="voteOff" id="vote_8"><img src="Images/note-off.png" /></div>
+                            <div class="voteOff" id="vote_9"><img src="Images/note-off.png" /></div>
+                            <div class="voteOff" id="vote_10"><img src="Images/note-off.png" /></div>
                         </div>
                     </div>
                     <div id="voteButtons">
@@ -206,6 +206,16 @@
 
                         <input type="button" value="vol +" onclick="ChangeVolume(1)" />
                         <input type="button" value="vol -" onclick="ChangeVolume(-1)" />
+                    {% end %}
+                {% end %}
+
+                {% if current_user %}
+                    {% if permissionLevel > '0' %}
+                        <div id="newsFeed">
+                            <!--<div class="newsFeedItem"><span class="feedUser">apoole</span> liked your track <span class="feedTime" date="07/03/2016:08:22">1h</span></div> 
+                            <div class="newsFeedItem"><span class="feedUser">pburkinshaw</span> liked your track <span class="feedTime" date="07/03/2016:07:22">2h</span></div> 
+                            <div class="newsFeedItem"><span class="feedUser">anonymous</span> liked your track <span class="feedTime" date="07/03/2016:05:22">3h</span></div>--> 
+                        </div>
                     {% end %}
                 {% end %}
             </div>
@@ -266,19 +276,20 @@
                     </br>
 
                     <div id="searchResults">
-                        <h1>Update 19/10/2015</h1>
+                        <h1>11/03/2016</h1>
                         
                         <h2>Updates</h2>
                         <ul>
-                            <li>Now possible to add your name, dedication & comments when requesting a track</li>
-                            <li>Name, dedication & comments now appear under the current track</li>
-                            <li>Current track lyrics now display on one of banners</li>
+                            <li>Like tracks - now possible to like tracks using the Like button</li>
+                            <!--<li>Like tracks - users</li>-->
+                            <!--<li>Name, dedication & comments now appear under the current track</li>
+                            <li>Current track lyrics now display on one of banners</li>-->
                         </ul>
 
-                        <h2>Fixed</h2>
+                        <!--<h2>Fixed</h2>
                         <ul>
                             <li>Search now works when pressing return after entering search criteria</li>
-                        </ul>
+                        </ul>-->
                         
 
                     </div>

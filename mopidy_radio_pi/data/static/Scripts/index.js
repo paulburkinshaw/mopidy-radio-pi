@@ -9,18 +9,13 @@
         resizable: false,
         draggable: true,
         modal: true
-
     });
-
     $('#loggedOut').click(function () {
         $('#login-dialog').dialog('open');
     });
-
     $("#loginButnImg").click(function () {
         $("#loginForm").submit();
-    });
-   
-   
+    });  
 });
 
 
@@ -91,7 +86,8 @@ var set_host = function (hostname) {
 }
 
 var ConnectToMopidy = function () {
-    set_host('192.168.1.66');
+    //set_host('192.168.1.66');
+    set_host('radiopi1');
     // Initialize Mopidy
     try {
         mopidy = new Mopidy({
@@ -103,7 +99,7 @@ var ConnectToMopidy = function () {
     }
 
     // Subscribe to all events and log them
-    //mopidy.on(console.log.bind(console));
+    // mopidy.on(console.log.bind(console));
 
     // Hooking up to events
 
@@ -205,7 +201,9 @@ var ConnectToMopidy = function () {
 
 var GetCurrentTrack = function () {
 
-    mopidy.playback.getCurrentTlTrack({}).then(function (data) {      
+    mopidy.playback.getCurrentTlTrack({}).then(function (data) {
+        $('#like').css({ "background": "url('Images/like-on-off.png')" })
+
         var currentTrack = data.track;
         var date = new Date(currentTrack.length);
         var h = date.getHours();
@@ -227,6 +225,7 @@ var GetCurrentTrack = function () {
 
 
         // Make ajax request to get requestor, any comments \ dedication ect
+        // TODO: refactor this, to WebSockets
 
         $.ajax({
             type: 'GET',
@@ -242,6 +241,22 @@ var GetCurrentTrack = function () {
                 $('#dvDedicatedTo').html(dedicatedTo);
                 var comments = data.Comments.replace("['", "").replace("']", "");
                 $('#dvComments').html(comments);
+                
+               
+                // clear the vote icons
+                for (var i = 1; i <= 10 ; ++i) {
+                    $('#vote_' + i).html('<img src="Images/note-off.png">')
+                }
+
+                var trackRating = data.noOfLikes - data.noOfSkips;
+
+                if (trackRating > 0) {
+                    for (var i = 1; i <= trackRating ; ++i) {
+                        $('#vote_' + i).html('<img src="Images/note-on.png">')
+                    }
+                }
+                // TODO: skip vote icons
+
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.log(jqXHR);
@@ -342,7 +357,7 @@ var GetNextTracks = function (currentTrackUri) {
 
         // Next Track
         mopidy.tracklist.nextTrack({ "tl_track": data }).then(function (data) {
-            if (data != null) {
+            if (data != null) {              
                 var upnextItem1TlTrack = data;
                 var upnextItem1Track = data.track;
                 var date = new Date(upnextItem1Track.length);
@@ -485,12 +500,77 @@ var OpenWebSocket = function () {
 
             if (received_msg_obj.notificationType != null)
             {
+                // Track like
                 if (received_msg_obj.notificationType == 'trackLiked') {
-                    if (received_msg_obj.trackUri != null) {
-                        var trackUri = received_msg_obj.trackUri;
-                        console.log(trackUri);
+                    if (received_msg_obj.trackUri != null) {                       
+                        var trackUri = received_msg_obj.trackUri.toString();
+
+                        // clear the vote icons
+                        for (var i = 1; i <= 10 ; ++i) {
+                            $('#vote_' + i).html('<img src="Images/note-off.png">')
+                        }
+
+                        var trackRating = received_msg_obj.noOfLikes - received_msg_obj.noOfSkips;
+
+                        if (trackRating > 0) {
+                            for (var i = 1; i <= trackRating ; ++i) {                               
+                                $('#vote_' + i).html('<img src="Images/note-on.png">')
+                            }
+                        }
+                        // TODO: skip vote icons
                     }
                 }
+
+
+                // News feed
+                if (received_msg_obj.notificationType == 'newsFeed') {
+                    //First loop through existing news feed items and update the time
+                    $('.newsFeedItem').each(function () {
+                        var t2 = new Date().getTime();
+                        var t1 = new Date($(this).find('.feedTime').attr('date')).getTime();
+                        var theDiff = Math.abs(t1 - t2) / 3600000;
+                        if (theDiff < 1) {
+                            $(this).find('.feedTime').html('< 1h');
+                        }
+                        else {
+                            $(this).find('.feedTime').html(parseInt(theDiff) + 'h');                           
+                        }
+                    });
+                    
+                    // insert a new newsfeed item at the start
+                    if ($('.newsFeedItem').first().length > 0)
+                    {
+                        $('.newsFeedItem').first().before(received_msg_obj.feedItemHtml);
+                    }
+                    else
+                    {
+                        $('#newsFeed').append(received_msg_obj.feedItemHtml);
+                    }
+
+
+                    // Create notification                   
+                    Notification.requestPermission().then(function (result) {
+                        if (result === 'denied') {                           
+                            return;
+                        }
+                        if (result === 'default') {                          
+                            return;
+                        }
+                        var options = {
+                            //dir: "ltr",
+                            tag: "",
+                            body: received_msg_obj.feedItemPlainText,
+                            icon: "Images/piIcon.png"
+                        }
+                        // Do something with the granted permission.
+                        var notification = new Notification("Track liked!", options);
+
+                    });
+                    
+
+                }
+
+
             }
 
         };

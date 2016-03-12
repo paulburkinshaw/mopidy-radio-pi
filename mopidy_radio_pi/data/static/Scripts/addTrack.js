@@ -55,12 +55,22 @@
                 url: "likeTrack",
                 dataType: "JSON",
                 success: function (data) {
-                    console.log(data);
+                    //console.log(data);
+                    if (data.sucess)
+                    {
+                        $('#like').css({ "background-position-y": "-84px" });
+                    }
+                    else
+                    {
+                        //$('a.voteLike').css({ "background": "url('Images/like-on-off.png')" });
+                        alert('You have already liked this track');
+                    }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
-                    console.log(jqXHR);
-                    console.log(textStatus);
-                    console.log(errorThrown);
+                    //console.log(jqXHR);
+                    //console.log(textStatus);
+                    //console.log(errorThrown);
+
                 }
             });
 

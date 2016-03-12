@@ -168,11 +168,29 @@ class GetTrackHandler(BaseHandler):
             con.commit()
             row = cur.fetchone()
             print row[0], row[1], row[2], row[3]
+            TrackUri = row[0]
+            ChosenBy = row[1]
+            DedicatedTo = row[2]
+            Comments = row[3]
+            cur = con.cursor()   
+            cur.execute("Select count(*) from TrackLikes WHERE TrackUri=?", self.request.arguments['trackUri'])        					                     
+            con.commit()
+            row = cur.fetchone()
+            print row[0]
+            noOfLikes = row[0]
+            cur = con.cursor()   
+            cur.execute("Select count(*) from TrackSkips WHERE TrackUri=?", self.request.arguments['trackUri'])        					                     
+            con.commit()
+            row = cur.fetchone()
+            print row[0]
+            noOfSkips = row[0]
             obj = { 
-             'TrackUri': row[0],
-             'ChosenBy': row[1],
-             'DedicatedTo': row[2],
-             'Comments': row[3]  
+             'TrackUri': TrackUri,
+             'ChosenBy': ChosenBy,
+             'DedicatedTo': DedicatedTo,
+             'Comments': Comments,
+             'noOfLikes': noOfLikes,
+             'noOfSkips': noOfSkips               
             }
         self.write(json_encode(obj))
 
@@ -187,22 +205,47 @@ class LikeTrackHandler(BaseHandler):
             print row[0]
             profileId = row[0]
 
-            #self.write(repr(self.request))
-
             cur = con.cursor()   
-            cur.execute("Select count(*) from TrackLikes WHERE DateLiked=date('now') AND Username=? AND HostAddress=? AND TrackUri=?",(unicode(self.current_user), unicode(self.request.remote_ip), unicode(self.request.arguments['trackUri'])))        					          
-            
+            cur.execute("Select count(*) from TrackLikes WHERE date(DateLiked)=date('now') AND Username=? AND HostAddress=? AND TrackUri=?",(unicode(self.current_user), unicode(self.request.remote_ip), unicode(self.request.arguments['trackUri'])))        					                     
             con.commit()
             row = cur.fetchone()
             print row[0]
             if row[0] < 1:                
-                sql = "insert into TrackLikes (TrackUri, TrackTitle, TrackArtist, TrackAlbum, TracklistId, UserProfileId, Username, HostAddress, DateLiked) values (?, ?, ?, ?, 1, ?, ?, ?, date('now'))"
+                sql = "insert into TrackLikes (TrackUri, TrackTitle, TrackArtist, TrackAlbum, TracklistId, UserProfileId, Username, HostAddress, DateLiked) values (?, ?, ?, ?, 1, ?, ?, ?, CURRENT_TIMESTAMP)"
                 parameters = [unicode(self.request.arguments['trackUri']), unicode(self.request.arguments['trackName']) , unicode(self.request.arguments['artistName']), unicode(self.request.arguments['albumName']), profileId, unicode(self.current_user), unicode(self.request.remote_ip)]
                 cur.execute(sql, parameters)
                 obj = { 
                  'sucess': 'Track sucessfully liked', 
                 }
-                wsSendAll({'notificationType': 'trackLiked', 'trackUri' : self.request.arguments['trackUri']}) 
+                cur = con.cursor()   
+                cur.execute("Select count(*) from TrackLikes WHERE TrackUri=?",(unicode(self.request.arguments['trackUri']),))        					                     
+                con.commit()
+                row = cur.fetchone()
+                print row[0]
+                noOfLikes = row[0]
+                cur = con.cursor()   
+                cur.execute("Select count(*) from TrackSkips WHERE TrackUri=?",(unicode(self.request.arguments['trackUri']),))        					                     
+                con.commit()
+                row = cur.fetchone()
+                print row[0]
+                noOfSkips = row[0]
+
+                # Send a WebSocket message to all connected clients 
+                wsSendAll({'notificationType': 'trackLiked', 'trackUri' : self.request.arguments['trackUri'], 'noOfLikes' : noOfLikes, 'noOfSkips': noOfSkips}) 
+
+                # Send a WebSocket message to the user that added the track notifying them that the track was liked
+                # 1. Get the Username for the track that was liked, this will be who we send the WebSocket message to
+                cur = con.cursor()   
+                cur.execute("SELECT tlt.Username, tl.DateLiked FROM TracklistTracks as tlt JOIN tracklikes as tl on tl.TrackUri = tlt.trackUri WHERE tlt.TrackUri=?",(unicode(self.request.arguments['trackUri']),))     
+                con.commit()
+                row = cur.fetchone()
+                print row[0], row[1]
+                Username = row[0]
+                DateLiked = row[1]
+                for ws in wss:
+                    if (ws.id == Username):
+                        wsSend({'notificationType': 'newsFeed', 'newsFeedType': 'trackLiked', 'feedItemHtml' : '<div class="newsFeedItem"><span class="feedUser">' + self.current_user + '</span> liked your track <span class="feedTime" date="' + DateLiked + '">just now</span></div>', 'feedItemPlainText' : self.current_user + ' liked your track' }, ws) 
+           
             else:
                 obj = { 
                  'error': 'Track already liked once by you today', 
