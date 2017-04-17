@@ -139,7 +139,9 @@ var processSearchResults = function (resultArr) {
 
                 var trackTitle = TruncateString(results.tracks[i].name, 36, 34);
                 var albumTitle = TruncateString(results.tracks[i].album.name, 36, 34);
-                var artistTitle = TruncateString(results.tracks[i].album.artists[0].name, 25, 22);
+                //var artistTitle = TruncateString(results.tracks[i].album.artists[0].name, 25, 22);
+				
+				var artistTitle = TruncateString(results.tracks[i].artists[0].name, 25, 22);
 
                 var image = mopidy.library.getImages({ uris: [results.tracks[i].uri] }).then(function (data) {
 

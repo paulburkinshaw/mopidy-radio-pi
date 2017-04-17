@@ -4,9 +4,10 @@ import logging
 import os
 
 # TODO: Remove entirely if you don't register GStreamer elements below
-import pygst
-pygst.require('0.10')
-import gst
+# import pygst pygst not compatible with Mopidy 2.0
+# pygst.require('0.10')
+# import gst
+
 import gobject
 
 from mopidy import config, ext
