@@ -33,8 +33,8 @@ Alternatively, clone the `GitHub repository <https://github.com/paulburkinshaw/m
 Dependencies
 ============
 
-	Mopidy (see Mopidy website for installation instructions for your OS)
-	Mopidy-Spotify - install with sudo apt-get install mopidy-spotify
+    Mopidy (see Mopidy website for installation instructions for your OS)
+    Mopidy-Spotify - install with sudo apt-get install mopidy-spotify
 
 Configuration
 =============
