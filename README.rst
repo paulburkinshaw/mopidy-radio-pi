@@ -44,6 +44,14 @@ Mopidy-Radio-Pi to your Mopidy configuration file::
 
     [radio-pi]
     # TODO: Add example of extension config
+	
+You must also add configuration for Mopidy-Spotify, e.g:
+
+    [spotify]
+    enabled = true
+    username = yourusername
+    password = yourpassword
+
 
 
 Project resources
