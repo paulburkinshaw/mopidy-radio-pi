@@ -30,6 +30,11 @@ Install by running::
 
 Alternatively, clone the `GitHub repository <https://github.com/paulburkinshaw/mopidy-radio-pi.git>`_ and copy all files from the /dist/ directory to the webclient directory on your server.
 
+Dependencies
+============
+
+	Mopidy (see Mopidy website for installation instructions for your OS)
+	Mopidy-Spotify - install with sudo apt-get install mopidy-spotify
 
 Configuration
 =============
