@@ -3,7 +3,7 @@
     // Initialize Mopidy
     var mopidy = null;
     try {
-        var mopidyip = 'radiopi1';
+        var mopidyip = 'radiopi';
         var mopidyport = '6680';
 
         mopidy = new Mopidy({
