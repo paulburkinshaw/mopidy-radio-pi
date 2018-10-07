@@ -7,8 +7,8 @@
     });
 
     var progressbar = $("#searchResultsProgress"),
-      progressLabel = $(".progress-label"),
-      progressbarValue = progressbar.find(".ui-progressbar-value");
+        progressLabel = $(".progress-label"),
+        progressbarValue = progressbar.find(".ui-progressbar-value");
 
     progressbar.progressbar({
         value: false,
@@ -50,18 +50,16 @@
                     trackUri: data.track.uri,
                     trackName: data.track.name,
                     artistName: data.track.album.artists[0].name,
-                    albumName: data.track.album.name                 
+                    albumName: data.track.album.name
                 },
                 url: "likeTrack",
                 dataType: "JSON",
                 success: function (data) {
                     //console.log(data);
-                    if (data.sucess)
-                    {
+                    if (data.sucess) {
                         $('#like').css({ "background-position-y": "-84px" });
                     }
-                    else
-                    {
+                    else {
                         //$('a.voteLike').css({ "background": "url('Images/like-on-off.png')" });
                         alert('You have already liked this track');
                     }
@@ -100,11 +98,17 @@ var search = function () {
 
     $('#loading').show();
 
-    mopidy.library.search({
-        any: searchTerm,
-        uris: ['spotify:']
-    }).then(processSearchResults, console.error);
+    try {
 
+        mopidy.library.search({
+            any: [searchTerm],
+            uris: ['spotify:']
+        }).then(processSearchResults, console.error);
+
+    }
+    catch (err) {
+        console.log(err);
+    }
 }
 
 var processSearchResults = function (resultArr) {
@@ -116,37 +120,39 @@ var processSearchResults = function (resultArr) {
 
         $("#searchResultsProgress").show();
 
-        if (results.tracks.length < 20) {
-            $("#searchResultsProgress").progressbar("option", "max", results.tracks.length);
-        }
-        else {
-            $("#searchResultsProgress").progressbar("option", "max", 20);
-        }
+        if (results.tracks) {
 
-        $("#searchResultsProgress").find(".ui-progressbar-value").css({
-            "background": '#EAA469'
-        });
+            if (results.tracks.length < 20) {
+                $("#searchResultsProgress").progressbar("option", "max", results.tracks.length);
+            }
+            else {
+                $("#searchResultsProgress").progressbar("option", "max", 20);
+            }
+
+            $("#searchResultsProgress").find(".ui-progressbar-value").css({
+                "background": '#EAA469'
+            });
 
 
-        for (var i = 0; i < (results.tracks.length) && (i < 20) ; ++i) {
-            (function (i) {
+            for (var i = 0; i < (results.tracks.length) && (i < 20); ++i) {
+                (function (i) {
 
-                var date = new Date(results.tracks[i].length);
-                var h = date.getHours();
-                var m = date.getMinutes();
-                var s = date.getSeconds();
-                var trackLength = m + ':' + s;
+                    var date = new Date(results.tracks[i].length);
+                    var h = date.getHours();
+                    var m = date.getMinutes();
+                    var s = date.getSeconds();
+                    var trackLength = m + ':' + s;
 
-                var trackTitle = TruncateString(results.tracks[i].name, 36, 34);
-                var albumTitle = TruncateString(results.tracks[i].album.name, 36, 34);
-                //var artistTitle = TruncateString(results.tracks[i].album.artists[0].name, 25, 22);
-				
-				var artistTitle = TruncateString(results.tracks[i].artists[0].name, 25, 22);
+                    var trackTitle = TruncateString(results.tracks[i].name, 36, 34);
+                    var albumTitle = TruncateString(results.tracks[i].album.name, 36, 34);
+                    //var artistTitle = TruncateString(results.tracks[i].album.artists[0].name, 25, 22);
 
-                var image = mopidy.library.getImages({ uris: [results.tracks[i].uri] }).then(function (data) {
+                    var artistTitle = TruncateString(results.tracks[i].artists[0].name, 25, 22);
 
-                    $("#searchResultsProgress").progressbar("value", i + 1);
-                    $("#searchResults").append("<div class='resultsItem' id='searchResult-" + i + "'> \
+                    var image = mopidy.library.getImages({ uris: [results.tracks[i].uri] }).then(function (data) {
+
+                        $("#searchResultsProgress").progressbar("value", i + 1);
+                        $("#searchResults").append("<div class='resultsItem' id='searchResult-" + i + "'> \
                                                     <ul> \
                                                         <li class='riNumber'>"+ (i + 1) + "</li> \
                                                          <li class='riThumb'><img src='" + data[results.tracks[i].uri][2].uri + "' style='width:46px;height:46px' /></li> \
@@ -165,37 +171,41 @@ var processSearchResults = function (resultArr) {
                                                     </ul> \
                                                 </div>");
 
-                    $("#searchResult-" + i).on("click", function () {
-                        addTrackDialogue.dialog("open");
+                        $("#searchResult-" + i).on("click", function () {
+                            addTrackDialogue.dialog("open");
 
-                        hdnTrackUri = addTrackDialogue.find("#hdnTrackUri");
-                        hdnTrackUri.val(results.tracks[i].uri);
+                            hdnTrackUri = addTrackDialogue.find("#hdnTrackUri");
+                            hdnTrackUri.val(results.tracks[i].uri);
 
-                        dialogImage = addTrackDialogue.find("#dialogImage");
-                        dialogImage.attr("src", data[results.tracks[i].uri][2].uri);
+                            dialogImage = addTrackDialogue.find("#dialogImage");
+                            dialogImage.attr("src", data[results.tracks[i].uri][2].uri);
 
-                        dialogTrackName = addTrackDialogue.find("#dialogTrackName");
-                        dialogTrackName.html(trackTitle);
+                            dialogTrackName = addTrackDialogue.find("#dialogTrackName");
+                            dialogTrackName.html(trackTitle);
 
-                        dialogAlbumName = addTrackDialogue.find("#dialogAlbumName");
-                        dialogAlbumName.html(albumTitle);
+                            dialogAlbumName = addTrackDialogue.find("#dialogAlbumName");
+                            dialogAlbumName.html(albumTitle);
 
-                        dialogTrackTime = addTrackDialogue.find("#dialogTrackTime");
-                        dialogTrackTime.html(trackLength);
+                            dialogTrackTime = addTrackDialogue.find("#dialogTrackTime");
+                            dialogTrackTime.html(trackLength);
 
-                        dialogArtistName = addTrackDialogue.find("#dialogArtistName");
-                        dialogArtistName.html(artistTitle);
+                            dialogArtistName = addTrackDialogue.find("#dialogArtistName");
+                            dialogArtistName.html(artistTitle);
+
+                        });
+
+                        $('#loading').hide();
+
+                        if (i == 19) {
+                            $("#searchResultsProgress").hide();
+                        }
 
                     });
+                })(i);
+            }
 
-                    $('#loading').hide();
-
-                    if (i == 19) {
-                        $("#searchResultsProgress").hide();
-                    }
-
-                });
-            })(i);
+        } else {
+            console.log('no tracks');
         }
 
     }

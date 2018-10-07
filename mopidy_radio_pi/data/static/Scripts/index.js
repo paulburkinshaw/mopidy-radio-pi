@@ -87,7 +87,7 @@ var set_host = function (hostname) {
 
 var ConnectToMopidy = function () {
     //set_host('192.168.1.66');
-    set_host('radiopi1');
+    set_host('radiopi');
     // Initialize Mopidy
     try {
         mopidy = new Mopidy({
