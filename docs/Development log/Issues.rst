@@ -24,4 +24,9 @@ spotify extension not working
 This turned out to be because the version of the spotify extension was newer than mopidy, it needed mopidy version >= 1.0 and it was version 0.19 of mopidy that was installed, to fix i updated mopidy:-
 	- sudo apt-get update
 	- sudo apt-get dist-upgrade
+	
+low volume
+==========
+run the command: amixer sset PCM,0 100%
+
 
