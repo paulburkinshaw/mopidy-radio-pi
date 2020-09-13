@@ -2,22 +2,6 @@
 Mopidy-Radio-Pi
 ****************************
 
-.. image:: https://img.shields.io/pypi/v/Mopidy-Radio-Pi.svg?style=flat
-    :target: https://pypi.python.org/pypi/Mopidy-Radio-Pi/
-    :alt: Latest PyPI version
-
-.. image:: https://img.shields.io/pypi/dm/Mopidy-Radio-Pi.svg?style=flat
-    :target: https://pypi.python.org/pypi/Mopidy-Radio-Pi/
-    :alt: Number of PyPI downloads
-
-.. image:: https://img.shields.io/travis/paulburkinshaw/mopidy-radio-pi/master.png?style=flat
-    :target: https://travis-ci.org/paulburkinshaw/mopidy-radio-pi
-    :alt: Travis CI build status
-
-.. image:: https://img.shields.io/coveralls/paulburkinshaw/mopidy-radio-pi/master.svg?style=flat
-   :target: https://coveralls.io/r/paulburkinshaw/mopidy-radio-pi?branch=master
-   :alt: Test coverage
-
 Online radio HTTP interface for the  `Mopidy <http://www.mopidy.com/>`_ music server
 
 
